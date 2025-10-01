@@ -6,16 +6,10 @@
   <link rel="stylesheet" href="form-widget.css">
 </head>
 <body>
-  <h1>Netlify Form Widget Test</h1>
+  <h1>Netlify Email Form Widget Demo</h1>
 
-  <div id="custom-form-widget" data-redirect="/thank-you"></div>
-
-  <!-- Hidden form for Netlify detection -->
-  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
-    <input type="text" name="name" />
-    <input type="email" name="email" />
-    <textarea name="message"></textarea>
-  </form>
+  <!-- Example usage with admin email -->
+  <div id="custom-form-widget" data-admin="test1@gmail.com" data-redirect="/thank-you"></div>
 
   <script src="form-widget.js"></script>
 </body>
