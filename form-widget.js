@@ -1,3 +1,9 @@
+/* form-widget.js
+   Usage:
+   <div id="custom-form-widget" data-admin="test1@gmail.com" data-redirect="/thank-you"></div>
+   <script src="/form-widget.js"></script>
+*/
+
 (function () {
   const container = document.getElementById("custom-form-widget");
   if (!container) return;
@@ -5,11 +11,12 @@
   const adminEmail = container.dataset.admin;
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
-  // load local suburbs.json
+  // Load local suburbs.json (must be in /public/suburbs.json)
   let suburbData = [];
-  fetch("https://cdnwidget.netlify.app/suburbs.json")
+  fetch("/suburbs.json")
     .then(r => r.json())
-    .then(data => { suburbData = data; });
+    .then(data => { suburbData = data; })
+    .catch(err => console.error("Suburb JSON load error", err));
 
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
   unlockSound.volume = 0.7;
