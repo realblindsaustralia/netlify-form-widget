@@ -1,7 +1,7 @@
 /* form-widget.js
    Usage:
    <div id="custom-form-widget" data-admin="test1@gmail.com" data-redirect="/thank-you"></div>
-   <script src="/form-widget.js"></script>
+   <script src="https://your-cdn/path/form-widget.js"></script>
 */
 
 (function () {
@@ -11,12 +11,18 @@
   const adminEmail = container.dataset.admin;
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
-  // Load local suburbs.json (must be in /public/suburbs.json)
+  // Load suburbs.json (must be inside /public/suburbs.json in Netlify)
   let suburbData = [];
   fetch("/suburbs.json")
-    .then(r => r.json())
-    .then(data => { suburbData = data; })
-    .catch(err => console.error("Suburb JSON load error", err));
+    .then(r => {
+      if (!r.ok) throw new Error("Failed to load suburbs.json");
+      return r.json();
+    })
+    .then(data => {
+      suburbData = data;
+      console.log("✅ Suburbs loaded:", suburbData.length);
+    })
+    .catch(err => console.error("❌ Suburb JSON load error", err));
 
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
   unlockSound.volume = 0.7;
@@ -75,7 +81,7 @@
     </div>
   `;
 
-  // refs
+  // --- refs ---
   const form = container.querySelector("#customForm");
   const nameInput = container.querySelector("#name");
   const suburbInput = container.querySelector("#suburb");
@@ -87,7 +93,7 @@
   const btnMsg = container.querySelector("#btnMsg");
   const btnClaim = container.querySelector("#btnClaim");
 
-  // create 8 mobile boxes
+  // --- mobile boxes ---
   const mobileBoxes = [];
   for (let i = 0; i < 8; i++) {
     const el = document.createElement("input");
@@ -99,14 +105,11 @@
     mobileBoxes.push(el);
   }
 
-  // get mobile joined
   function getMobileValue() {
     const digits = mobileBoxes.map(b => b.value.trim()).join("");
-    if (!digits) return "";
-    return "04" + digits;
+    return digits ? "04" + digits : "";
   }
 
-  // unlock logic
   function unlockPerk(key) {
     const perk = container.querySelector(`#perk-${key}`);
     if (perk && !perk.classList.contains("unlocked")) {
@@ -119,12 +122,12 @@
     }
   }
 
-  // NAME unlock only on blur
+  // --- NAME unlock on blur ---
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) unlockPerk("name");
   });
 
-  // SUBURB autocomplete + unlock on select
+  // --- SUBURB autocomplete ---
   let suburbTimer = null;
   suburbInput.addEventListener("input", () => {
     const q = suburbInput.value.trim().toLowerCase();
@@ -159,7 +162,7 @@
     }, 250);
   });
 
-  // MOBILE logic
+  // --- MOBILE logic ---
   mobileBoxes.forEach((box, idx) => {
     box.addEventListener("input", () => {
       const val = box.value.replace(/\D/g,"").slice(0,1);
@@ -182,7 +185,7 @@
     });
   });
 
-  // EMAIL unlock only on blur or domain select
+  // --- EMAIL unlock ---
   emailDomain.addEventListener("change", () => {
     const domain = emailDomain.value;
     const local = (emailInput.value.split("@")[0] || "").trim();
@@ -195,7 +198,7 @@
     if (emailInput.value.includes("@")) unlockPerk("email");
   });
 
-  // MESSAGE merges buttons
+  // --- MESSAGE merge buttons ---
   messageInput.addEventListener("input", () => {
     if (messageInput.value.trim().length > 0) {
       btnMsg.style.display = "none";
@@ -206,7 +209,7 @@
     }
   });
 
-  // SUBMIT
+  // --- SUBMIT ---
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
