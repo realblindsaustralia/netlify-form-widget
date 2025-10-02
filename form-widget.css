@@ -1,26 +1,109 @@
-form {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.form-widget {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
   font-family: Arial, sans-serif;
 }
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+
+.form-left {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-button {
-  background: #4CAF50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
+
+.form-left h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.form-left .subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.form-left input,
+.form-left textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.mobile-wrapper {
+  display: flex;
+  align-items: center;
+}
+.mobile-wrapper .prefix {
+  background: #eee;
+  padding: 12px;
+  border-radius: 8px 0 0 8px;
+}
+.mobile-wrapper input {
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+}
+
+.email-wrapper { position: relative; }
+.email-suggestions {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+}
+.email-suggestions div {
+  padding: 8px;
   cursor: pointer;
 }
-button:hover {
-  background: #45a049;
+.email-suggestions div:hover {
+  background: #f0f0f0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+.form-actions button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+#msgBtn { background: #00c853; color: white; }
+#submitBtn { background: #333; color: white; }
+
+.form-right {
+  background: linear-gradient(135deg, #0f9d58, #34a853);
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+}
+.form-right h3 {
+  margin-bottom: 15px;
+}
+.form-right ul {
+  list-style: none;
+  padding: 0;
+}
+.form-right li {
+  padding: 12px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  opacity: 0.5;
+  transition: 0.3s;
+}
+.form-right li.unlocked {
+  opacity: 1;
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 0 10px lime;
 }
