@@ -38,9 +38,7 @@
 
           <div class="field mobile-row">
             <div class="mobile-prefix">04</div>
-            <div class="mobile-boxes" id="mobile-boxes">
-              <!-- 8 boxes will be injected -->
-            </div>
+            <div class="mobile-boxes" id="mobile-boxes"></div>
           </div>
 
           <div class="field email-group">
@@ -130,7 +128,7 @@
   // HELPER: get joined mobile (returns "" if all empty)
   function getMobileValue() {
     const digits = mobileBoxes.map(b => b.value.trim()).join("");
-    if (!digits) return ""; // empty -> no 04 prefix
+    if (!digits) return "";
     return "04" + digits;
   }
 
@@ -142,14 +140,15 @@
 
   // auto-advance & backspace behavior
   mobileBoxes.forEach((box, idx) => {
-    box.addEventListener("input", (e) => {
+    box.addEventListener("input", () => {
       const val = box.value.replace(/\D/g,"").slice(0,1);
       box.value = val;
       if (val && idx < 7) mobileBoxes[idx+1].focus();
-      // if last filled auto move to email
       if (mobileBoxes.every(b => b.value !== "")) {
         unlockPerk("mobile");
         emailInput.focus();
+      } else {
+        lockPerk("mobile");
       }
     });
 
@@ -160,49 +159,46 @@
       }
     });
 
-    // critical rule: if user clears digits to zero, remove all digits and don't keep 04
     box.addEventListener("blur", () => {
       const digits = mobileBoxes.map(b => b.value).join("");
       if (digits.length === 0) {
         setMobileDigits("");
+        lockPerk("mobile");
       }
     });
   });
 
-  // Auto-unlock name on blur
+  // NAME unlock/lock
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) unlockPerk("name");
+    else lockPerk("name");
   });
 
-  // SUBURB AUTOCOMPLETE: use AusPost if key provided else fallback
+  // SUBURB AUTOCOMPLETE
   let suburbTimer = null;
   suburbInput.addEventListener("input", () => {
     const q = suburbInput.value.trim();
     if (!q || q.length < 2) {
       suburbSuggestions.style.display = "none";
       suburbSuggestions.innerHTML = "";
+      lockPerk("suburb");
       return;
     }
     clearTimeout(suburbTimer);
     suburbTimer = setTimeout(async () => {
       try {
         let suggestions = [];
-        // if AusPost API key provided (production)
         if (auspostKey) {
-          // AusPost Reflection - requires server proxy in production. Example placeholder:
-          // request to your proxy: /api/auspost?query=...
           const res = await fetch(`/api/auspost?query=${encodeURIComponent(q)}`);
           if (res.ok) suggestions = await res.json();
         } else {
-          // Fallback: if numeric treat as postcode via Zippopotam (demo)
-          if (/^\d{3,4}$/.test(q)) {
+          if (/^\\d{3,4}$/.test(q)) {
             const res = await fetch(`https://api.zippopotam.us/au/${q}`).catch(()=>null);
             if (res && res.ok) {
               const data = await res.json();
               suggestions = data.places.map(p => `${p["place name"]}, ${p["state abbreviation"]} ${data["post code"]}`);
             }
           } else {
-            // small local demo list for typical AU suburbs (fallback)
             const demo = [
               "Wantirna South, VIC 3152", "Melbourne, VIC 3000", "Sydney, NSW 2000",
               "Brisbane, QLD 4000", "Adelaide, SA 5000", "Perth, WA 6000"
@@ -228,21 +224,24 @@
           suburbSuggestions.appendChild(d);
         });
         suburbSuggestions.style.display = "block";
-      } catch (err) {
-        // ignore fail silently
+      } catch {
         suburbSuggestions.style.display = "none";
       }
     }, 320);
   });
 
-  // click outside to hide suggestions
+  suburbInput.addEventListener("blur", () => {
+    if (suburbInput.value.trim().length > 1) unlockPerk("suburb");
+    else lockPerk("suburb");
+  });
+
   document.addEventListener("click", (e) => {
     if (!container.contains(e.target)) {
       suburbSuggestions.style.display = "none";
     }
   });
 
-  // EMAIL domain selection behavior
+  // EMAIL
   emailDomain.addEventListener("change", () => {
     const domain = emailDomain.value;
     const local = (emailInput.value.split("@")[0] || "").trim();
@@ -253,9 +252,10 @@
   });
   emailInput.addEventListener("blur", () => {
     if (emailInput.value.includes("@")) unlockPerk("email");
+    else lockPerk("email");
   });
 
-  // MESSAGE triggers merge animation for buttons
+  // MESSAGE merge animation
   messageInput.addEventListener("input", () => {
     const has = messageInput.value.trim().length > 0;
     if (has) {
@@ -269,10 +269,9 @@
     }
   });
 
-  // Unlock helper (adds visual and plays sound once)
+  // Unlock helper
   function unlockPerk(key) {
     let id = "perk-" + key;
-    // map name->perk id
     if (key === "name") id = "perk-name";
     else if (key === "suburb") id = "perk-suburb";
     else if (key === "mobile") id = "perk-mobile";
@@ -284,22 +283,43 @@
       el.classList.add("unlocked");
       const badge = el.querySelector(".badge");
       if (badge) badge.style.display = "inline-block";
-      // play sound (catch errors)
-      try { unlockSound.currentTime = 0; unlockSound.play(); } catch (e) {}
+      try { unlockSound.currentTime = 0; unlockSound.play(); } catch {}
     }
   }
 
-  // When any field is programmatically set / selected, call unlockPerk accordingly
-  // Name blur handled above. Suburb click handled in suggestions. Mobile handled below.
-  // Mobile: when all 8 digits filled we will call unlockPerk("mobile") above.
+  // Lock helper
+  function lockPerk(key) {
+    let id = "perk-" + key;
+    if (key === "name") id = "perk-name";
+    else if (key === "suburb") id = "perk-suburb";
+    else if (key === "mobile") id = "perk-mobile";
+    else if (key === "email") id = "perk-email";
 
-  // MAIN SUBMIT (your exact pattern preserved)
+    const el = container.querySelector("#" + id);
+    if (!el) return;
+    if (el.classList.contains("unlocked")) {
+      el.classList.remove("unlocked");
+      const badge = el.querySelector(".badge");
+      if (badge) badge.style.display = "none";
+    }
+  }
+
+  // SUBMIT
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // assemble mobile
-    const mobile = getMobileValue(); // "" or "04xxxxxxxx"
+    // check all perks unlocked
+    const requiredPerks = ["name","suburb","mobile","email"];
+    const notUnlocked = requiredPerks.filter(k => {
+      const el = container.querySelector("#perk-" + k);
+      return !el.classList.contains("unlocked");
+    });
+    if (notUnlocked.length > 0) {
+      alert("⚠️ Please complete all fields to unlock your perks before submitting.");
+      return;
+    }
 
+    const mobile = getMobileValue();
     const payload = {
       name: nameInput.value.trim(),
       suburb: suburbInput.value.trim(),
@@ -309,19 +329,12 @@
       admin: adminEmail
     };
 
-    // minimal validation
-    if (!payload.name || !payload.email) {
-      alert("Please fill at least name and email.");
-      return;
-    }
-
     try {
       const resp = await fetch("https://cdnwidget.netlify.app/.netlify/functions/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-
       if (resp.ok) {
         window.location.href = redirectUrl;
       } else {
@@ -333,7 +346,6 @@
     }
   });
 
-  // expose helper for debugging (optional)
   container._getState = () => ({
     name: nameInput.value,
     suburb: suburbInput.value,
