@@ -11,19 +11,6 @@
   const adminEmail = container.dataset.admin;
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
-  // Load suburbs.json (must be inside /public/suburbs.json in Netlify)
-  let suburbData = [];
-  fetch("/suburbs.json")
-    .then(r => {
-      if (!r.ok) throw new Error("Failed to load suburbs.json");
-      return r.json();
-    })
-    .then(data => {
-      suburbData = data;
-      console.log("✅ Suburbs loaded:", suburbData.length);
-    })
-    .catch(err => console.error("❌ Suburb JSON load error", err));
-
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
   unlockSound.volume = 0.7;
 
@@ -127,39 +114,35 @@
     if (nameInput.value.trim().length > 1) unlockPerk("name");
   });
 
-  // --- SUBURB autocomplete ---
-  let suburbTimer = null;
-  suburbInput.addEventListener("input", () => {
-    const q = suburbInput.value.trim().toLowerCase();
-    if (!q || q.length < 2) {
-      suburbSuggestions.style.display = "none";
+  // --- SUBURB autocomplete using API ---
+  suburbInput.addEventListener("input", async () => {
+    const query = suburbInput.value.trim();
+    if (query.length < 2) {
       suburbSuggestions.innerHTML = "";
+      suburbSuggestions.style.display = "none";
       return;
     }
-    clearTimeout(suburbTimer);
-    suburbTimer = setTimeout(() => {
-      const matches = suburbData.filter(
-        s => s.suburb.toLowerCase().includes(q) || s.postcode.includes(q)
-      ).slice(0, 8);
-      suburbSuggestions.innerHTML = "";
-      if (matches.length === 0) {
+
+    const res = await fetch(`https://api.zippopotam.us/au/${query}`).catch(() => null);
+    if (!res || !res.ok) return;
+
+    const data = await res.json();
+    suburbSuggestions.innerHTML = "";
+    if (!data.places) return;
+
+    data.places.forEach((place) => {
+      const div = document.createElement("div");
+      div.className = "suggestion";
+      div.textContent = `${place["place name"]}, ${place["state abbreviation"]} ${data["post code"]}`;
+      div.onclick = () => {
+        suburbInput.value = div.textContent;
+        suburbSuggestions.innerHTML = "";
         suburbSuggestions.style.display = "none";
-        return;
-      }
-      matches.forEach(item => {
-        const text = `${item.suburb}, ${item.state} ${item.postcode}`;
-        const d = document.createElement("div");
-        d.className = "suggestion";
-        d.textContent = text;
-        d.addEventListener("click", () => {
-          suburbInput.value = text;
-          suburbSuggestions.style.display = "none";
-          unlockPerk("suburb");
-        });
-        suburbSuggestions.appendChild(d);
-      });
-      suburbSuggestions.style.display = "block";
-    }, 250);
+        unlockPerk("suburb");
+      };
+      suburbSuggestions.appendChild(div);
+    });
+    suburbSuggestions.style.display = "block";
   });
 
   // --- MOBILE logic ---
