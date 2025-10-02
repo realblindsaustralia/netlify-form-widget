@@ -11,7 +11,6 @@
   // read config
   const adminEmail = container.dataset.admin;
   const redirectUrl = container.dataset.redirect || "/thank-you";
-  const auspostKey = container.dataset.auspostKey || "";
 
   // sound for unlock
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
@@ -103,7 +102,6 @@
   const form = container.querySelector("#customForm");
   const nameInput = container.querySelector("#name");
   const suburbInput = container.querySelector("#suburb");
-  const suburbSuggestions = container.querySelector("#suburb-suggestions");
   const mobileBoxesContainer = container.querySelector("#mobile-boxes");
   const emailInput = container.querySelector("#email");
   const emailDomain = container.querySelector("#emailDomain");
@@ -129,7 +127,7 @@
     return "04" + digits;
   }
 
-  // 🔑 Unlock/Lock handling with icon toggle
+  // 🔑 Unlock/Lock handling
   function unlockPerk(key) {
     const el = container.querySelector("#perk-" + key);
     if (!el) return;
@@ -152,33 +150,36 @@
     }
   }
 
-  // --- events ---
-  nameInput.addEventListener("input", () => {
+  // --- EVENTS (only unlock on BLUR) ---
+  nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) unlockPerk("name");
     else lockPerk("name");
   });
 
-  suburbInput.addEventListener("input", () => {
+  suburbInput.addEventListener("blur", () => {
     if (suburbInput.value.trim().length > 2) unlockPerk("suburb");
     else lockPerk("suburb");
   });
 
+  // Mobile: unlock only when all 8 digits entered AND user leaves the last box
   mobileBoxes.forEach((box, idx) => {
-    box.addEventListener("input", () => {
-      if (mobileBoxes.every(b => b.value !== "")) unlockPerk("mobile");
+    box.addEventListener("blur", () => {
+      const allFilled = mobileBoxes.every(b => b.value.trim() !== "");
+      if (allFilled) unlockPerk("mobile");
       else lockPerk("mobile");
     });
   });
 
-  emailInput.addEventListener("input", () => {
+  emailInput.addEventListener("blur", () => {
     if (emailInput.value.includes("@")) unlockPerk("email");
     else lockPerk("email");
   });
+
   emailDomain.addEventListener("change", () => {
     if (emailDomain.value) unlockPerk("email");
   });
 
-  // Merge button animation
+  // Message: button merge effect (real-time is fine here)
   messageInput.addEventListener("input", () => {
     if (messageInput.value.trim()) {
       btnMsg.style.display = "none";
@@ -189,7 +190,7 @@
     }
   });
 
-  // --- submit (your rule preserved) ---
+  // --- submit ---
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const payload = {
