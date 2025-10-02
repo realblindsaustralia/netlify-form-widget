@@ -1,109 +1,132 @@
+/* Form Container */
 .form-widget {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 40px auto;
+  font-family: "Inter", sans-serif;
 }
 
+/* Left Form */
 .form-left {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex: 1;
+  min-width: 320px;
 }
 
 .form-left h2 {
-  font-size: 24px;
-  margin-bottom: 5px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
-.form-left .subtitle {
-  font-size: 14px;
+.form-left h3 {
+  color: #0db06d;
+  font-size: 24px;
   margin-bottom: 20px;
-  color: #666;
 }
 
 .form-left input,
-.form-left textarea {
+.form-left textarea,
+.form-left select {
   width: 100%;
   padding: 12px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
+  margin-bottom: 16px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 16px;
+  transition: 0.3s;
 }
 
-.mobile-wrapper {
+.form-left input:focus,
+.form-left textarea:focus,
+.form-left select:focus {
+  border-color: #0db06d;
+  box-shadow: 0 0 5px rgba(13,176,109,0.5);
+}
+
+/* Buttons */
+.form-buttons {
   display: flex;
-  align-items: center;
-}
-.mobile-wrapper .prefix {
-  background: #eee;
-  padding: 12px;
-  border-radius: 8px 0 0 8px;
-}
-.mobile-wrapper input {
-  border-radius: 0 8px 8px 0;
-  border-left: none;
+  gap: 12px;
 }
 
-.email-wrapper { position: relative; }
-.email-suggestions {
+.form-buttons button {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-msg {
+  background: #0db06d;
+  color: white;
+}
+
+.btn-claim {
+  background: #000;
+  color: white;
+}
+
+.form-buttons button:hover {
+  transform: scale(1.05);
+}
+
+/* Right Perks */
+.perks {
+  flex: 1;
+  min-width: 320px;
+  background: linear-gradient(135deg,#0db06d,#008a55);
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  position: relative;
+}
+
+.perks h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.perk {
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  transform: scale(0.95);
+  transition: 0.3s ease;
+}
+
+.perk.unlocked {
+  opacity: 1;
+  background: rgba(255,255,255,0.2);
+  transform: scale(1);
+  box-shadow: 0 0 12px rgba(255,255,255,0.5);
+}
+
+/* Suggestions Box */
+.suburb-suggestions {
   position: absolute;
   background: white;
   border: 1px solid #ccc;
-  width: 100%;
-  top: 100%;
-  left: 0;
-  z-index: 10;
+  width: 95%;
+  z-index: 20;
+  max-height: 150px;
+  overflow-y: auto;
 }
-.email-suggestions div {
+
+.suburb-suggestions div {
   padding: 8px;
   cursor: pointer;
 }
-.email-suggestions div:hover {
+
+.suburb-suggestions div:hover {
   background: #f0f0f0;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-}
-.form-actions button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-#msgBtn { background: #00c853; color: white; }
-#submitBtn { background: #333; color: white; }
-
-.form-right {
-  background: linear-gradient(135deg, #0f9d58, #34a853);
-  padding: 20px;
-  border-radius: 12px;
-  color: white;
-}
-.form-right h3 {
-  margin-bottom: 15px;
-}
-.form-right ul {
-  list-style: none;
-  padding: 0;
-}
-.form-right li {
-  padding: 12px;
-  margin-bottom: 10px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 8px;
-  opacity: 0.5;
-  transition: 0.3s;
-}
-.form-right li.unlocked {
-  opacity: 1;
-  background: rgba(255,255,255,0.2);
-  box-shadow: 0 0 10px lime;
 }

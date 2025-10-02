@@ -4,110 +4,128 @@
 
   const redirectUrl = container.dataset.redirect || "/thank-you";
   const adminEmail = container.dataset.admin;
-
   container.innerHTML = `
     <div class="form-widget">
+      <!-- LEFT FORM -->
       <div class="form-left">
-        <h2>Extra Warranty Perks <br><span>Curains & Blinds</span></h2>
-        <p class="subtitle">Fill in your details to reveal exclusive bonuses</p>
-        <form id="customForm">
-          <input type="text" name="name" placeholder="Your Name" required />
-          <input type="text" id="suburb" name="suburb" placeholder="Suburb or Postcode" required />
-          <div class="mobile-wrapper">
-            <span class="prefix">04</span>
-            <input type="text" id="mobile" maxlength="8" placeholder="Mobile (8 digits)" required />
+        <h2>Extra Warranty Perks</h2>
+        <h3>Curtains & Blinds</h3>
+        <p>Fill in your details to reveal exclusive bonuses for your project</p>
+
+        <form id="customForm" autocomplete="off">
+          <input type="text" name="name" id="name" placeholder="Your Name" required />
+          <div style="position:relative;">
+            <input type="text" name="suburb" id="suburb" placeholder="Suburb or Postcode" required />
+            <div id="suburb-suggestions" class="suburb-suggestions"></div>
           </div>
-          <div class="email-wrapper">
-            <input type="text" id="email" placeholder="Email" required />
-            <div class="email-suggestions"></div>
+          <input type="text" name="mobile" id="mobile" placeholder="04xxxxxxxx" maxlength="10" required />
+          <div style="display:flex;">
+            <input type="text" name="email" id="email" placeholder="Your Email" required />
+            <select id="emailDomain">
+              <option value="">Choose</option>
+              <option value="@gmail.com">@gmail.com</option>
+              <option value="@yahoo.com">@yahoo.com</option>
+              <option value="@outlook.com">@outlook.com</option>
+            </select>
           </div>
-          <textarea name="message" id="message" placeholder="Leave a message"></textarea>
-          <div class="form-actions">
-            <button type="button" id="msgBtn">💬 Leave a Message</button>
-            <button type="submit" id="submitBtn">🚀 Claim Bonus</button>
+          <textarea name="message" id="message" placeholder="Leave a Message"></textarea>
+
+          <div class="form-buttons">
+            <button type="button" class="btn-msg">Leave a Message 💬</button>
+            <button type="submit" class="btn-claim">Claim Bonus 🚀</button>
           </div>
         </form>
-        <div id="form-status" style="margin-top:10px; color:green; display:none;">
-          ✅ Your message has been sent!
-        </div>
       </div>
-      <div class="form-right">
+
+      <!-- RIGHT PERKS -->
+      <div class="perks">
         <h3>Your Perks</h3>
-        <ul>
-          <li data-field="name">🎁 Free Installation</li>
-          <li data-field="suburb">💸 10% Off Coupon</li>
-          <li data-field="mobile">📱 Extended Warranty (2x)</li>
-          <li data-field="email">📧 Free Measure + Quote</li>
-        </ul>
+        <div id="perk-name" class="perk">🎁 Free Installation – Install blinds free</div>
+        <div id="perk-suburb" class="perk">💸 10% Off Coupon – First order</div>
+        <div id="perk-mobile" class="perk">📱 Extended Warranty 2x – Double coverage</div>
+        <div id="perk-email" class="perk">📧 Free Measure + Quote + Consultation</div>
       </div>
     </div>
   `;
 
   const form = document.getElementById("customForm");
-  const statusDiv = document.getElementById("form-status");
-  const perks = document.querySelectorAll(".form-right li");
-  const emailInput = document.getElementById("email");
-  const emailSuggestions = document.querySelector(".email-suggestions");
+  const nameField = document.getElementById("name");
+  const suburbInput = document.getElementById("suburb");
   const mobileInput = document.getElementById("mobile");
+  const emailInput = document.getElementById("email");
+  const emailDomain = document.getElementById("emailDomain");
+  const suggestionsBox = document.getElementById("suburb-suggestions");
 
-  // -------------------------
-  // EMAIL AUTOCOMPLETE
-  // -------------------------
-  const domains = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com"];
-  emailInput.addEventListener("input", () => {
-    const val = emailInput.value.split("@")[0];
-    if (!val) {
-      emailSuggestions.innerHTML = "";
-      return;
-    }
-    emailSuggestions.innerHTML = domains
-      .map(d => `<div class="suggestion">${val}@${d}</div>`)
-      .join("");
-    document.querySelectorAll(".suggestion").forEach(s => {
-      s.onclick = () => {
-        emailInput.value = s.textContent;
-        emailSuggestions.innerHTML = "";
-        unlock("email");
-      };
-    });
-  });
+  // 🔊 Sound for unlocking
+  const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
 
-  // -------------------------
-  // MOBILE FIELD UX
-  // -------------------------
-  mobileInput.addEventListener("input", () => {
-    if (mobileInput.value.length === 8) {
-      document.getElementById("email").focus();
-    }
-  });
-
-  // -------------------------
-  // PERK UNLOCKING
-  // -------------------------
-  form.querySelectorAll("input, textarea").forEach(input => {
-    input.addEventListener("input", () => {
-      unlock(input.name || input.id);
-    });
-  });
-
+  // Unlock function
   function unlock(field) {
-    const perk = document.querySelector(`.form-right li[data-field="${field}"]`);
-    if (perk) {
+    const perk = document.getElementById(`perk-${field}`);
+    if (perk && !perk.classList.contains("unlocked")) {
       perk.classList.add("unlocked");
-      playDing();
+      unlockSound.play();
     }
   }
 
-  // -------------------------
-  // SUBMIT HANDLER
-  // -------------------------
+  // --- FIELD LOGIC ---
+  nameField.addEventListener("blur", () => {
+    if (nameField.value.trim().length > 1) unlock("name");
+  });
+
+  // Suburb with demo autocomplete (replace with AusPost API if needed)
+  suburbInput.addEventListener("input", async () => {
+    const query = suburbInput.value.trim();
+    if (query.length < 2) return (suggestionsBox.innerHTML = "");
+
+    const res = await fetch(`https://api.zippopotam.us/au/${query}`).catch(() => null);
+    if (!res || !res.ok) return;
+
+    const data = await res.json();
+    suggestionsBox.innerHTML = "";
+    data.places.forEach((place) => {
+      const div = document.createElement("div");
+      div.textContent = `${place["place name"]}, ${place["state abbreviation"]} ${data["post code"]}`;
+      div.onclick = () => {
+        suburbInput.value = div.textContent;
+        suggestionsBox.innerHTML = "";
+        unlock("suburb");
+      };
+      suggestionsBox.appendChild(div);
+    });
+  });
+
+  // Mobile with prefilled 04
+  mobileInput.value = "04";
+  mobileInput.addEventListener("input", () => {
+    if (!mobileInput.value.startsWith("04")) {
+      mobileInput.value = "04";
+    }
+    if (mobileInput.value.length === 10) {
+      unlock("mobile");
+      emailInput.focus();
+    }
+  });
+
+  // Email with dropdown
+  emailDomain.addEventListener("change", () => {
+    if (emailDomain.value) {
+      emailInput.value = emailInput.value.split("@")[0] + emailDomain.value;
+      unlock("email");
+    }
+  });
+  emailInput.addEventListener("blur", () => {
+    if (emailInput.value.includes("@")) unlock("email");
+  });
+
+  // ✅ MAIN SUBMIT HANDLER (as you shared)
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const formData = {
       name: form.querySelector("[name=name]").value,
       suburb: form.querySelector("[name=suburb]").value,
-      mobile: "04" + mobileInput.value,
+      mobile: mobileInput.value,
       email: emailInput.value,
       message: form.querySelector("[name=message]").value,
       admin: adminEmail,
@@ -133,12 +151,4 @@
       alert("⚠️ Network error");
     }
   });
-
-  // -------------------------
-  // SOUND EFFECT
-  // -------------------------
-  function playDing() {
-    const audio = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_6597b6f020.mp3");
-    audio.play();
-  }
 })();
