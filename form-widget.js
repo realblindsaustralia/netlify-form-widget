@@ -60,6 +60,7 @@
 
       <div class="perks">
         <div class="heading">Your Perks</div>
+        <p class="paragperk">Each perks unlocked when you complete its matching field on the left</p>
         <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon">🔒</div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
         <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon">🔒</div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
         <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon">🔒</div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
