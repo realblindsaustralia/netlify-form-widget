@@ -181,16 +181,18 @@
     box.addEventListener("input", () => {
       const val = box.value.replace(/\D/g, "").slice(0, 1);
       box.value = val;
-      if (val && idx < 7) mobileBoxes[idx + 1].focus();
 
-      // ✅ Add class if at least 1 box filled
-      if (mobileBoxes.some(b => b.value !== "")) {
-        mobileBoxesContainer.classList.add("unlocked-input");
+      // ✅ Add/remove class individually on each box
+      if (val) {
+        box.classList.add("unlocked-input");
       } else {
-        mobileBoxesContainer.classList.remove("unlocked-input");
+        box.classList.remove("unlocked-input");
       }
 
-      // ✅ Unlock perk only if ALL boxes filled
+      // auto-jump to next box
+      if (val && idx < 7) mobileBoxes[idx + 1].focus();
+
+      // unlock perk only if ALL boxes filled
       if (mobileBoxes.every(b => b.value !== "")) {
         unlockPerk("mobile");
         emailInput.focus();
@@ -203,15 +205,13 @@
       if (e.key === "Backspace" && !box.value && idx > 0) {
         mobileBoxes[idx - 1].focus();
         mobileBoxes[idx - 1].value = "";
+        mobileBoxes[idx - 1].classList.remove("unlocked-input");
       }
     });
 
     box.addEventListener("blur", () => {
-      const digits = mobileBoxes.map(b => b.value).join("");
-      // ✅ remove class if all empty
-      if (!digits) {
-        lockPerk("mobile");
-        mobileBoxesContainer.classList.remove("unlocked-input");
+      if (!box.value) {
+        box.classList.remove("unlocked-input");
       }
     });
   });
