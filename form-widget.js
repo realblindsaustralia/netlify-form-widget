@@ -61,9 +61,9 @@
       <div class="perks">
         <div class="heading">Your Perks</div>
         <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon">🔒</div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
-        <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon">🔒</div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
-        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon">🔒</div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
-        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon">🔒</div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
+        <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon">🔒</div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
+        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon">🔒</div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
+        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon">🔒</div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
       </div>
     </div>
   `;
@@ -97,6 +97,7 @@
     return digits ? "04" + digits : "";
   }
 
+  // --- unlock / lock logic ---
   function unlockPerk(key) {
     const perk = container.querySelector(`#perk-${key}`);
     if (perk && !perk.classList.contains("unlocked")) {
@@ -109,9 +110,21 @@
     }
   }
 
-  // --- NAME unlock on blur ---
+  function lockPerk(key) {
+    const perk = container.querySelector(`#perk-${key}`);
+    if (perk && perk.classList.contains("unlocked")) {
+      perk.classList.remove("unlocked");
+      const icon = perk.querySelector(".icon");
+      if (icon) icon.textContent = "🔒";
+      const badge = perk.querySelector(".badge");
+      if (badge) badge.style.display = "none";
+    }
+  }
+
+  // --- NAME unlock/lock ---
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) unlockPerk("name");
+    else lockPerk("name");
   });
 
   // --- SUBURB autocomplete using API ---
@@ -120,6 +133,7 @@
     if (query.length < 2) {
       suburbSuggestions.innerHTML = "";
       suburbSuggestions.style.display = "none";
+      lockPerk("suburb");
       return;
     }
 
@@ -145,6 +159,10 @@
     suburbSuggestions.style.display = "block";
   });
 
+  suburbInput.addEventListener("blur", () => {
+    if (!suburbInput.value.trim()) lockPerk("suburb");
+  });
+
   // --- MOBILE logic ---
   mobileBoxes.forEach((box, idx) => {
     box.addEventListener("input", () => {
@@ -154,6 +172,8 @@
       if (mobileBoxes.every(b => b.value !== "")) {
         unlockPerk("mobile");
         emailInput.focus();
+      } else {
+        lockPerk("mobile");
       }
     });
     box.addEventListener("keydown", (e) => {
@@ -164,11 +184,11 @@
     });
     box.addEventListener("blur", () => {
       const digits = mobileBoxes.map(b => b.value).join("");
-      if (!digits) mobileBoxes.forEach(b => b.value = "");
+      if (!digits) lockPerk("mobile");
     });
   });
 
-  // --- EMAIL unlock ---
+  // --- EMAIL unlock/lock ---
   emailDomain.addEventListener("change", () => {
     const domain = emailDomain.value;
     const local = (emailInput.value.split("@")[0] || "").trim();
@@ -179,6 +199,7 @@
   });
   emailInput.addEventListener("blur", () => {
     if (emailInput.value.includes("@")) unlockPerk("email");
+    else lockPerk("email");
   });
 
   // --- MESSAGE merge buttons ---
@@ -196,6 +217,18 @@
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
+    // check all perks unlocked
+    const allKeys = ["name", "suburb", "mobile", "email"];
+    const allUnlocked = allKeys.every(key => {
+      const perk = container.querySelector(`#perk-${key}`);
+      return perk && perk.classList.contains("unlocked");
+    });
+
+    if (!allUnlocked) {
+      alert("⚠️ Please complete all fields to unlock all perks before submitting.");
+      return;
+    }
+
     const payload = {
       name: nameInput.value.trim(),
       suburb: suburbInput.value.trim(),
@@ -204,11 +237,6 @@
       message: messageInput.value.trim(),
       admin: adminEmail
     };
-
-    if (!payload.name || !payload.email) {
-      alert("Please fill at least name and email.");
-      return;
-    }
 
     try {
       const resp = await fetch("https://cdnwidgets.netlify.app/.netlify/functions/send-email", {
