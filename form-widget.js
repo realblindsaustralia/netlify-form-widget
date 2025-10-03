@@ -92,7 +92,7 @@
     mobileBoxesContainer.appendChild(el);
     mobileBoxes.push(el);
   }
-
+  const metaboxese = container.querySelector(".mobile-box");
   function getMobileValue() {
     const digits = mobileBoxes.map(b => b.value.trim()).join("");
     return digits ? "04" + digits : "";
@@ -183,13 +183,19 @@
       box.value = val;
       if (val && idx < 7) mobileBoxes[idx + 1].focus();
 
+      // ✅ Add class if at least 1 box filled
+      if (mobileBoxes.some(b => b.value !== "")) {
+        mobileBoxesContainer.classList.add("unlocked-input");
+      } else {
+        mobileBoxesContainer.classList.remove("unlocked-input");
+      }
+
+      // ✅ Unlock perk only if ALL boxes filled
       if (mobileBoxes.every(b => b.value !== "")) {
         unlockPerk("mobile");
-        mobileBoxesContainer.classList.add("unlocked-input");
         emailInput.focus();
       } else {
         lockPerk("mobile");
-        mobileBoxesContainer.classList.remove("unlocked-input");
       }
     });
 
@@ -202,12 +208,14 @@
 
     box.addEventListener("blur", () => {
       const digits = mobileBoxes.map(b => b.value).join("");
+      // ✅ remove class if all empty
       if (!digits) {
         lockPerk("mobile");
         mobileBoxesContainer.classList.remove("unlocked-input");
       }
     });
   });
+
 
   // --- EMAIL unlock/lock ---
   emailDomain.addEventListener("change", () => {
@@ -217,6 +225,15 @@
       emailInput.value = local ? `${local}${domain}` : `you${domain}`;
       unlockPerk("email");
       emailInput.classList.add("unlocked-input");
+      emailDomain.classList.add("unlocked-input");
+    }
+    else {
+      emailInput.value = local;
+      if (!local.includes("@")) {
+        lockPerk("email");
+        emailInput.classList.remove("unlocked-input");
+        emailDomain.classList.remove("unlocked-input");
+      }
     }
   });
 
@@ -224,9 +241,11 @@
     if (emailInput.value.includes("@")) {
       unlockPerk("email");
       emailInput.classList.add("unlocked-input");
+      emailDomain.classList.add("unlocked-input");
     } else {
       lockPerk("email");
       emailInput.classList.remove("unlocked-input");
+      emailDomain.classList.remove("unlocked-input");
     }
   });
 

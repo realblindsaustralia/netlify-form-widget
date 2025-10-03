@@ -55,7 +55,7 @@ ease, transform .12s;
   box-shadow: 0 6px 20px rgba(13,176,109,0.12);
   transform: translateY(-2px);
 }
-#custom-form-widget .input.unlocked-input {
+#custom-form-widget .unlocked-input {
   border: 1px solid rgba(13,176,109,0.9);
   box-shadow: 0 6px 20px rgba(13,176,109,0.12);
   transform: translateY(-2px);
@@ -103,17 +103,17 @@ ease, transform .12s;
 }
 .mobile-boxes { display:flex; gap:8px; flex-wrap:wrap; flex:1; }
 .mobile-box {
-  width: 44px;
-  height: 48px;
-  border-radius: 8px;
-  border: 2px solid rgba(13,176,109,0.12);
-  background: #fff;
-  text-align: center;
-  line-height: 44px;
-  font-size: 16px;
-  padding-top: 4px;
-  box-sizing: border-box;
-  transition: border-color .14s;
+    width: 44px;
+    height: 48px;
+    border-radius: 8px;
+    border: 0px solid rgba(13, 176, 109, 0.12);
+    background: #F6F6F6;
+    text-align: center;
+    line-height: 44px;
+    font-size: 16px;
+    padding-top: 4px;
+    box-sizing: border-box;
+    transition: border-color .14s;
 }
 .mobile-box:focus { outline:none; border-color: rgba(13,176,109,0.9); box-shadow: 0 6px 20px rgba(13,176,109,0.12); }
 
@@ -121,12 +121,12 @@ ease, transform .12s;
 .email-group { display:flex; gap:10px; align-items:center; }
 .email-input { flex:1; }
 .email-select {
-  min-width: 140px;
-  border-radius: 12px;
-  padding: 12px;
-  border: 2px solid rgba(13,176,109,0.12);
-  background: #fff;
-  font-size: 14px;
+    min-width: 140px;
+    border-radius: 12px;
+    padding: 17px 15px;
+    border: 0px;
+    background: #F6F6F6;
+    font-size: 14px;
 }
 
 /* Buttons: Leave a Message + Claim Bonus */
