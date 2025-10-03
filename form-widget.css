@@ -51,12 +51,12 @@ ease, box-shadow .18s
 ease, transform .12s;
 }
 #custom-form-widget .input:focus, #custom-form-widget .textarea:focus {
-  border: 1px solid rgba(13,176,109,0.9);
+  border: 1px solid rgba(13,176,109,0.9) !important;
   box-shadow: 0 6px 20px rgba(13,176,109,0.12);
   /* transform: translateY(-2px); */
 }
 #custom-form-widget .unlocked-input {
-  border: 1px solid rgba(13,176,109,0.9);
+  border: 1px solid rgba(13,176,109,0.9) !important;
   box-shadow: 0 6px 20px rgba(13,176,109,0.12);
   /* transform: translateY(-2px); */
 }
