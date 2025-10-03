@@ -155,30 +155,40 @@
 
 /* RIGHT: perks panel */
 .perks {
-  width: 500px;
-  padding: 40px 65px;
-  border-radius: 65px 0px 0px 65px;
-  border: 2px solid;
-  background-image: url("/Mask group.png");
-  background-position: center center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
+    width: 500px;
+    padding: 40px 65px;
+    border-radius: 65px 0px 0px 65px;
+    border: 2px solid;
+    background-image: url("/Mask group.png");
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
+    background-position: center center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 .perks .heading {
-  margin-bottom: 9px;
-  font-family: Montserrat;
-  font-weight: 800;
-  font-size: 30px;
+    margin-bottom: 9px;
+    font-family: Montserrat;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 100%;
+    letter-spacing: 0.44px;
+    vertical-align: middle;
+    text-transform: capitalize;
 }
 p.paragperk {
-  margin: 0 0 17px 0;
-  font-family: Montserrat;
-  font-weight: 400;
-  font-size: 16px;
+    margin: 0;
+    margin-bottom: 17px;
+    font-family: Montserrat;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 145%;
+    letter-spacing: 0px;
+    text-transform: capitalize;
 }
 .perk {
   border-radius: 12px;
@@ -196,44 +206,78 @@ p.paragperk {
 .perk span.uns {
   display: block;
   width: 100%;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-style: Italic;
   font-size: 15px;
-  font-style: italic;
+  line-height: 100%;
+  letter-spacing: 0.31px;
 }
-.perk .icon img { width: 100%; height: 100%; }
+
+.perk .icon img {
+    width: 100%;
+    height: 100%;
+}
 .perk::after {
-  content: "";
-  background-image: url('Rectangle 1031.png');
-  background-position: center;
-  background-size: 100% 100%;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0; left: 0;
-  z-index: -1;
+    content: "";
+    background-image: url('Rectangle 1031.png');
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-size: 100% 100%;
+    display: block;
+    z-index: -1;
+    top: 0;
+    left: 0;
 }
 .perk .icon {
-  width: 55px;
-  height: 55px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.perk .title { font-size: 20px; font-weight: 800; }
-.perk .desc { font-size: 18px; font-weight: 500; margin-top: 6px; }
+.perk .meta { flex:1; }
+.perk .title {
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0.44px;
+    vertical-align: middle;
+}
+.perk .desc {
+    opacity: 0.9;
+    margin-top: 6px;
+    font-family: Montserrat;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    vertical-align: middle;
+}
 .perk.unlocked {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
 }
+
+/* unlocked badge */
 .perk .badge {
-  background: #48AF5C;
-  color: #fff;
-  padding: 6px 15px;
-  border-radius: 17px;
-  margin-left: 8px;
-  font-size: 11.8px;
-  font-weight: 600;
+    background: #48AF5C;
+    color: #fff;
+    padding: 6px 15px;
+    border-radius: 17px;
+    margin-left: 8px;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 11.8px;
+    line-height: 100%;
+    letter-spacing: 0.26px;
+    vertical-align: middle;
 }
 
 /* small responsive tweak */
