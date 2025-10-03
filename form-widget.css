@@ -170,10 +170,9 @@
 }
 .perks .heading { font-weight:800; font-size:20px; margin-bottom:14px; }
 .perk {
-  /* background: rgba(255,255,255,0.06); */
   border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 22px 35px;
+  margin-bottom: 14px;
   opacity: 0.55;
   transform: translateY(6px) scale(0.98);
   transition: all .32s cubic-bezier(.2,.9,.2,1);
@@ -192,6 +191,9 @@
     position: absolute;
     background-size: 100% 100%;
     display: block;
+    z-index: -1;
+    top: 0;
+    left: 0;
 }
 .perk .icon { width:44px; height:44px; border-radius:10px; background: rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; }
 .perk .meta { flex:1; }
