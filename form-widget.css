@@ -127,6 +127,7 @@ ease, transform .12s;
     border: 0px;
     background: #F6F6F6;
     font-size: 14px;
+    outline: none;
 }
 
 /* Buttons: Leave a Message + Claim Bonus */
