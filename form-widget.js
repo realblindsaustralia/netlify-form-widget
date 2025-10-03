@@ -104,7 +104,7 @@
     if (perk && !perk.classList.contains("unlocked")) {
       perk.classList.add("unlocked");
       const icon = perk.querySelector(".icon");
-      if (icon) icon.textContent = '<img src="https://cdnwidgets.netlify.app/unlock.png">';
+      if (icon) icon.innerHTML = '<img src="https://cdnwidgets.netlify.app/unlock.png">';
       const badge = perk.querySelector(".badge");
       if (badge) badge.style.display = "inline-block";
       try { unlockSound.currentTime = 0; unlockSound.play(); } catch {}
@@ -116,7 +116,7 @@
     if (perk && perk.classList.contains("unlocked")) {
       perk.classList.remove("unlocked");
       const icon = perk.querySelector(".icon");
-      if (icon) icon.textContent = '<img src="https://cdnwidgets.netlify.app/lock.png">';
+      if (icon) icon.innerHTML = '<img src="https://cdnwidgets.netlify.app/lock.png">';
       const badge = perk.querySelector(".badge");
       if (badge) badge.style.display = "none";
     }
