@@ -93,7 +93,7 @@ ease, transform .12s;
   background: #eaf7ef;
   color: #0b7a4b;
   border-radius: 10px;
-  padding: 12px 10px 12px 25px;
+  padding: 12px 6px 12px 25px;
   border: 2px solid rgba(13,176,109,0.12);
   display: inline-flex;
   align-items: center;
@@ -101,6 +101,17 @@ ease, transform .12s;
   min-width: 64px;
   font-weight: 700;
 }
+
+svg.iconname path {
+    fill: #d4d4d4;
+}
+svg.iconname.iconcolored path ,svg.iconlocation.iconcolored path ,svg.iconphone.iconcolored path ,svg.iconemail.iconcolored path  {
+    fill: #05967D;
+}
+
+
+
+
 .mobile-boxes { display:flex; gap:8px; flex-wrap:wrap; flex:1; }
 .mobile-box {
     width: 44px;
