@@ -214,7 +214,10 @@ p.paragperk {
   letter-spacing: 0.31px;
 }
 
-
+.perk .icon img {
+    width: 100%;
+    height: 100%;
+}
 .perk::after {
     content: "";
     background-image: url('Rectangle 1031.png');
@@ -228,7 +231,14 @@ p.paragperk {
     top: 0;
     left: 0;
 }
-.perk .icon { width:44px; height:44px; border-radius:10px; background: rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; }
+.perk .icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .perk .meta { flex:1; }
 .perk .title {
     font-family: Montserrat;
