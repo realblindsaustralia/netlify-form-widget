@@ -33,27 +33,34 @@
 }
 
 /* inputs style */
-.field {
+#custom-form-widget .field {
   margin-bottom: 14px;
   position: relative;
 }
-.input, .textarea {
+#custom-form-widget .input, #custom-form-widget .textarea {
   width: 100%;
-  box-sizing: border-box;
-  border: 2px solid rgba(13,176,109,0.15);
-  padding: 14px 16px;
-  border-radius: 12px;
-  background: #fbfffd;
-  outline: none;
-  font-size: 15px;
-  transition: border-color .18s ease, box-shadow .18s ease, transform .12s;
+    box-sizing: border-box;
+    border: 0px solid #606060;
+    padding: 17px 45px;
+    border-radius: 12px;
+    background: #F6F6F6;
+    outline: none;
+    font-size: 15px;
+    transition: border-color .18s 
+ease, box-shadow .18s 
+ease, transform .12s;
 }
-.input:focus, .textarea:focus {
-  border-color: rgba(13,176,109,0.9);
+#custom-form-widget .input:focus, #custom-form-widget .textarea:focus {
+  border: 1px solid rgba(13,176,109,0.9);
   box-shadow: 0 6px 20px rgba(13,176,109,0.12);
   transform: translateY(-2px);
 }
-.textarea { min-height: 110px; resize: vertical; }
+#custom-form-widget .input.unlocked-input:focus {
+  border: 1px solid rgba(13,176,109,0.9);
+  box-shadow: 0 6px 20px rgba(13,176,109,0.12);
+  transform: translateY(-2px);
+}
+#custom-form-widget .textarea { min-height: 110px; resize: vertical; }
 
 /* Suburb suggestions */
 .suburb-suggestions {
