@@ -155,14 +155,18 @@
 
 /* RIGHT: perks panel */
 .perks {
-  width: 460px;
-  padding: 22px;
-  border-radius: 28px;
-  background: url("/perks-bg.jpg") no-repeat center center;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(6,64,48,0.15);
+    width: 500px;
+    padding: 40px 65px;
+    border-radius: 65px 0px 0px 65px;
+    border: 2px solid;
+    background-image: url("/Mask group.png");
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
+    background-position: center center;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 .perks .heading { font-weight:800; font-size:20px; margin-bottom:14px; }
 .perk {
