@@ -124,8 +124,13 @@
 
   // --- NAME unlock/lock ---
   nameInput.addEventListener("blur", () => {
-    if (nameInput.value.trim().length > 1) unlockPerk("name");
-    else lockPerk("name");
+    if (nameInput.value.trim().length > 1) {
+      unlockPerk("name");
+      nameInput.classList.add("unlocked-input");
+    } else {
+      lockPerk("name");
+      nameInput.classList.remove("unlocked-input");
+    }
   });
 
   // --- SUBURB autocomplete using API ---
@@ -160,32 +165,47 @@
     suburbSuggestions.style.display = "block";
   });
 
+  // --- SUBURB unlock/lock ---
   suburbInput.addEventListener("blur", () => {
-    if (!suburbInput.value.trim()) lockPerk("suburb");
+    if (suburbInput.value.trim()) {
+      unlockPerk("suburb");
+      suburbInput.classList.add("unlocked-input");
+    } else {
+      lockPerk("suburb");
+      suburbInput.classList.remove("unlocked-input");
+    }
   });
 
   // --- MOBILE logic ---
   mobileBoxes.forEach((box, idx) => {
     box.addEventListener("input", () => {
-      const val = box.value.replace(/\D/g,"").slice(0,1);
+      const val = box.value.replace(/\D/g, "").slice(0, 1);
       box.value = val;
-      if (val && idx < 7) mobileBoxes[idx+1].focus();
+      if (val && idx < 7) mobileBoxes[idx + 1].focus();
+
       if (mobileBoxes.every(b => b.value !== "")) {
         unlockPerk("mobile");
+        mobileBoxesContainer.classList.add("unlocked-input");
         emailInput.focus();
       } else {
         lockPerk("mobile");
+        mobileBoxesContainer.classList.remove("unlocked-input");
       }
     });
+
     box.addEventListener("keydown", (e) => {
       if (e.key === "Backspace" && !box.value && idx > 0) {
-        mobileBoxes[idx-1].focus();
-        mobileBoxes[idx-1].value = "";
+        mobileBoxes[idx - 1].focus();
+        mobileBoxes[idx - 1].value = "";
       }
     });
+
     box.addEventListener("blur", () => {
       const digits = mobileBoxes.map(b => b.value).join("");
-      if (!digits) lockPerk("mobile");
+      if (!digits) {
+        lockPerk("mobile");
+        mobileBoxesContainer.classList.remove("unlocked-input");
+      }
     });
   });
 
@@ -196,11 +216,18 @@
     if (domain) {
       emailInput.value = local ? `${local}${domain}` : `you${domain}`;
       unlockPerk("email");
+      emailInput.classList.add("unlocked-input");
     }
   });
+
   emailInput.addEventListener("blur", () => {
-    if (emailInput.value.includes("@")) unlockPerk("email");
-    else lockPerk("email");
+    if (emailInput.value.includes("@")) {
+      unlockPerk("email");
+      emailInput.classList.add("unlocked-input");
+    } else {
+      lockPerk("email");
+      emailInput.classList.remove("unlocked-input");
+    }
   });
 
   // --- MESSAGE merge buttons ---
