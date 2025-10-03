@@ -1,287 +1,258 @@
-/* -------------------------
-   FORM WIDGET LAYOUT
-   ------------------------- */
-.form-widget {
-  display: flex;
-  gap: 36px;
-  max-width: 1240px;
-  margin: 28px auto;
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-  align-items: flex-start;
-}
+/* form-widget.js
+   Usage:
+   <div id="custom-form-widget" data-admin="test1@gmail.com" data-redirect="/thank-you"></div>
+   <script src="https://your-cdn/path/form-widget.js"></script>
+*/
 
-/* LEFT: form column */
-.form-left {
-  flex: 1;
-  min-width: 480px;
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(7,12,14,0.06);
-}
+(function () {
+  const container = document.getElementById("custom-form-widget");
+  if (!container) return;
 
-.form-left .title {
-  font-size: 28px;
-  font-weight: 800;
-  margin: 0 0 4px 0;
-  color: #0b2b23;
-}
-.form-left .subtitle {
-  color: #8aa79a;
-  font-size: 14px;
-  margin-bottom: 18px;
-}
+  const adminEmail = container.dataset.admin;
+  const redirectUrl = container.dataset.redirect || "/thank-you";
 
-/* inputs style */
-.field {
-  margin-bottom: 14px;
-  position: relative;
-}
-.input, .textarea {
-  width: 100%;
-  box-sizing: border-box;
-  border: 2px solid rgba(13,176,109,0.15);
-  padding: 14px 16px;
-  border-radius: 12px;
-  background: #fbfffd;
-  outline: none;
-  font-size: 15px;
-  transition: border-color .18s ease, box-shadow .18s ease, transform .12s;
-}
-.input:focus, .textarea:focus {
-  border-color: rgba(13,176,109,0.9);
-  box-shadow: 0 6px 20px rgba(13,176,109,0.12);
-  transform: translateY(-2px);
-}
-.textarea { min-height: 110px; resize: vertical; }
+  const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+  unlockSound.volume = 0.7;
 
-/* Suburb suggestions */
-.suburb-suggestions {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 8px);
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(7,12,14,0.06);
-  overflow: auto;
-  max-height: 180px;
-  border: 1px solid rgba(0,0,0,0.06);
-  z-index: 50;
-}
-.suburb-suggestions .suggestion {
-  padding: 10px 12px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.suburb-suggestions .suggestion:hover { background: #f2f7f3; }
+  // --- HTML ---
+  container.innerHTML = `
+    <div class="form-widget">
+      <div class="form-left">
+        <div class="title">Extra Warranty Perks</div>
+        <div class="subtitle">Curtains & Blinds — Fill in your details to reveal exclusive bonuses for your project</div>
 
-/* MOBILE GRID: shows 04 prefix + 8 boxes */
-.mobile-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.mobile-prefix {
-  background: #eaf7ef;
-  color: #0b7a4b;
-  border-radius: 10px;
-  padding: 12px 10px;
-  border: 2px solid rgba(13,176,109,0.12);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 64px;
-  font-weight: 700;
-}
-.mobile-boxes { display:flex; gap:8px; flex-wrap:wrap; flex:1; }
-.mobile-box {
-  width: 44px;
-  height: 48px;
-  border-radius: 8px;
-  border: 2px solid rgba(13,176,109,0.12);
-  background: #fff;
-  text-align: center;
-  line-height: 44px;
-  font-size: 16px;
-  padding-top: 4px;
-  box-sizing: border-box;
-  transition: border-color .14s;
-}
-.mobile-box:focus { outline:none; border-color: rgba(13,176,109,0.9); box-shadow: 0 6px 20px rgba(13,176,109,0.12); }
+        <form id="customForm" autocomplete="off">
+          <div class="field">
+            <input class="input" id="name" name="name" placeholder="Your Name" />
+          </div>
 
-/* email domain select placed to the right */
-.email-group { display:flex; gap:10px; align-items:center; }
-.email-input { flex:1; }
-.email-select {
-  min-width: 140px;
-  border-radius: 12px;
-  padding: 12px;
-  border: 2px solid rgba(13,176,109,0.12);
-  background: #fff;
-  font-size: 14px;
-}
+          <div class="field" style="position:relative;">
+            <input class="input" id="suburb" name="suburb" placeholder="Suburb or Postcode (Australia)" />
+            <div id="suburb-suggestions" class="suburb-suggestions" style="display:none;"></div>
+          </div>
 
-/* Buttons: Leave a Message + Claim Bonus */
-.form-actions {
-  display:flex;
-  gap: 16px;
-  margin-top: 12px;
-}
-.btn {
-  flex: 1;
-  padding: 14px 18px;
-  border-radius: 40px;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  border: none;
-  transition: transform .12s ease, box-shadow .12s;
-}
-.btn:hover { transform: translateY(-3px); }
-.btn-msg {
-  background: linear-gradient(90deg,#0db06d,#18b26f);
-  color: #fff;
-  box-shadow: 0 8px 25px rgba(13,176,109,0.16);
-}
-.btn-claim {
-  background: #0b0b0b;
-  color: #fff;
-  box-shadow: 0 8px 25px rgba(11,11,11,0.12);
-}
+          <div class="field mobile-row">
+            <div class="mobile-prefix">04</div>
+            <div class="mobile-boxes" id="mobile-boxes"></div>
+          </div>
 
-/* merged state: when message filled */
-.btn-merged { flex: 1; padding: 16px; border-radius: 40px; font-size: 16px; }
+          <div class="field email-group">
+            <input class="input email-input" id="email" name="email" placeholder="Email (you@domain.com)" />
+            <select class="email-select" id="emailDomain">
+              <option value="">Select domain (optional)</option>
+              <option value="@gmail.com">@gmail.com</option>
+              <option value="@hotmail.com">@hotmail.com</option>
+              <option value="@yahoo.com">@yahoo.com</option>
+              <option value="@outlook.com">@outlook.com</option>
+            </select>
+          </div>
 
-/* RIGHT: perks panel */
-.perks {
-    width: 500px;
-    padding: 40px 65px;
-    border-radius: 65px 0px 0px 65px;
-    border: 2px solid;
-    background-image: url("/Mask group.png");
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
-    background-position: center center;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-.perks .heading {
-    margin-bottom: 9px;
-    font-family: Montserrat;
-    font-weight: 800;
-    font-style: normal;
-    font-size: 30px;
-    line-height: 100%;
-    letter-spacing: 0.44px;
-    vertical-align: middle;
-    text-transform: capitalize;
-}
-p.paragperk {
-    margin: 0;
-    margin-bottom: 17px;
-    font-family: Montserrat;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 145%;
-    letter-spacing: 0px;
-    text-transform: capitalize;
-}
-.perk {
-  border-radius: 12px;
-  padding: 22px 35px;
-  margin-bottom: 14px;
-  opacity: 0.55;
-  transform: translateY(6px) scale(0.98);
-  transition: all .32s cubic-bezier(.2,.9,.2,1);
-  display:flex;
-  align-items:center;
-  gap:12px;
-  position: relative;
-  flex-wrap: wrap;
-}
-.perk span.uns {
-  display: block;
-  width: 100%;
-  font-family: Montserrat;
-  font-weight: 400;
-  font-style: Italic;
-  font-size: 15px;
-  line-height: 100%;
-  letter-spacing: 0.31px;
-}
+          <div class="field">
+            <textarea class="textarea" id="message" name="message" placeholder="Leave a message"></textarea>
+          </div>
 
-.perk .icon img {
-    width: 100%;
-    height: 100%;
-}
-.perk::after {
-    content: "";
-    background-image: url('Rectangle 1031.png');
-    background-position: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-size: 100% 100%;
-    display: block;
-    z-index: -1;
-    top: 0;
-    left: 0;
-}
-.perk .icon {
-    width: 55px;
-    height: 55px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.perk .meta { flex:1; }
-.perk .title {
-    font-family: Montserrat;
-    font-weight: 800;
-    font-size: 20px;
-    line-height: 100%;
-    letter-spacing: 0.44px;
-    vertical-align: middle;
-}
-.perk .desc {
-    opacity: 0.9;
-    margin-top: 6px;
-    font-family: Montserrat;
-    font-weight: 500;
-    font-style: normal;
-    font-size: 18px;
-    line-height: 100%;
-    letter-spacing: 0px;
-    vertical-align: middle;
-}
-.perk.unlocked {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
-}
+          <div class="form-actions">
+            <button type="button" class="btn btn-msg" id="btnMsg">Leave A Message 💬</button>
+            <button type="submit" class="btn btn-claim" id="btnClaim">Claim Bonus 🚀</button>
+          </div>
+        </form>
+      </div>
 
-/* unlocked badge */
-.perk .badge {
-    background: #48AF5C;
-    color: #fff;
-    padding: 6px 15px;
-    border-radius: 17px;
-    margin-left: 8px;
-    font-family: Montserrat;
-    font-weight: 600;
-    font-size: 11.8px;
-    line-height: 100%;
-    letter-spacing: 0.26px;
-    vertical-align: middle;
-}
+      <div class="perks">
+        <div class="heading">Your Perks</div>
+        <p class="paragperk">Each perks unlocked when you complete its matching field on the left</p>
+        <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon"><img src="https://cdnwidgets.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
+        <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon"><img src="https://cdnwidgets.netlify.app/lock.png"></div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
+        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdnwidgets.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
+        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon"><img src="https://cdnwidgets.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
+      </div>
+    </div>
+  `;
 
-/* small responsive tweak */
-@media (max-width:1000px) {
-  .form-widget { flex-direction: column; padding: 18px; }
-  .perks { width:100%; order: -1; }
-}
+  // --- refs ---
+  const form = container.querySelector("#customForm");
+  const nameInput = container.querySelector("#name");
+  const suburbInput = container.querySelector("#suburb");
+  const suburbSuggestions = container.querySelector("#suburb-suggestions");
+  const mobileBoxesContainer = container.querySelector("#mobile-boxes");
+  const emailInput = container.querySelector("#email");
+  const emailDomain = container.querySelector("#emailDomain");
+  const messageInput = container.querySelector("#message");
+  const btnMsg = container.querySelector("#btnMsg");
+  const btnClaim = container.querySelector("#btnClaim");
+
+  // --- mobile boxes ---
+  const mobileBoxes = [];
+  for (let i = 0; i < 8; i++) {
+    const el = document.createElement("input");
+    el.type = "text";
+    el.maxLength = 1;
+    el.inputMode = "numeric";
+    el.className = "mobile-box";
+    mobileBoxesContainer.appendChild(el);
+    mobileBoxes.push(el);
+  }
+
+  function getMobileValue() {
+    const digits = mobileBoxes.map(b => b.value.trim()).join("");
+    return digits ? "04" + digits : "";
+  }
+
+  // --- unlock / lock logic ---
+  function unlockPerk(key) {
+    const perk = container.querySelector(`#perk-${key}`);
+    if (perk && !perk.classList.contains("unlocked")) {
+      perk.classList.add("unlocked");
+      const icon = perk.querySelector(".icon");
+      if (icon) icon.innerHTML = '<img src="https://cdnwidgets.netlify.app/unlock.png">';
+      const badge = perk.querySelector(".badge");
+      if (badge) badge.style.display = "inline-block";
+      try { unlockSound.currentTime = 0; unlockSound.play(); } catch {}
+    }
+  }
+
+  function lockPerk(key) {
+    const perk = container.querySelector(`#perk-${key}`);
+    if (perk && perk.classList.contains("unlocked")) {
+      perk.classList.remove("unlocked");
+      const icon = perk.querySelector(".icon");
+      if (icon) icon.innerHTML = '<img src="https://cdnwidgets.netlify.app/lock.png">';
+      const badge = perk.querySelector(".badge");
+      if (badge) badge.style.display = "none";
+    }
+  }
+
+  // --- NAME unlock/lock ---
+  nameInput.addEventListener("blur", () => {
+    if (nameInput.value.trim().length > 1) unlockPerk("name");
+    else lockPerk("name");
+  });
+
+  // --- SUBURB autocomplete using API ---
+  suburbInput.addEventListener("input", async () => {
+    const query = suburbInput.value.trim();
+    if (query.length < 2) {
+      suburbSuggestions.innerHTML = "";
+      suburbSuggestions.style.display = "none";
+      lockPerk("suburb");
+      return;
+    }
+
+    const res = await fetch(`https://api.zippopotam.us/au/${query}`).catch(() => null);
+    if (!res || !res.ok) return;
+
+    const data = await res.json();
+    suburbSuggestions.innerHTML = "";
+    if (!data.places) return;
+
+    data.places.forEach((place) => {
+      const div = document.createElement("div");
+      div.className = "suggestion";
+      div.textContent = `${place["place name"]}, ${place["state abbreviation"]} ${data["post code"]}`;
+      div.onclick = () => {
+        suburbInput.value = div.textContent;
+        suburbSuggestions.innerHTML = "";
+        suburbSuggestions.style.display = "none";
+        unlockPerk("suburb");
+      };
+      suburbSuggestions.appendChild(div);
+    });
+    suburbSuggestions.style.display = "block";
+  });
+
+  suburbInput.addEventListener("blur", () => {
+    if (!suburbInput.value.trim()) lockPerk("suburb");
+  });
+
+  // --- MOBILE logic ---
+  mobileBoxes.forEach((box, idx) => {
+    box.addEventListener("input", () => {
+      const val = box.value.replace(/\D/g,"").slice(0,1);
+      box.value = val;
+      if (val && idx < 7) mobileBoxes[idx+1].focus();
+      if (mobileBoxes.every(b => b.value !== "")) {
+        unlockPerk("mobile");
+        emailInput.focus();
+      } else {
+        lockPerk("mobile");
+      }
+    });
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && !box.value && idx > 0) {
+        mobileBoxes[idx-1].focus();
+        mobileBoxes[idx-1].value = "";
+      }
+    });
+    box.addEventListener("blur", () => {
+      const digits = mobileBoxes.map(b => b.value).join("");
+      if (!digits) lockPerk("mobile");
+    });
+  });
+
+  // --- EMAIL unlock/lock ---
+  emailDomain.addEventListener("change", () => {
+    const domain = emailDomain.value;
+    const local = (emailInput.value.split("@")[0] || "").trim();
+    if (domain) {
+      emailInput.value = local ? `${local}${domain}` : `you${domain}`;
+      unlockPerk("email");
+    }
+  });
+  emailInput.addEventListener("blur", () => {
+    if (emailInput.value.includes("@")) unlockPerk("email");
+    else lockPerk("email");
+  });
+
+  // --- MESSAGE merge buttons ---
+  messageInput.addEventListener("input", () => {
+    if (messageInput.value.trim().length > 0) {
+      btnMsg.style.display = "none";
+      btnClaim.classList.add("btn-merged");
+    } else {
+      btnMsg.style.display = "";
+      btnClaim.classList.remove("btn-merged");
+    }
+  });
+
+  // --- SUBMIT ---
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    // check all perks unlocked
+    const allKeys = ["name", "suburb", "mobile", "email"];
+    const allUnlocked = allKeys.every(key => {
+      const perk = container.querySelector(`#perk-${key}`);
+      return perk && perk.classList.contains("unlocked");
+    });
+
+    if (!allUnlocked) {
+      alert("⚠️ Please complete all fields to unlock all perks before submitting.");
+      return;
+    }
+
+    const payload = {
+      name: nameInput.value.trim(),
+      suburb: suburbInput.value.trim(),
+      mobile: getMobileValue(),
+      email: emailInput.value.trim(),
+      message: messageInput.value.trim(),
+      admin: adminEmail
+    };
+
+    try {
+      const resp = await fetch("https://cdnwidgets.netlify.app/.netlify/functions/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (resp.ok) {
+        window.location.href = redirectUrl;
+      } else {
+        alert("❌ Error sending email");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("⚠️ Network error");
+    }
+  });
+})();
