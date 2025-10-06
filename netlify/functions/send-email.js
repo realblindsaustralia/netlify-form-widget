@@ -1,5 +1,17 @@
 const nodemailer = require("nodemailer");
 
+exports.handler = async () => {
+  const suburbs = require("../suburbs.json");
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(suburbs),
+  };
+};
+
 exports.handler = async (event, context) => {
   // Preflight request (for OPTIONS method)
   if (event.httpMethod === "OPTIONS") {

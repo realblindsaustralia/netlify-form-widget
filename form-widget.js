@@ -240,7 +240,7 @@
   });
 
    let suburbsData = [];
-  fetch("https://cdn-widget.netlify.app/suburbs.json")
+  fetch("https://cdn-widget.netlify.app/.netlify/functions/get-suburbs")
     .then((res) => res.json())
     .then((data) => (suburbsData = data))
     .catch(() => console.warn("Failed to load suburbs.json"));
