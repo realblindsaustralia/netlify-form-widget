@@ -358,7 +358,7 @@
       if (resp.ok) {
         // window.location.href = redirectUrl;
         const leftsection = container.querySelector(".form-left");
-        leftsection.innerHTML = `<div class="thankyou-message"><h2>Thank you! 🎉</h2><p>Your submission has been received. We will be in touch shortly.</p></div>`;
+        leftsection.innerHTML = `<div class="thankyou-message"><img src="https://cdn-widget.netlify.app/_Layer_.png"><p>Thank you and congratulations, <span>we’ll send this shortly.</span></p></div>`;
       } else {
         alert("❌ Error sending email");
       }
