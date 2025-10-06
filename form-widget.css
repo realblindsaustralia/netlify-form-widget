@@ -319,4 +319,7 @@ p.paragperk {
       border-radius: 0px;
       background-size: 110% 100%;
   }
+  .form-left {
+      min-width: 90%;
+  }
 }
