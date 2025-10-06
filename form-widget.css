@@ -7,7 +7,7 @@
   max-width: 1240px;
   margin: 28px auto;
   font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-  align-items: flex-start;
+  align-items: center;
 }
 
 /* LEFT: form column */
@@ -17,7 +17,7 @@
   background: #ffffff;
   padding: 28px;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(7,12,14,0.06);
+  /* box-shadow: 0 10px 30px rgba(7,12,14,0.06); */
 }
 
 .form-left .title {
@@ -309,6 +309,14 @@ p.paragperk {
 
 /* small responsive tweak */
 @media (max-width:1000px) {
-  .form-widget { flex-direction: column; padding: 18px; }
-  .perks { width:100%; order: -1; }
+  .form-widget { flex-direction: column; padding: 18px;max-width: 100%;}
+      .perks {
+        width: fit-content;
+        order: 2;
+        max-width: 100%;
+    }
+  .perks {
+      border-radius: 0px;
+      background-size: 110% 100%;
+  }
 }
