@@ -19,7 +19,95 @@
   let soundEnabled = true;
 
   // --- HTML ---
-  container.innerHTML = `...` // keep your same HTML structure (omitted for brevity)
+  container.innerHTML = `
+    <div class="form-widget">
+      <div class="form-left">
+        <div class="title">Extra Warranty Perks</div>
+        <div class="subtitle">Curtains & Blinds — Fill in your details to reveal exclusive bonuses for your project</div>
+
+        <form id="customForm" autocomplete="off">
+          <div class="field">
+            <svg class="iconname" xmlns="http://www.w3.org/2000/svg" width="26" height="27" viewBox="0 0 26 27" fill="none">
+              <path d="M13 0.25C20.1602 0.25 26 6.08984 26 13.25C26 20.4609 20.1602 26.25 13 26.25C5.78906 26.25 0 20.4609 0 13.25C0 6.08984 5.78906 0.25 13 0.25ZM13 6.75C10.9688 6.75 9.34375 8.42578 9.34375 10.4062C9.34375 12.4375 10.9688 14.0625 13 14.0625C14.9805 14.0625 16.6562 12.4375 16.6562 10.4062C16.6562 8.42578 14.9805 6.75 13 6.75ZM13 23C15.6406 23 18.0781 21.9336 19.8555 20.1562C19.043 18.0234 17.0117 16.5 14.625 16.5H11.375C8.9375 16.5 6.90625 18.0234 6.09375 20.1562C7.87109 21.9336 10.3086 23 13 23Z" fill="#05967D"/>
+            </svg>
+            <input class="input" id="cdn_name" name="cdn_name" placeholder="Your Name" />
+          </div>
+
+          <div class="field" style="position:relative;">
+            <svg class="iconlocation" xmlns="http://www.w3.org/2000/svg" width="20" height="27" viewBox="0 0 20 27" fill="none">
+              <path d="M8.53125 25.6406C5.89062 22.3398 0 14.4688 0 10C0 4.61719 4.31641 0.25 9.75 0.25C15.1328 0.25 19.5 4.61719 19.5 10C19.5 14.4688 13.5586 22.3398 10.918 25.6406C10.3086 26.4023 9.14062 26.4023 8.53125 25.6406ZM9.75 13.25C11.5273 13.25 13 11.8281 13 10C13 8.22266 11.5273 6.75 9.75 6.75C7.92188 6.75 6.5 8.22266 6.5 10C6.5 11.8281 7.92188 13.25 9.75 13.25Z" fill="#D4D4D4"/>
+            </svg>
+            <input class="input" id="suburb" name="suburb" placeholder="Suburb or Postcode (Australia)" />
+            <div id="suburb-suggestions" class="suburb-suggestions" style="display:none;"></div>
+          </div>
+
+          <div class="field mobile-row">
+            <div class="mobile-prefix">
+              <svg class="iconphone" xmlns="http://www.w3.org/2000/svg" width="19" height="27" viewBox="0 0 19 27" fill="none">
+                <path d="M16.25 0.25C17.5703 0.25 18.6875 1.36719 18.6875 2.6875V23.8125C18.6875 25.1836 17.5703 26.25 16.25 26.25H3.25C1.87891 26.25 0.8125 25.1836 0.8125 23.8125V2.6875C0.8125 1.36719 1.87891 0.25 3.25 0.25H16.25ZM12.1875 23C12.1875 22.5938 11.7812 22.1875 11.375 22.1875H8.125C7.66797 22.1875 7.3125 22.5938 7.3125 23C7.3125 23.457 7.66797 23.8125 8.07422 23.8125H11.375C11.7812 23.8125 12.1875 23.457 12.1875 23Z" fill="#D4D4D4"/>
+              </svg>
+              04
+            </div>
+            <div class="mobile-boxes" id="mobile-boxes"></div>
+          </div>
+
+          <div class="field email-group">
+            <svg class="iconemail" xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 26 20" fill="none">
+              <path d="M23.5625 0.5C24.8828 0.5 26 1.61719 26 2.9375C26 3.75 25.5938 4.46094 24.9844 4.91797L13.9648 13.1953C13.3555 13.6523 12.5938 13.6523 11.9844 13.1953L0.964844 4.91797C0.355469 4.46094 0 3.75 0 2.9375C0 1.61719 1.06641 0.5 2.4375 0.5H23.5625ZM11.0195 14.5156C12.1875 15.3789 13.7617 15.3789 14.9297 14.5156L26 6.1875V16.75C26 18.5781 24.5273 20 22.75 20H3.25C1.42188 20 0 18.5781 0 16.75V6.1875L11.0195 14.5156Z" fill="#D4D4D4"/>
+            </svg>
+            <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email (you@domain.com)" />
+            <select class="email-select" id="emailDomain">
+              <option value="">Select domain (optional)</option>
+              <option value="@gmail.com">@gmail.com</option>
+              <option value="@hotmail.com">@hotmail.com</option>
+              <option value="@yahoo.com">@yahoo.com</option>
+              <option value="@outlook.com">@outlook.com</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <textarea style="display:none" class="textarea" id="cdn_message" name="cdn_message" placeholder="Leave a message"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-msg" id="btnMsg">Leave A Message 💬</button>
+            <button type="submit" class="btn btn-claim" id="btnClaim">Claim Bonus 🚀</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="perks">
+        <div class="heading">Your Perks</div>
+        <div class="lineperks">
+          <p class="paragperk">Each perk unlocks when you complete its matching field on the left</p>
+          <div class="lineperk" id="soundToggle">
+            <!-- Sound Off Icon (default) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <foreignObject x="-8" y="-8" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4px);clip-path:url(#bgblur_0_154_830_clip_path);height:100%;width:100%"></div></foreignObject>
+              <circle cx="26" cy="26" r="25" fill="url(#paint0_linear_154_830)" fill-opacity="0.53" stroke="url(#paint1_linear_154_830)" stroke-opacity="0.7" stroke-width="2"/>
+              <path d="M27.2526 36.5057C26.9861 36.5057 26.7236 36.4011 26.5278 36.2053L21.7019 31.3794H19.0505C17.9197 31.3794 17 30.4597 17 29.3288V23.1773C17 22.0464 17.9197 21.1267 19.0505 21.1267H21.7019L26.5278 16.3008C26.821 16.0066 27.2619 15.9194 27.6453 16.0783C28.0288 16.2372 28.2779 16.6115 28.2779 17.0257V35.4804C28.2779 35.8946 28.0288 36.2688 27.6453 36.4278C27.5182 36.48 27.3849 36.5057 27.2526 36.5057Z" fill="white"/>
+              <path d="M30.1479 23.4796C29.7476 23.8799 29.7476 24.529 30.1479 24.9293L31.4735 26.255L30.1479 27.5786C29.7476 27.979 29.7476 28.628 30.1479 29.0284C30.5482 29.4287 31.1973 29.4287 31.5977 29.0284L32.9233 27.7028L34.2489 29.0284C34.6493 29.4287 35.2983 29.4287 35.6987 29.0284C36.099 28.628 36.099 27.979 35.6987 27.5786L34.3731 26.255L35.6987 24.9293C36.099 24.529 36.099 23.8799 35.6987 23.4796C35.2318 23.0127 34.6191 23.1094 34.2489 23.4796L32.9233 24.8052L31.5977 23.4796C31.1465 23.0284 30.5458 23.0816 30.1479 23.4796Z" fill="white"/>
+              <defs>
+                <linearGradient id="paint0_linear_154_830" x1="19" y1="1" x2="43" y2="4" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#0C3F25"/>
+                  <stop offset="1" stop-color="#1FA560"/>
+                </linearGradient>
+                <linearGradient id="paint1_linear_154_830" x1="1" y1="26" x2="51" y2="26" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#2FC585"/>
+                  <stop offset="0.5" stop-color="#9FFFAB"/>
+                  <stop offset="1" stop-color="#4ECE97"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
+        <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
+        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
+        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
+      </div>
+    </div>
+  `;
   
   // --- AUDIO TOGGLE ---
   const soundToggle = container.querySelector("#soundToggle");
