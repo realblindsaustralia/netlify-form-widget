@@ -239,33 +239,36 @@
     }
   });
 
-  // --- SUBURB autocomplete ---
-  suburbInput.addEventListener("input", async () => {
-    const query = suburbInput.value.trim();
+   let suburbsData = [];
+  fetch("/suburbs.json")
+    .then((res) => res.json())
+    .then((data) => (suburbsData = data))
+    .catch(() => console.warn("Failed to load suburbs.json"));
+
+  suburbInput.addEventListener("input", () => {
+    const query = suburbInput.value.trim().toLowerCase();
+    suburbSuggestions.innerHTML = "";
     if (query.length < 2) {
-      suburbSuggestions.innerHTML = "";
       suburbSuggestions.style.display = "none";
       return;
     }
-    const res = await fetch(`https://api.zippopotam.us/au/${query}`).catch(() => null);
-    if (!res || !res.ok) return;
-
-    const data = await res.json();
-    suburbSuggestions.innerHTML = "";
-    if (!data.places) return;
-    data.places.forEach((place) => {
+    const matches = suburbsData.filter(
+      (item) =>
+        item.suburb.toLowerCase().includes(query) ||
+        item.postcode.includes(query)
+    );
+    matches.slice(0, 10).forEach((item) => {
       const div = document.createElement("div");
       div.className = "suggestion";
-      div.textContent = `${place["place name"]}, ${place["state abbreviation"]} ${data["post code"]}`;
+      div.textContent = `${item.suburb}, ${item.state} ${item.postcode}`;
       div.onclick = () => {
         suburbInput.value = div.textContent;
-        suburbSuggestions.innerHTML = "";
         suburbSuggestions.style.display = "none";
         unlockPerk("suburb");
       };
       suburbSuggestions.appendChild(div);
     });
-    suburbSuggestions.style.display = "block";
+    suburbSuggestions.style.display = matches.length ? "block" : "none";
   });
 
   suburbInput.addEventListener("blur", () => {
