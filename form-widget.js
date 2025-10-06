@@ -15,7 +15,7 @@
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
   unlockSound.volume = 0.7;
 
-  const typeSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"); // you can replace with tick tick mp3
+  const typeSound = new Audio("https://cdn-widget.netlify.app/typeSound.wav"); // you can replace with tick tick mp3
   typeSound.volume = 0.4;
 
   // --- HTML ---
