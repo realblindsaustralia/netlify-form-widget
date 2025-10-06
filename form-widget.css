@@ -312,16 +312,12 @@ p.paragperk {
     gap: 50px;
     margin-bottom: 17px;
 }
-.lineperks p{
 
-}
 .lineperks .lineperk{
   width: 50px;
     height: 50px;
 }
-.lineperks .lineperk svg{
-  
-}
+
 /* small responsive tweak */
 @media (max-width:1000px) {
   .form-widget { flex-direction: column; padding: 18px;max-width: 100%;}
