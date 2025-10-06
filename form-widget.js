@@ -30,7 +30,7 @@
             <svg class="iconname" xmlns="http://www.w3.org/2000/svg" width="26" height="27" viewBox="0 0 26 27" fill="none">
               <path d="M13 0.25C20.1602 0.25 26 6.08984 26 13.25C26 20.4609 20.1602 26.25 13 26.25C5.78906 26.25 0 20.4609 0 13.25C0 6.08984 5.78906 0.25 13 0.25ZM13 6.75C10.9688 6.75 9.34375 8.42578 9.34375 10.4062C9.34375 12.4375 10.9688 14.0625 13 14.0625C14.9805 14.0625 16.6562 12.4375 16.6562 10.4062C16.6562 8.42578 14.9805 6.75 13 6.75ZM13 23C15.6406 23 18.0781 21.9336 19.8555 20.1562C19.043 18.0234 17.0117 16.5 14.625 16.5H11.375C8.9375 16.5 6.90625 18.0234 6.09375 20.1562C7.87109 21.9336 10.3086 23 13 23Z" fill="#05967D"/>
             </svg>
-            <input class="input" id="name" name="name" placeholder="Your Name" />
+            <input class="input" id="cdn_name" name="cdn_name" placeholder="Your Name" />
           </div>
 
           <div class="field" style="position:relative;">
@@ -55,7 +55,7 @@
           <svg class="iconemail" xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 26 20" fill="none">
             <path d="M23.5625 0.5C24.8828 0.5 26 1.61719 26 2.9375C26 3.75 25.5938 4.46094 24.9844 4.91797L13.9648 13.1953C13.3555 13.6523 12.5938 13.6523 11.9844 13.1953L0.964844 4.91797C0.355469 4.46094 0 3.75 0 2.9375C0 1.61719 1.06641 0.5 2.4375 0.5H23.5625ZM11.0195 14.5156C12.1875 15.3789 13.7617 15.3789 14.9297 14.5156L26 6.1875V16.75C26 18.5781 24.5273 20 22.75 20H3.25C1.42188 20 0 18.5781 0 16.75V6.1875L11.0195 14.5156Z" fill="#D4D4D4"/>
           </svg>
-            <input class="input email-input" id="email" name="email" placeholder="Email (you@domain.com)" />
+            <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email (you@domain.com)" />
             <select class="email-select" id="emailDomain">
               <option value="">Select domain (optional)</option>
               <option value="@gmail.com">@gmail.com</option>
@@ -66,7 +66,7 @@
           </div>
 
           <div class="field">
-            <textarea class="textarea" id="message" name="message" placeholder="Leave a message"></textarea>
+            <textarea style="display:none" class="textarea" id="cdn_message" name="cdn_message" placeholder="Leave a message"></textarea>
           </div>
 
           <div class="form-actions">
@@ -89,13 +89,13 @@
 
   // --- refs ---
   const form = container.querySelector("#customForm");
-  const nameInput = container.querySelector("#name");
+  const nameInput = container.querySelector("#cdn_name");
   const suburbInput = container.querySelector("#suburb");
   const suburbSuggestions = container.querySelector("#suburb-suggestions");
   const mobileBoxesContainer = container.querySelector("#mobile-boxes");
-  const emailInput = container.querySelector("#email");
+  const emailInput = container.querySelector("#cdn_email");
   const emailDomain = container.querySelector("#emailDomain");
-  const messageInput = container.querySelector("#message");
+  const messageInput = container.querySelector("#cdn_message");
   const btnMsg = container.querySelector("#btnMsg");
   const btnClaim = container.querySelector("#btnClaim");
   const iconname = container.querySelector(".iconname");
@@ -275,6 +275,13 @@
       iconemail.classList.remove("iconcolored");
     }
   });
+
+  btnMsg.addEventListener("click", () => {
+    messageInput.style.display = messageInput.style.display === "none" ? "block" : "none";
+    if (messageInput.style.display === "block") {
+      messageInput.focus();
+    }
+  })
 
   // --- MESSAGE merge buttons ---
   messageInput.addEventListener("input", () => {
