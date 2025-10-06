@@ -306,7 +306,18 @@ p.paragperk {
     letter-spacing: 0.26px;
     vertical-align: middle;
 }
+.lineperks{
 
+}
+.lineperks p{
+
+}
+.lineperks .lineperk{
+  
+}
+.lineperks .lineperk svg{
+  
+}
 /* small responsive tweak */
 @media (max-width:1000px) {
   .form-widget { flex-direction: column; padding: 18px;max-width: 100%;}
