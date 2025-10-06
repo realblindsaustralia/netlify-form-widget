@@ -11,14 +11,12 @@
   const adminEmail = container.dataset.admin;
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
-  // --- Sounds ---
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
   const typeSound = new Audio("https://cdn-widget.netlify.app/typeSound.wav");
   unlockSound.volume = 0.7;
   typeSound.volume = 0.4;
   let soundEnabled = true;
 
-  // --- HTML ---
   container.innerHTML = `
     <div class="form-widget">
       <div class="form-left">
@@ -108,13 +106,11 @@
       </div>
     </div>
   `;
-  
-  // --- AUDIO TOGGLE ---
+
   const soundToggle = container.querySelector("#soundToggle");
   soundToggle.addEventListener("click", () => {
     soundEnabled = !soundEnabled;
     if (soundEnabled) {
-      // 🔊 Sound ON icon
       soundToggle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
         <foreignObject x="-8" y="-8" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4px);clip-path:url(#bgblur_0_154_1326_clip_path);height:100%;width:100%"></div></foreignObject><circle data-figma-bg-blur-radius="8" cx="26" cy="26" r="25" fill="url(#paint0_linear_154_1326)" fill-opacity="0.53" stroke="url(#paint1_linear_154_1326)" stroke-opacity="0.7" stroke-width="2"/>
         <path d="M27.2526 36.5057C26.9861 36.5057 26.7236 36.4011 26.5278 36.2053L21.7019 31.3794H19.0505C17.9197 31.3794 17 30.4597 17 29.3288V23.1773C17 22.0464 17.9197 21.1267 19.0505 21.1267H21.7019L26.5278 16.3008C26.821 16.0066 27.2619 15.9194 27.6453 16.0783C28.0288 16.2373 28.2779 16.6115 28.2779 17.0257V35.4804C28.2779 35.8946 28.0288 36.2689 27.6453 36.4278C27.5182 36.4801 27.3849 36.5057 27.2526 36.5057Z" fill="white"/>
@@ -133,7 +129,6 @@
         </defs>
         </svg>`;
     } else {
-      // 🔇 Sound OFF icon
       soundToggle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
         <foreignObject x="-8" y="-8" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4px);clip-path:url(#bgblur_0_154_830_clip_path);height:100%;width:100%"></div></foreignObject><circle data-figma-bg-blur-radius="8" cx="26" cy="26" r="25" fill="url(#paint0_linear_154_830)" fill-opacity="0.53" stroke="url(#paint1_linear_154_830)" stroke-opacity="0.7" stroke-width="2"/>
         <path d="M27.2526 36.5057C26.9861 36.5057 26.7236 36.4011 26.5278 36.2053L21.7019 31.3794H19.0505C17.9197 31.3794 17 30.4597 17 29.3288V23.1773C17 22.0464 17.9197 21.1267 19.0505 21.1267H21.7019L26.5278 16.3008C26.821 16.0066 27.2619 15.9194 27.6453 16.0783C28.0288 16.2372 28.2779 16.6115 28.2779 17.0257V35.4804C28.2779 35.8946 28.0288 36.2688 27.6453 36.4278C27.5182 36.48 27.3849 36.5057 27.2526 36.5057Z" fill="white"/>
@@ -154,7 +149,6 @@
     }
   });
 
-  // --- safe sound wrapper ---
   function safePlay(audio) {
     if (!soundEnabled) return;
     try {
@@ -163,7 +157,6 @@
     } catch {}
   }
 
-  // --- add refs ---
   const form = container.querySelector("#customForm");
   const nameInput = container.querySelector("#cdn_name");
   const suburbInput = container.querySelector("#suburb");
@@ -179,7 +172,6 @@
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
 
-  // --- MOBILE INPUT boxes ---
   const mobileBoxes = [];
   for (let i = 0; i < 8; i++) {
     const el = document.createElement("input");
@@ -196,7 +188,6 @@
     return digits ? "04" + digits : "";
   }
 
-  // --- UNLOCK/LOCK functions ---
   function unlockPerk(key) {
     const perk = container.querySelector(`#perk-${key}`);
     if (perk && !perk.classList.contains("unlocked")) {
@@ -220,13 +211,11 @@
     }
   }
 
-  // --- INPUT EVENTS ---
   const inputs = container.querySelectorAll("input, textarea");
   inputs.forEach((input) => {
     input.addEventListener("input", () => safePlay(typeSound));
   });
 
-  // --- NAME ---
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) {
       unlockPerk("name");
@@ -239,7 +228,6 @@
     }
   });
 
-  // --- SUBURB autocomplete (from local Netlify JSON function) ---
   suburbInput.addEventListener("input", async () => {
     const query = suburbInput.value.trim();
     if (query.length < 2) {
@@ -286,7 +274,6 @@
     }
   });
 
-  // --- MOBILE ---
   mobileBoxes.forEach((box, idx) => {
     box.addEventListener("input", () => {
       const val = box.value.replace(/\D/g, "").slice(0, 1);
@@ -302,7 +289,6 @@
     });
   });
 
-  // --- EMAIL ---
   emailDomain.addEventListener("change", () => {
     const domain = emailDomain.value;
     const local = (emailInput.value.split("@")[0] || "").trim();
@@ -342,7 +328,6 @@
     }
   });
 
-  // --- SUBMIT ---
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const all = ["name", "suburb", "mobile", "email"];

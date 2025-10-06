@@ -1,12 +1,11 @@
 const nodemailer = require("nodemailer");
 
 exports.handler = async (event, context) => {
-  // Preflight request (for OPTIONS method)
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
       headers: {
-        "Access-Control-Allow-Origin": "*", // or restrict to specific domain
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "POST, OPTIONS"
       },
