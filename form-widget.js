@@ -12,7 +12,7 @@
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
-  const typeSound = new Audio("https://cdn-widget.netlify.app/typeSound.wav");
+  const typeSound = new Audio("https://cdn-form.netlify.app/typeSound.wav");
   unlockSound.volume = 0.7;
   typeSound.volume = 0.4;
   let soundEnabled = true;
@@ -99,10 +99,10 @@
             </svg>
           </div>
         </div>
-        <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
-        <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
-        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
-        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon"><img src="https://cdn-widget.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
+        <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
+        <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
+        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
+        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
       </div>
     </div>
   `;
@@ -193,7 +193,7 @@
     if (perk && !perk.classList.contains("unlocked")) {
       perk.classList.add("unlocked");
       const icon = perk.querySelector(".icon");
-      if (icon) icon.innerHTML = `<img src="https://cdn-widget.netlify.app/unlock.png">`;
+      if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/unlock.png">`;
       const badge = perk.querySelector(".badge");
       if (badge) badge.style.display = "inline-block";
       safePlay(unlockSound);
@@ -205,7 +205,7 @@
     if (perk && perk.classList.contains("unlocked")) {
       perk.classList.remove("unlocked");
       const icon = perk.querySelector(".icon");
-      if (icon) icon.innerHTML = `<img src="https://cdn-widget.netlify.app/lock.png">`;
+      if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/lock.png">`;
       const badge = perk.querySelector(".badge");
       if (badge) badge.style.display = "none";
     }
@@ -236,7 +236,7 @@
       return;
     }
 
-    const res = await fetch("https://cdn-widget.netlify.app/.netlify/functions/get-suburbs").catch(() => null);
+    const res = await fetch("https://cdn-form.netlify.app/.netlify/functions/get-suburbs").catch(() => null);
     if (!res || !res.ok) return;
 
     const allData = await res.json();
@@ -348,7 +348,7 @@
     };
     try {
       const resp = await fetch(
-        "https://cdn-widget.netlify.app/.netlify/functions/send-email",
+        "https://cdn-form.netlify.app/.netlify/functions/send-email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -358,7 +358,7 @@
       if (resp.ok) {
         // window.location.href = redirectUrl;
         const leftsection = container.querySelector(".form-left");
-        leftsection.innerHTML = `<div class="thankyou-message"><img src="https://cdn-widget.netlify.app/_Layer_.png"><p>Thank you and congratulations, <span>we’ll send this shortly.</span></p></div>`;
+        leftsection.innerHTML = `<div class="thankyou-message"><img src="https://cdn-form.netlify.app/_Layer_.png"><p>Thank you and congratulations, <span>we’ll send this shortly.</span></p></div>`;
       } else {
         alert("❌ Error sending email");
       }
