@@ -37,7 +37,7 @@
             <svg class="iconlocation" xmlns="http://www.w3.org/2000/svg" width="20" height="27" viewBox="0 0 20 27" fill="none">
               <path d="M8.53125 25.6406C5.89062 22.3398 0 14.4688 0 10C0 4.61719 4.31641 0.25 9.75 0.25C15.1328 0.25 19.5 4.61719 19.5 10C19.5 14.4688 13.5586 22.3398 10.918 25.6406C10.3086 26.4023 9.14062 26.4023 8.53125 25.6406ZM9.75 13.25C11.5273 13.25 13 11.8281 13 10C13 8.22266 11.5273 6.75 9.75 6.75C7.92188 6.75 6.5 8.22266 6.5 10C6.5 11.8281 7.92188 13.25 9.75 13.25Z" fill="#D4D4D4"/>
             </svg>
-            <input class="input" id="suburb" name="suburb" placeholder="Suburb or Postcode (Australia)" />
+            <input class="input" id="suburb" name="suburb" placeholder="Suburb or Postcode" />
             <div id="suburb-suggestions" class="suburb-suggestions" style="display:none;"></div>
           </div>
 
@@ -52,7 +52,7 @@
             <svg class="iconemail" xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 26 20" fill="none">
               <path d="M23.5625 0.5C24.8828 0.5 26 1.61719 26 2.9375C26 3.75 25.5938 4.46094 24.9844 4.91797L13.9648 13.1953C13.3555 13.6523 12.5938 13.6523 11.9844 13.1953L0.964844 4.91797C0.355469 4.46094 0 3.75 0 2.9375C0 1.61719 1.06641 0.5 2.4375 0.5H23.5625ZM11.0195 14.5156C12.1875 15.3789 13.7617 15.3789 14.9297 14.5156L26 6.1875V16.75C26 18.5781 24.5273 20 22.75 20H3.25C1.42188 20 0 18.5781 0 16.75V6.1875L11.0195 14.5156Z" fill="#D4D4D4"/>
             </svg>
-            <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email (you@domain.com)" />
+            <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email" />
             <select class="email-select" id="emailDomain">
               <option value="">Select domain (optional)</option>
               <option value="@gmail.com">@gmail.com</option>
