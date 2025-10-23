@@ -18,7 +18,9 @@
   padding: 28px;
   border-radius: 12px;
 }
-
+.field.email-group {
+    background: #f6f6f6;
+}
 .form-left .title {
   font-size: 28px;
   font-weight: 800;
@@ -33,8 +35,9 @@
 
 /* input + textarea base style */
 #custom-form-widget .field {
-  margin-bottom: 14px;
+  margin-bottom: 27px;
   position: relative;
+  border-radius: 12PX;
 }
 #custom-form-widget .input,
 #custom-form-widget .textarea {
