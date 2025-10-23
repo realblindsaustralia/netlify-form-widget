@@ -197,9 +197,13 @@
       emailInput.value = local ? `${local}${domain}` : `you${domain}`;
       unlockPerk("email");
       iconemail.classList.add("iconcolored");
+      emailInput.classList.add("unlocked-input");
+      emailDomain.classList.add("unlocked-input");
     } else if (!emailInput.value.includes("@")) {
       lockPerk("email");
       iconemail.classList.remove("iconcolored");
+      emailInput.classList.remove("unlocked-input");
+      emailDomain.classList.remove("unlocked-input");
     }
   });
 
@@ -207,9 +211,11 @@
     if (emailInput.value.includes("@")) {
       unlockPerk("email");
       iconemail.classList.add("iconcolored");
+      emailInput.classList.add("unlocked-input");
     } else {
       lockPerk("email");
       iconemail.classList.remove("iconcolored");
+      emailInput.classList.remove("unlocked-input");
     }
   });
 
