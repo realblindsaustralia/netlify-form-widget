@@ -178,10 +178,10 @@ svg.iconemail.iconcolored path {
 }
 .perks .heading {
   margin-bottom: 9px;
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica;
   font-weight: 800;
   font-style: normal;
-  font-size: 30px;
+  font-size: 25px;
   line-height: 100%;
   letter-spacing: 0.44px;
   text-transform: capitalize;
@@ -189,9 +189,9 @@ svg.iconemail.iconcolored path {
 p.paragperk {
   margin: 0;
   margin-bottom: 0px;
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 145%;
   text-transform: capitalize;
 }
@@ -213,10 +213,10 @@ p.paragperk {
 .perk span.uns {
   display: block;
   width: 100%;
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica;
   font-weight: 400;
   font-style: italic;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 100%;
   letter-spacing: 0.31px;
 }
@@ -248,18 +248,22 @@ p.paragperk {
   flex: 1;
 }
 .perk .title {
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 100%;
-  letter-spacing: 0.44px;
+    font-family: Helvetica;
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0.44px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-bottom: 8px;
 }
 .perk .desc {
   opacity: 0.9;
   margin-top: 6px;
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 100%;
 }
 .perk.unlocked {
@@ -275,9 +279,9 @@ p.paragperk {
   padding: 6px 15px;
   border-radius: 17px;
   margin-left: 8px;
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica;
   font-weight: 600;
-  font-size: 11.8px;
+  font-size: 10px;
   line-height: 100%;
 }
 
@@ -305,7 +309,7 @@ p.paragperk {
   object-fit: cover;
 }
 .thankyou-message p {
-  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-family: Helvetica;
   font-weight: 700;
   font-size: 45px;
   line-height: 114%;
