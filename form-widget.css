@@ -17,7 +17,6 @@
   background: #ffffff;
   padding: 28px;
   border-radius: 12px;
-  /* box-shadow: 0 10px 30px rgba(7,12,14,0.06); */
 }
 
 .form-left .title {
@@ -32,35 +31,36 @@
   margin-bottom: 18px;
 }
 
-/* inputs style */
+/* input + textarea base style */
 #custom-form-widget .field {
   margin-bottom: 14px;
   position: relative;
 }
-#custom-form-widget .input, #custom-form-widget .textarea {
+#custom-form-widget .input,
+#custom-form-widget .textarea {
   width: 100%;
-    box-sizing: border-box;
-    border: 0px solid #606060;
-    padding: 17px 45px;
-    border-radius: 12px;
-    background: #F6F6F6;
-    outline: none;
-    font-size: 15px;
-    transition: border-color .18s 
-ease, box-shadow .18s 
-ease, transform .12s;
+  box-sizing: border-box;
+  border: 0px solid #606060;
+  padding: 17px 45px;
+  border-radius: 12px;
+  background: #f6f6f6;
+  outline: none;
+  font-size: 15px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s;
 }
-#custom-form-widget .input:focus, #custom-form-widget .textarea:focus {
-  border: 1px solid rgba(13,176,109,0.9) !important;
-  box-shadow: 0 6px 20px rgba(13,176,109,0.12);
-  /* transform: translateY(-2px); */
+#custom-form-widget .input:focus,
+#custom-form-widget .textarea:focus {
+  border: 1px solid rgba(13, 176, 109, 0.9) !important;
+  box-shadow: 0 6px 20px rgba(13, 176, 109, 0.12);
 }
 #custom-form-widget .unlocked-input {
-  border: 1px solid rgba(13,176,109,0.9) !important;
-  box-shadow: 0 6px 20px rgba(13,176,109,0.12);
-  /* transform: translateY(-2px); */
+  border: 1px solid rgba(13, 176, 109, 0.9) !important;
+  box-shadow: 0 6px 20px rgba(13, 176, 109, 0.12);
 }
-#custom-form-widget .textarea { min-height: 110px; resize: vertical; }
+#custom-form-widget .textarea {
+  min-height: 110px;
+  resize: vertical;
+}
 
 /* Suburb suggestions */
 .suburb-suggestions {
@@ -70,10 +70,10 @@ ease, transform .12s;
   top: calc(100% + 8px);
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(7,12,14,0.06);
+  box-shadow: 0 10px 30px rgba(7, 12, 14, 0.06);
   overflow: auto;
   max-height: 180px;
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   z-index: 50;
 }
 .suburb-suggestions .suggestion {
@@ -81,77 +81,50 @@ ease, transform .12s;
   cursor: pointer;
   font-size: 14px;
 }
-.suburb-suggestions .suggestion:hover { background: #f2f7f3; }
+.suburb-suggestions .suggestion:hover {
+  background: #f2f7f3;
+}
 
-/* MOBILE GRID: shows 04 prefix + 8 boxes */
-.mobile-row {
+/* Email group */
+.email-group {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 }
-.mobile-prefix {
-  background: #eaf7ef;
-  color: #0b7a4b;
-  border-radius: 10px;
-  padding: 12px 5px 12px 25px;
-  border: 2px solid rgba(13,176,109,0.12);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 64px;
-  font-weight: 700;
+.email-input {
+  flex: 1;
 }
-
-svg.iconname path {
-    fill: #d4d4d4;
-}
-svg.iconname.iconcolored path ,svg.iconlocation.iconcolored path ,svg.iconphone.iconcolored path ,svg.iconemail.iconcolored path  {
-    fill: #05967D;
-}
-
-
-
-
-.mobile-boxes { display:flex; gap:8px; flex-wrap:wrap; flex:1; }
-.mobile-box {
-    width: 44px;
-    height: 48px;
-    border-radius: 8px;
-    border: 0px solid rgba(13, 176, 109, 0.12);
-    background: #F6F6F6;
-    text-align: center;
-    line-height: 44px;
-    font-size: 16px;
-    padding-top: 4px;
-    box-sizing: border-box;
-    transition: border-color .14s;
-}
-.mobile-box:focus { outline:none; border-color: rgba(13,176,109,0.9); box-shadow: 0 6px 20px rgba(13,176,109,0.12); }
-
-/* email domain select placed to the right */
-.email-group { display:flex; gap:10px; align-items:center; }
-.email-input { flex:1; }
 .email-select {
-    min-width: 140px;
-    border-radius: 12px;
-    padding: 17px 15px;
-    border: 0px;
-    background: #F6F6F6;
-    font-size: 14px;
-    outline: none;
+  min-width: 140px;
+  border-radius: 12px;
+  padding: 17px 15px;
+  border: 0px;
+  background: #f6f6f6;
+  font-size: 14px;
+  outline: none;
 }
 
+/* SVG icons */
 #custom-form-widget .field svg {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 18px;
-    width: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 18px;
+  width: 20px;
+}
+svg.iconname path {
+  fill: #d4d4d4;
+}
+svg.iconname.iconcolored path,
+svg.iconlocation.iconcolored path,
+svg.iconphone.iconcolored path,
+svg.iconemail.iconcolored path {
+  fill: #05967d;
 }
 
-/* Buttons: Leave a Message + Claim Bonus */
+/* Buttons */
 .form-actions {
-  display:flex;
+  display: flex;
   gap: 16px;
   margin-top: 12px;
 }
@@ -163,70 +136,74 @@ svg.iconname.iconcolored path ,svg.iconlocation.iconcolored path ,svg.iconphone.
   font-size: 15px;
   cursor: pointer;
   border: none;
-  transition: transform .12s ease, box-shadow .12s;
+  transition: transform 0.12s ease, box-shadow 0.12s;
 }
-.btn:hover { transform: translateY(-3px); }
+.btn:hover {
+  transform: translateY(-3px);
+}
 .btn-msg {
-  background: linear-gradient(90deg,#0db06d,#18b26f);
+  background: linear-gradient(90deg, #0db06d, #18b26f);
   color: #fff;
-  box-shadow: 0 8px 25px rgba(13,176,109,0.16);
+  box-shadow: 0 8px 25px rgba(13, 176, 109, 0.16);
 }
 .btn-claim {
   background: #0b0b0b;
   color: #fff;
-  box-shadow: 0 8px 25px rgba(11,11,11,0.12);
+  box-shadow: 0 8px 25px rgba(11, 11, 11, 0.12);
+}
+.btn-merged {
+  flex: 1;
+  padding: 16px;
+  border-radius: 40px;
+  font-size: 16px;
 }
 
-/* merged state: when message filled */
-.btn-merged { flex: 1; padding: 16px; border-radius: 40px; font-size: 16px; }
-
-/* RIGHT: perks panel */
+/* Perks panel */
 .perks {
-    width: 500px;
-    padding: 40px 65px;
-    border-radius: 65px 0px 0px 65px;
-    border: 2px solid;
-    background-image: url("/Mask group.png");
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
-    background-position: center center;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+  width: 500px;
+  padding: 40px 65px;
+  border-radius: 65px 0px 0px 65px;
+  border: 2px solid;
+  background-image: url("/Mask group.png");
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
+  background-position: center center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 .perks .heading {
-    margin-bottom: 9px;
-    font-family: Montserrat;
-    font-weight: 800;
-    font-style: normal;
-    font-size: 30px;
-    line-height: 100%;
-    letter-spacing: 0.44px;
-    vertical-align: middle;
-    text-transform: capitalize;
+  margin-bottom: 9px;
+  font-family: Montserrat;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0.44px;
+  text-transform: capitalize;
 }
 p.paragperk {
-    margin: 0;
-    margin-bottom: 0px;
-    font-family: Montserrat;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 145%;
-    letter-spacing: 0px;
-    text-transform: capitalize;
+  margin: 0;
+  margin-bottom: 0px;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 145%;
+  text-transform: capitalize;
 }
+
+/* Individual perk */
 .perk {
   border-radius: 12px;
   padding: 22px 35px;
   margin-bottom: 14px;
   opacity: 0.55;
   transform: translateY(6px) scale(0.98);
-  transition: all .32s cubic-bezier(.2,.9,.2,1);
-  display:flex;
-  align-items:center;
-  gap:12px;
+  transition: all 0.32s cubic-bezier(0.2, 0.9, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
   position: relative;
   flex-wrap: wrap;
 }
@@ -235,128 +212,124 @@ p.paragperk {
   width: 100%;
   font-family: Montserrat;
   font-weight: 400;
-  font-style: Italic;
+  font-style: italic;
   font-size: 15px;
   line-height: 100%;
   letter-spacing: 0.31px;
 }
-
 .perk .icon img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 .perk::after {
-    content: "";
-    background-image: url('Rectangle 1031.png');
-    background-position: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-size: 100% 100%;
-    display: block;
-    z-index: -1;
-    top: 0;
-    left: 0;
+  content: "";
+  background-image: url("Rectangle 1031.png");
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: 100% 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
 }
 .perk .icon {
-    width: 55px;
-    height: 55px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.perk .meta { flex:1; }
+.perk .meta {
+  flex: 1;
+}
 .perk .title {
-    font-family: Montserrat;
-    font-weight: 800;
-    font-size: 20px;
-    line-height: 100%;
-    letter-spacing: 0.44px;
-    vertical-align: middle;
+  font-family: Montserrat;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.44px;
 }
 .perk .desc {
-    opacity: 0.9;
-    margin-top: 6px;
-    font-family: Montserrat;
-    font-weight: 500;
-    font-style: normal;
-    font-size: 18px;
-    line-height: 100%;
-    letter-spacing: 0px;
-    vertical-align: middle;
+  opacity: 0.9;
+  margin-top: 6px;
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 100%;
 }
 .perk.unlocked {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
 }
 
-/* unlocked badge */
+/* Unlocked badge */
 .perk .badge {
-    background: #48AF5C;
-    color: #fff;
-    padding: 6px 15px;
-    border-radius: 17px;
-    margin-left: 8px;
-    font-family: Montserrat;
-    font-weight: 600;
-    font-size: 11.8px;
-    line-height: 100%;
-    letter-spacing: 0.26px;
-    vertical-align: middle;
-}
-.lineperks{
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    margin-bottom: 17px;
+  background: #48af5c;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 17px;
+  margin-left: 8px;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 11.8px;
+  line-height: 100%;
 }
 
-.lineperks .lineperk{
+/* Line perks (title + sound toggle) */
+.lineperks {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 17px;
+}
+.lineperks .lineperk {
   width: 50px;
-    height: 50px;
+  height: 50px;
 }
+
+/* Thank you message */
 .thankyou-message {
-    max-width: 95%;
-    justify-self: center;
-    text-align: center;
+  max-width: 95%;
+  justify-self: center;
+  text-align: center;
 }
-
 .thankyou-message img {
-    width: 290px;
-    height: 290px;
-    object-fit: cover;
+  width: 290px;
+  height: 290px;
+  object-fit: cover;
 }
-
 .thankyou-message p {
-    font-family: Helvetica;
-    font-weight: 700;
-    font-size: 45px;
-    line-height: 113.99999999999999%;
-    letter-spacing: -1px;
-    text-align: center;
-    vertical-align: middle;
-    text-transform: capitalize;
-    color: #191919;
+  font-family: Helvetica;
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 114%;
+  letter-spacing: -1px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #191919;
 }
-.thankyou-message p span{
-  color:#05967D;
+.thankyou-message p span {
+  color: #05967d;
 }
 
-/* small responsive tweak */
-@media (max-width:1000px) {
-  .form-widget { flex-direction: column; padding: 18px;max-width: 100%;}
-      .perks {
-        width: fit-content;
-        order: 2;
-        max-width: 100%;
-    }
+/* Responsive */
+@media (max-width: 1000px) {
+  .form-widget {
+    flex-direction: column;
+    padding: 18px;
+    max-width: 100%;
+  }
   .perks {
-      border-radius: 65px 65px 0px 0px;
-      background-size: 115% 100%;
+    width: fit-content;
+    order: 2;
+    max-width: 100%;
+    border-radius: 65px 65px 0 0;
+    background-size: 115% 100%;
   }
   .form-left {
-      min-width: 90%;
+    min-width: 90%;
   }
 }

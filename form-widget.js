@@ -11,12 +11,14 @@
   const adminEmail = container.dataset.admin;
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
+  // --- Sounds ---
   const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
   const typeSound = new Audio("https://cdn-form.netlify.app/typeSound.wav");
   unlockSound.volume = 0.7;
   typeSound.volume = 0.4;
   let soundEnabled = true;
 
+  // --- HTML ---
   container.innerHTML = `
     <div class="form-widget">
       <div class="form-left">
@@ -39,14 +41,11 @@
             <div id="suburb-suggestions" class="suburb-suggestions" style="display:none;"></div>
           </div>
 
-          <div class="field mobile-row">
-            <div class="mobile-prefix">
-              <svg class="iconphone" xmlns="http://www.w3.org/2000/svg" width="19" height="27" viewBox="0 0 19 27" fill="none">
-                <path d="M16.25 0.25C17.5703 0.25 18.6875 1.36719 18.6875 2.6875V23.8125C18.6875 25.1836 17.5703 26.25 16.25 26.25H3.25C1.87891 26.25 0.8125 25.1836 0.8125 23.8125V2.6875C0.8125 1.36719 1.87891 0.25 3.25 0.25H16.25ZM12.1875 23C12.1875 22.5938 11.7812 22.1875 11.375 22.1875H8.125C7.66797 22.1875 7.3125 22.5938 7.3125 23C7.3125 23.457 7.66797 23.8125 8.07422 23.8125H11.375C11.7812 23.8125 12.1875 23.457 12.1875 23Z" fill="#D4D4D4"/>
-              </svg>
-              04
-            </div>
-            <div class="mobile-boxes" id="mobile-boxes"></div>
+          <div class="field">
+            <svg class="iconphone" xmlns="http://www.w3.org/2000/svg" width="19" height="27" viewBox="0 0 19 27" fill="none">
+              <path d="M16.25 0.25C17.5703 0.25 18.6875 1.36719 18.6875 2.6875V23.8125C18.6875 25.1836 17.5703 26.25 16.25 26.25H3.25C1.87891 26.25 0.8125 25.1836 0.8125 23.8125V2.6875C0.8125 1.36719 1.87891 0.25 3.25 0.25H16.25ZM12.1875 23C12.1875 22.5938 11.7812 22.1875 11.375 22.1875H8.125C7.66797 22.1875 7.3125 22.5938 7.3125 23C7.3125 23.457 7.66797 23.8125 8.07422 23.8125H11.375C11.7812 23.8125 12.1875 23.457 12.1875 23Z" fill="#D4D4D4"/>
+            </svg>
+            <input class="input" id="cdn_mobile" name="cdn_mobile" placeholder="Mobile" inputmode="numeric" maxlength="10" />
           </div>
 
           <div class="field email-group">
@@ -76,29 +75,7 @@
 
       <div class="perks">
         <div class="heading">Your Perks</div>
-        <div class="lineperks">
-          <p class="paragperk">Each perk unlocks when you complete its matching field on the left</p>
-          <div class="lineperk" id="soundToggle">
-            <!-- Sound Off Icon (default) -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-              <foreignObject x="-8" y="-8" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4px);clip-path:url(#bgblur_0_154_1326_clip_path);height:100%;width:100%"></div></foreignObject><circle data-figma-bg-blur-radius="8" cx="26" cy="26" r="25" fill="url(#paint0_linear_154_1326)" fill-opacity="0.53" stroke="url(#paint1_linear_154_1326)" stroke-opacity="0.7" stroke-width="2"/>
-              <path d="M27.2526 36.5057C26.9861 36.5057 26.7236 36.4011 26.5278 36.2053L21.7019 31.3794H19.0505C17.9197 31.3794 17 30.4597 17 29.3288V23.1773C17 22.0464 17.9197 21.1267 19.0505 21.1267H21.7019L26.5278 16.3008C26.821 16.0066 27.2619 15.9194 27.6453 16.0783C28.0288 16.2373 28.2779 16.6115 28.2779 17.0257V35.4804C28.2779 35.8946 28.0288 36.2689 27.6453 36.4278C27.5182 36.4801 27.3849 36.5057 27.2526 36.5057Z" fill="white"/>
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0407 17.3778C34.5117 16.8741 35.275 16.8741 35.7459 17.3778C37.9265 19.711 39.2773 22.9379 39.2773 26.5C39.2773 30.0621 37.9265 33.2891 35.7459 35.6222C35.275 36.1259 34.5117 36.1259 34.0407 35.6222C33.5699 35.1184 33.5699 34.3015 34.0407 33.7978C35.7877 31.9287 36.8659 29.3504 36.8659 26.5C36.8659 23.6497 35.7877 21.0713 34.0407 19.2023C33.5699 18.6985 33.5699 17.8816 34.0407 17.3778ZM30.6305 21.0267C31.1013 20.5229 31.8648 20.5229 32.3356 21.0267C32.9697 21.7051 33.487 22.5097 33.852 23.4034C34.2399 24.3533 34.4545 25.4016 34.4545 26.5C34.4545 28.6371 33.6434 30.574 32.3356 31.9733C31.8648 32.4771 31.1013 32.4771 30.6305 31.9733C30.1596 31.4696 30.1596 30.6527 30.6305 30.1489C31.5046 29.2136 32.0431 27.9254 32.0431 26.5C32.0431 25.7637 31.8997 25.0667 31.6423 24.4364C31.3996 23.842 31.0546 23.3049 30.6305 22.8512C30.1596 22.3474 30.1596 21.5305 30.6305 21.0267Z" fill="white"/>
-              <defs>
-              <clipPath id="bgblur_0_154_1326_clip_path" transform="translate(8 8)"><circle cx="26" cy="26" r="25"/>
-              </clipPath><linearGradient id="paint0_linear_154_1326" x1="19.0205" y1="0.999999" x2="43.7179" y2="3.94286" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#0C3F25"/>
-              <stop offset="1" stop-color="#1FA560"/>
-              </linearGradient>
-              <linearGradient id="paint1_linear_154_1326" x1="1" y1="26" x2="51" y2="26" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#2FC585"/>
-              <stop offset="0.490385" stop-color="#9FFFAB"/>
-              <stop offset="1" stop-color="#4ECE97"/>
-              </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
+        <p class="paragperk">Each perk unlocks when you complete its matching field on the left</p>
         <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
         <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
         <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
@@ -107,61 +84,17 @@
     </div>
   `;
 
-  const soundToggle = container.querySelector("#soundToggle");
-  soundToggle.addEventListener("click", () => {
-    soundEnabled = !soundEnabled;
-    if (soundEnabled) {
-      soundToggle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-        <foreignObject x="-8" y="-8" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4px);clip-path:url(#bgblur_0_154_1326_clip_path);height:100%;width:100%"></div></foreignObject><circle data-figma-bg-blur-radius="8" cx="26" cy="26" r="25" fill="url(#paint0_linear_154_1326)" fill-opacity="0.53" stroke="url(#paint1_linear_154_1326)" stroke-opacity="0.7" stroke-width="2"/>
-        <path d="M27.2526 36.5057C26.9861 36.5057 26.7236 36.4011 26.5278 36.2053L21.7019 31.3794H19.0505C17.9197 31.3794 17 30.4597 17 29.3288V23.1773C17 22.0464 17.9197 21.1267 19.0505 21.1267H21.7019L26.5278 16.3008C26.821 16.0066 27.2619 15.9194 27.6453 16.0783C28.0288 16.2373 28.2779 16.6115 28.2779 17.0257V35.4804C28.2779 35.8946 28.0288 36.2689 27.6453 36.4278C27.5182 36.4801 27.3849 36.5057 27.2526 36.5057Z" fill="white"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0407 17.3778C34.5117 16.8741 35.275 16.8741 35.7459 17.3778C37.9265 19.711 39.2773 22.9379 39.2773 26.5C39.2773 30.0621 37.9265 33.2891 35.7459 35.6222C35.275 36.1259 34.5117 36.1259 34.0407 35.6222C33.5699 35.1184 33.5699 34.3015 34.0407 33.7978C35.7877 31.9287 36.8659 29.3504 36.8659 26.5C36.8659 23.6497 35.7877 21.0713 34.0407 19.2023C33.5699 18.6985 33.5699 17.8816 34.0407 17.3778ZM30.6305 21.0267C31.1013 20.5229 31.8648 20.5229 32.3356 21.0267C32.9697 21.7051 33.487 22.5097 33.852 23.4034C34.2399 24.3533 34.4545 25.4016 34.4545 26.5C34.4545 28.6371 33.6434 30.574 32.3356 31.9733C31.8648 32.4771 31.1013 32.4771 30.6305 31.9733C30.1596 31.4696 30.1596 30.6527 30.6305 30.1489C31.5046 29.2136 32.0431 27.9254 32.0431 26.5C32.0431 25.7637 31.8997 25.0667 31.6423 24.4364C31.3996 23.842 31.0546 23.3049 30.6305 22.8512C30.1596 22.3474 30.1596 21.5305 30.6305 21.0267Z" fill="white"/>
-        <defs>
-        <clipPath id="bgblur_0_154_1326_clip_path" transform="translate(8 8)"><circle cx="26" cy="26" r="25"/>
-        </clipPath><linearGradient id="paint0_linear_154_1326" x1="19.0205" y1="0.999999" x2="43.7179" y2="3.94286" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#0C3F25"/>
-        <stop offset="1" stop-color="#1FA560"/>
-        </linearGradient>
-        <linearGradient id="paint1_linear_154_1326" x1="1" y1="26" x2="51" y2="26" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#2FC585"/>
-        <stop offset="0.490385" stop-color="#9FFFAB"/>
-        <stop offset="1" stop-color="#4ECE97"/>
-        </linearGradient>
-        </defs>
-        </svg>`;
-    } else {
-      soundToggle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-        <foreignObject x="-8" y="-8" width="68" height="68"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(4px);clip-path:url(#bgblur_0_154_830_clip_path);height:100%;width:100%"></div></foreignObject><circle data-figma-bg-blur-radius="8" cx="26" cy="26" r="25" fill="url(#paint0_linear_154_830)" fill-opacity="0.53" stroke="url(#paint1_linear_154_830)" stroke-opacity="0.7" stroke-width="2"/>
-        <path d="M27.2526 36.5057C26.9861 36.5057 26.7236 36.4011 26.5278 36.2053L21.7019 31.3794H19.0505C17.9197 31.3794 17 30.4597 17 29.3288V23.1773C17 22.0464 17.9197 21.1267 19.0505 21.1267H21.7019L26.5278 16.3008C26.821 16.0066 27.2619 15.9194 27.6453 16.0783C28.0288 16.2372 28.2779 16.6115 28.2779 17.0257V35.4804C28.2779 35.8946 28.0288 36.2688 27.6453 36.4278C27.5182 36.48 27.3849 36.5057 27.2526 36.5057Z" fill="white"/>
-        <path d="M30.1479 23.4796C29.7476 23.8799 29.7476 24.529 30.1479 24.9293L31.4735 26.255L30.1479 27.5786C29.7476 27.979 29.7476 28.628 30.1479 29.0284C30.5482 29.4287 31.1973 29.4287 31.5977 29.0284L32.9233 27.7028L34.2489 29.0284C34.6493 29.4287 35.2983 29.4287 35.6987 29.0284C36.099 28.628 36.099 27.979 35.6987 27.5786L34.3731 26.255L35.6987 24.9293C36.099 24.529 36.099 23.8799 35.6987 23.4796C35.2318 23.0127 34.6191 23.1094 34.2489 23.4796L32.9233 24.8052L31.5977 23.4796C31.1465 23.0284 30.5458 23.0816 30.1479 23.4796Z" fill="white"/>
-        <defs>
-        <clipPath id="bgblur_0_154_830_clip_path" transform="translate(8 8)"><circle cx="26" cy="26" r="25"/>
-        </clipPath><linearGradient id="paint0_linear_154_830" x1="19.0205" y1="0.999999" x2="43.7179" y2="3.94286" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#0C3F25"/>
-        <stop offset="1" stop-color="#1FA560"/>
-        </linearGradient>
-        <linearGradient id="paint1_linear_154_830" x1="1" y1="26" x2="51" y2="26" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#2FC585"/>
-        <stop offset="0.490385" stop-color="#9FFFAB"/>
-        <stop offset="1" stop-color="#4ECE97"/>
-        </linearGradient>
-        </defs>
-        </svg>`;
-    }
-  });
-
+  // --- Helpers ---
   function safePlay(audio) {
     if (!soundEnabled) return;
-    try {
-      audio.currentTime = 0;
-      audio.play();
-    } catch {}
+    try { audio.currentTime = 0; audio.play(); } catch {}
   }
 
   const form = container.querySelector("#customForm");
   const nameInput = container.querySelector("#cdn_name");
   const suburbInput = container.querySelector("#suburb");
   const suburbSuggestions = container.querySelector("#suburb-suggestions");
-  const mobileBoxesContainer = container.querySelector("#mobile-boxes");
+  const mobileInput = container.querySelector("#cdn_mobile");
   const emailInput = container.querySelector("#cdn_email");
   const emailDomain = container.querySelector("#emailDomain");
   const messageInput = container.querySelector("#cdn_message");
@@ -172,50 +105,7 @@
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
 
-  const mobileBoxes = [];
-  for (let i = 0; i < 8; i++) {
-    const el = document.createElement("input");
-    el.type = "text";
-    el.maxLength = 1;
-    el.inputMode = "numeric";
-    el.className = "mobile-box";
-    mobileBoxesContainer.appendChild(el);
-    mobileBoxes.push(el);
-  }
-
-  function getMobileValue() {
-    const digits = mobileBoxes.map((b) => b.value.trim()).join("");
-    return digits ? "04" + digits : "";
-  }
-
-  function unlockPerk(key) {
-    const perk = container.querySelector(`#perk-${key}`);
-    if (perk && !perk.classList.contains("unlocked")) {
-      perk.classList.add("unlocked");
-      const icon = perk.querySelector(".icon");
-      if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/unlock.png">`;
-      const badge = perk.querySelector(".badge");
-      if (badge) badge.style.display = "inline-block";
-      safePlay(unlockSound);
-    }
-  }
-
-  function lockPerk(key) {
-    const perk = container.querySelector(`#perk-${key}`);
-    if (perk && perk.classList.contains("unlocked")) {
-      perk.classList.remove("unlocked");
-      const icon = perk.querySelector(".icon");
-      if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/lock.png">`;
-      const badge = perk.querySelector(".badge");
-      if (badge) badge.style.display = "none";
-    }
-  }
-
-  const inputs = container.querySelectorAll("input, textarea");
-  inputs.forEach((input) => {
-    input.addEventListener("input", () => safePlay(typeSound));
-  });
-
+  // --- Name unlock ---
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) {
       unlockPerk("name");
@@ -228,6 +118,7 @@
     }
   });
 
+  // --- Suburb autocomplete ---
   suburbInput.addEventListener("input", async () => {
     const query = suburbInput.value.trim();
     if (query.length < 2) {
@@ -235,17 +126,12 @@
       suburbSuggestions.style.display = "none";
       return;
     }
-
     const res = await fetch("https://cdn-form.netlify.app/.netlify/functions/get-suburbs").catch(() => null);
     if (!res || !res.ok) return;
-
     const allData = await res.json();
     const matches = allData.filter(
-      (item) =>
-        item.suburb.toLowerCase().includes(query.toLowerCase()) ||
-        item.postcode.includes(query)
+      (i) => i.suburb.toLowerCase().includes(query.toLowerCase()) || i.postcode.includes(query)
     );
-
     suburbSuggestions.innerHTML = "";
     matches.slice(0, 10).forEach((place) => {
       const div = document.createElement("div");
@@ -260,7 +146,7 @@
       suburbSuggestions.appendChild(div);
     });
     suburbSuggestions.style.display = matches.length ? "block" : "none";
-});
+  });
 
   suburbInput.addEventListener("blur", () => {
     if (suburbInput.value.trim()) {
@@ -274,21 +160,32 @@
     }
   });
 
-  mobileBoxes.forEach((box, idx) => {
-    box.addEventListener("input", () => {
-      const val = box.value.replace(/\D/g, "").slice(0, 1);
-      box.value = val;
-      safePlay(typeSound);
-      if (val && idx < 7) mobileBoxes[idx + 1].focus();
-
-      if (mobileBoxes.every((b) => b.value !== "")) {
-        unlockPerk("mobile");
-      } else {
-        lockPerk("mobile");
-      }
-    });
+  // --- Mobile input logic ---
+  mobileInput.addEventListener("focus", () => {
+    if (!mobileInput.value.startsWith("04")) {
+      mobileInput.value = "04";
+    }
   });
 
+  mobileInput.addEventListener("input", () => {
+    safePlay(typeSound);
+    mobileInput.value = mobileInput.value.replace(/\D/g, "");
+  });
+
+  mobileInput.addEventListener("blur", () => {
+    if (mobileInput.value.trim() === "04" || mobileInput.value.trim().length < 10) {
+      mobileInput.value = "";
+      lockPerk("mobile");
+      mobileInput.classList.remove("unlocked-input");
+      iconphone.classList.remove("iconcolored");
+    } else {
+      unlockPerk("mobile");
+      mobileInput.classList.add("unlocked-input");
+      iconphone.classList.add("iconcolored");
+    }
+  });
+
+  // --- Email unlock ---
   emailDomain.addEventListener("change", () => {
     const domain = emailDomain.value;
     const local = (emailInput.value.split("@")[0] || "").trim();
@@ -312,13 +209,14 @@
     }
   });
 
+  // --- Message toggle ---
   btnMsg.addEventListener("click", () => {
-    messageInput.style.display =
-      messageInput.style.display === "none" ? "block" : "none";
+    messageInput.style.display = messageInput.style.display === "none" ? "block" : "none";
     if (messageInput.style.display === "block") messageInput.focus();
   });
 
   messageInput.addEventListener("input", () => {
+    safePlay(typeSound);
     if (messageInput.value.trim().length > 0) {
       btnMsg.style.display = "none";
       btnClaim.classList.add("btn-merged");
@@ -328,35 +226,56 @@
     }
   });
 
+  // --- Perk unlock functions ---
+  function unlockPerk(key) {
+    const perk = container.querySelector(`#perk-${key}`);
+    if (perk && !perk.classList.contains("unlocked")) {
+      perk.classList.add("unlocked");
+      const icon = perk.querySelector(".icon");
+      if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/unlock.png">`;
+      const badge = perk.querySelector(".badge");
+      if (badge) badge.style.display = "inline-block";
+      safePlay(unlockSound);
+    }
+  }
+
+  function lockPerk(key) {
+    const perk = container.querySelector(`#perk-${key}`);
+    if (perk && perk.classList.contains("unlocked")) {
+      perk.classList.remove("unlocked");
+      const icon = perk.querySelector(".icon");
+      if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/lock.png">`;
+      const badge = perk.querySelector(".badge");
+      if (badge) badge.style.display = "none";
+    }
+  }
+
+  // --- Submit ---
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const all = ["name", "suburb", "mobile", "email"];
-    const ok = all.every((k) =>
-      container.querySelector(`#perk-${k}`).classList.contains("unlocked")
-    );
+    const ok = all.every((k) => container.querySelector(`#perk-${k}`).classList.contains("unlocked"));
     if (!ok) {
       alert("⚠️ Please complete all fields to unlock all perks before submitting.");
       return;
     }
+
     const payload = {
       name: nameInput.value.trim(),
       suburb: suburbInput.value.trim(),
-      mobile: getMobileValue(),
+      mobile: mobileInput.value.trim(),
       email: emailInput.value.trim(),
       message: messageInput.value.trim(),
       admin: adminEmail,
     };
+
     try {
-      const resp = await fetch(
-        "https://cdn-form.netlify.app/.netlify/functions/send-email",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      const resp = await fetch("https://cdn-form.netlify.app/.netlify/functions/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
       if (resp.ok) {
-        // window.location.href = redirectUrl;
         const leftsection = container.querySelector(".form-left");
         leftsection.innerHTML = `<div class="thankyou-message"><img src="https://cdn-form.netlify.app/_Layer_.png"><p>Thank you and congratulations, <span>we’ll send this shortly.</span></p></div>`;
       } else {
