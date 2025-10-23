@@ -107,7 +107,6 @@
 
   // --- Name unlock ---
   nameInput.addEventListener("blur", () => {
-    safePlay(typeSound);
     if (nameInput.value.trim().length > 1) {
       unlockPerk("name");
       nameInput.classList.add("unlocked-input");
@@ -119,9 +118,12 @@
     }
   });
 
+  const inputs = container.querySelectorAll("input, textarea");
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => safePlay(typeSound));
+  });
   // --- Suburb autocomplete ---
   suburbInput.addEventListener("input", async () => {
-    safePlay(typeSound);
     const query = suburbInput.value.trim();
     if (query.length < 2) {
       suburbSuggestions.innerHTML = "";
