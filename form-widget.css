@@ -296,6 +296,7 @@ p.paragperk {
   font-weight: 600;
   font-size: 10px;
   line-height: 100%;
+  width: 86px;
 }
 
 /* Line perks (title + sound toggle) */
