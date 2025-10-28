@@ -19,7 +19,7 @@
   border-radius: 12px;
 }
 .field.email-group {
-    background: #f6f6f6;
+  background: #f6f6f6;
 }
 .form-left .title {
   font-size: 28px;
@@ -43,39 +43,38 @@
 #custom-form-widget .textarea {
   width: 100%;
   box-sizing: border-box;
-  border: 0px solid #606060;
+  border: 1px solid #ddd;
   padding: 17px 45px;
   border-radius: 12px;
   background: #f6f6f6;
   outline: none;
   font-size: 15px;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s;
+  transition: all 0.3s ease;
 }
+
+/* ✨ Animated gradient border for focus + filled */
 #custom-form-widget .input:focus,
-#custom-form-widget .textarea:focus , #custom-form-widget select:focus {
-  border: 1px solid rgba(13, 176, 109, 0.9) !important;
-  box-shadow: 0px 0px 28px 0px #71EDD1B0;
-
-}
+#custom-form-widget .textarea:focus,
+#custom-form-widget select:focus,
 #custom-form-widget .unlocked-input {
-  border: 1px solid rgba(13, 176, 109, 0.9) !important;
-  box-shadow: 0px 0px 28px 0px #71EDD1B0;
-
+  border: 2px solid transparent;
+  background-image: linear-gradient(#f6f6f6, #f6f6f6),
+                    linear-gradient(90deg, #2feeae, #0db06d, #2feeae);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  animation: moveBorder 3s linear infinite;
+  box-shadow: 0 0 10px rgba(13, 176, 109, 0.3);
 }
 
-select#emailDomain {
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="16" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548L10 12.032l4.484-4.484z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 25px;
+@keyframes moveBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-#custom-form-widget .textarea {
-  min-height: 110px;
-  resize: vertical;
+
+#custom-form-widget .textarea { 
+  min-height: 110px; 
+  resize: vertical; 
 }
 
 /* Suburb suggestions */
@@ -97,9 +96,7 @@ select#emailDomain {
   cursor: pointer;
   font-size: 14px;
 }
-.suburb-suggestions .suggestion:hover {
-  background: #f2f7f3;
-}
+.suburb-suggestions .suggestion:hover { background: #f2f7f3; }
 
 /* Email group */
 .email-group {
@@ -107,9 +104,7 @@ select#emailDomain {
   gap: 10px;
   align-items: center;
 }
-.email-input {
-  flex: 1;
-}
+.email-input { flex: 1; }
 .email-select {
   min-width: 140px;
   border-radius: 12px;
@@ -120,6 +115,17 @@ select#emailDomain {
   outline: none;
 }
 
+select#emailDomain {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="16" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548L10 12.032l4.484-4.484z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 25px;
+}
+
 /* SVG icons */
 #custom-form-widget .field svg {
   position: absolute;
@@ -128,19 +134,15 @@ select#emailDomain {
   left: 18px;
   width: 20px;
 }
-svg.iconname path {
-  fill: #d4d4d4;
-}
+svg.iconname path { fill: #d4d4d4; }
 svg.iconname.iconcolored path,
 svg.iconlocation.iconcolored path,
 svg.iconphone.iconcolored path,
-svg.iconemail.iconcolored path {
-  fill: #05967d;
-}
+svg.iconemail.iconcolored path { fill: #05967D; }
 
 /* Buttons */
 .form-actions {
-  display: flex;
+  display:flex;
   gap: 16px;
   margin-top: 12px;
 }
@@ -152,29 +154,22 @@ svg.iconemail.iconcolored path {
   font-size: 15px;
   cursor: pointer;
   border: none;
-  transition: transform 0.12s ease, box-shadow 0.12s;
+  transition: transform .12s ease, box-shadow .12s;
 }
-.btn:hover {
-  transform: translateY(-3px);
-}
+.btn:hover { transform: translateY(-3px); }
 .btn-msg {
-  background: linear-gradient(90deg, #0db06d, #18b26f);
+  background: linear-gradient(90deg,#0db06d,#18b26f);
   color: #fff;
-  box-shadow: 0 8px 25px rgba(13, 176, 109, 0.16);
+  box-shadow: 0 8px 25px rgba(13,176,109,0.16);
 }
 .btn-claim {
   background: #0b0b0b;
   color: #fff;
-  box-shadow: 0 8px 25px rgba(11, 11, 11, 0.12);
+  box-shadow: 0 8px 25px rgba(11,11,11,0.12);
 }
-.btn-merged {
-  flex: 1;
-  padding: 16px;
-  border-radius: 40px;
-  font-size: 16px;
-}
+.btn-merged { flex: 1; padding: 16px; border-radius: 40px; font-size: 16px; }
 
-/* Perks panel */
+/* RIGHT: perks panel */
 .perks {
   width: 500px;
   padding: 40px 65px;
@@ -201,7 +196,6 @@ svg.iconemail.iconcolored path {
 }
 p.paragperk {
   margin: 0;
-  margin-bottom: 0px;
   font-family: Helvetica;
   font-weight: 400;
   font-size: 14px;
@@ -216,10 +210,10 @@ p.paragperk {
   margin-bottom: 14px;
   opacity: 0.55;
   transform: translateY(6px) scale(0.98);
-  transition: all 0.32s cubic-bezier(0.2, 0.9, 0.2, 1);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  transition: all .32s cubic-bezier(.2,.9,.2,1);
+  display:flex;
+  align-items:center;
+  gap:12px;
   position: relative;
   flex-wrap: wrap;
 }
@@ -231,12 +225,8 @@ p.paragperk {
   font-style: italic;
   font-size: 13px;
   line-height: 100%;
-  letter-spacing: 0.31px;
 }
-.perk .icon img {
-  width: 100%;
-  height: 100%;
-}
+.perk .icon img { width: 100%; height: 100%; }
 .perk::after {
   content: "";
   background-image: url("Rectangle 1031.png");
@@ -257,19 +247,15 @@ p.paragperk {
   align-items: center;
   justify-content: center;
 }
-.perk .meta {
-  flex: 1;
-}
+.perk .meta { flex:1; }
 .perk .title {
-    font-family: Helvetica;
-    font-weight: 800;
-    font-size: 14px;
-    line-height: 100%;
-    letter-spacing: 0.44px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    margin-bottom: 8px;
+  font-family: Helvetica;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
 }
 .perk .desc {
   opacity: 0.9;
@@ -299,18 +285,6 @@ p.paragperk {
   width: 86px;
 }
 
-/* Line perks (title + sound toggle) */
-.lineperks {
-  display: flex;
-  align-items: center;
-  gap: 50px;
-  margin-bottom: 17px;
-}
-.lineperks .lineperk {
-  width: 50px;
-  height: 50px;
-}
-
 /* Thank you message */
 .thankyou-message {
   max-width: 95%;
@@ -332,25 +306,17 @@ p.paragperk {
   text-transform: capitalize;
   color: #191919;
 }
-.thankyou-message p span {
-  color: #05967d;
-}
+.thankyou-message p span { color:#05967D; }
 
-/* Responsive */
-@media (max-width: 1000px) {
-  .form-widget {
-    flex-direction: column;
-    padding: 18px;
-    max-width: 100%;
-  }
+/* small responsive tweak */
+@media (max-width:1000px) {
+  .form-widget { flex-direction: column; padding: 18px;max-width: 100%;}
   .perks {
     width: fit-content;
     order: 2;
     max-width: 100%;
-    border-radius: 65px 65px 0 0;
+    border-radius: 65px 65px 0px 0px;
     background-size: 115% 100%;
   }
-  .form-left {
-    min-width: 90%;
-  }
+  .form-left { min-width: 90%; }
 }
