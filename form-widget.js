@@ -122,7 +122,6 @@
   inputs.forEach((input) => {
     input.addEventListener("input", () => safePlay(typeSound));
   });
-
   // --- Suburb autocomplete ---
   suburbInput.addEventListener("input", async () => {
     const query = suburbInput.value.trim();
@@ -167,8 +166,9 @@
 
   // --- Mobile input logic ---
   mobileInput.addEventListener("focus", () => {
-    mobileInput.classList.add("mobile-active");
-    if (!mobileInput.value.startsWith("04")) mobileInput.value = "04";
+    if (!mobileInput.value.startsWith("04")) {
+      mobileInput.value = "04";
+    }
   });
 
   mobileInput.addEventListener("input", () => {
@@ -177,7 +177,6 @@
   });
 
   mobileInput.addEventListener("blur", () => {
-    mobileInput.classList.remove("mobile-active");
     if (mobileInput.value.trim() === "04" || mobileInput.value.trim().length < 10) {
       mobileInput.value = "";
       lockPerk("mobile");
@@ -237,18 +236,6 @@
     }
   });
 
-  // --- Animated border when filled ---
-  const animatedInputs = container.querySelectorAll(".input, .textarea, select");
-  animatedInputs.forEach((input) => {
-    input.addEventListener("blur", () => {
-      if (input.value.trim()) {
-        input.classList.add("unlocked-input");
-      } else {
-        input.classList.remove("unlocked-input");
-      }
-    });
-  });
-
   // --- Perk unlock functions ---
   function unlockPerk(key) {
     const perk = container.querySelector(`#perk-${key}`);
@@ -276,7 +263,14 @@
   // --- Submit ---
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = {
+    const all = ["name", "suburb", "mobile", "email"];
+    const ok = all.every((k) => container.querySelector(`#perk-${k}`).classList.contains("unlocked"));
+    if (!ok) {
+      alert("⚠️ Please complete all fields to unlock all perks before submitting.");
+      return;
+    }
+
+    const payload = {
       name: nameInput.value.trim(),
       suburb: suburbInput.value.trim(),
       mobile: mobileInput.value.trim(),
@@ -284,13 +278,21 @@
       message: messageInput.value.trim(),
       admin: adminEmail,
     };
-    const res = await fetch("https://cdn-form.netlify.app/.netlify/functions/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    }).catch(() => null);
 
-    if (res && res.ok) window.location.href = redirectUrl;
-    else alert("Error sending form. Please try again.");
+    try {
+      const resp = await fetch("https://cdn-form.netlify.app/.netlify/functions/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (resp.ok) {
+        const leftsection = container.querySelector(".form-left");
+        leftsection.innerHTML = `<div class="thankyou-message"><img src="https://cdn-form.netlify.app/_Layer_.png"><p>Thank you and congratulations, <span>we’ll send this shortly.</span></p></div>`;
+      } else {
+        alert("❌ Error sending email");
+      }
+    } catch (err) {
+      alert("⚠️ Network error");
+    }
   });
 })();
