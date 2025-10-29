@@ -171,21 +171,39 @@
     }
   });
 
+  // --- Mobile boxes logic ---
+  const mobileBoxes = container.querySelector("#mobile-boxes");
+
+  mobileInput.addEventListener("focus", () => {
+    mobileBoxes.style.display = "flex";
+    mobileBoxes.innerHTML = "";
+    const current = mobileInput.value || "04";
+    for (let i = 0; i < 10; i++) {
+      const box = document.createElement("div");
+      box.className = "digit-box";
+      box.textContent = current[i] || "";
+      mobileBoxes.appendChild(box);
+    }
+    mobileInput.style.opacity = "0";
+  });
+
+  mobileBoxes.addEventListener("click", () => mobileInput.focus());
+
   mobileInput.addEventListener("input", () => {
-    safePlay(typeSound);
-    mobileInput.value = mobileInput.value.replace(/\D/g, "");
+    const val = mobileInput.value.replace(/\D/g, "").slice(0, 10);
+    mobileInput.value = val;
+    const boxes = mobileBoxes.querySelectorAll(".digit-box");
+    boxes.forEach((b, i) => (b.textContent = val[i] || ""));
   });
 
   mobileInput.addEventListener("blur", () => {
-    if (mobileInput.value.trim() === "04" || mobileInput.value.trim().length < 10) {
-      mobileInput.value = "";
-      lockPerk("mobile");
-      mobileInput.classList.remove("unlocked-input");
-      iconphone.classList.remove("iconcolored");
+    if (mobileInput.value.trim().length >= 10) {
+      mobileBoxes.style.display = "none";
+      mobileInput.style.opacity = "1";
     } else {
-      unlockPerk("mobile");
-      mobileInput.classList.add("unlocked-input");
-      iconphone.classList.add("iconcolored");
+      mobileInput.value = "";
+      const boxes = mobileBoxes.querySelectorAll(".digit-box");
+      boxes.forEach((b) => (b.textContent = ""));
     }
   });
 

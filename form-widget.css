@@ -354,3 +354,52 @@ p.paragperk {
     min-width: 90%;
   }
 }
+
+
+/* === MOBILE BOXES (focus animation) === */
+.mobile-field {
+  position: relative;
+}
+.mobile-boxes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  gap: 6px;
+  padding: 17px 45px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #f6f6f6;
+  border-radius: 12px;
+  z-index: 2;
+}
+.digit-box {
+  width: 28px;
+  height: 36px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+.digit-box.filled {
+  border-color: #0db06d;
+}
+
+/* === Animated glowing border === */
+.input:focus, .textarea:focus, select:focus, .unlocked-input {
+  border: 2px solid transparent;
+  background: linear-gradient(#f6f6f6, #f6f6f6) padding-box,
+              linear-gradient(90deg, #0db06d, #2feeae, #0db06d) border-box;
+  background-size: 300% 300%;
+  animation: borderGlow 2.5s linear infinite;
+  box-shadow: 0 0 15px rgba(13,176,109,0.35);
+}
+@keyframes borderGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
