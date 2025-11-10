@@ -374,7 +374,6 @@ p.paragperk {
 /* Wrapper to hold the pseudo borders */
 #custom-form-widget .field {
   position: relative;
-  display: inline-block;
 }
 
 /* Common pseudo-element setup */
@@ -440,10 +439,4 @@ p.paragperk {
   -moz-appearance: none;
   background: transparent;
   cursor: pointer;
-}
-
-/* Optional: wrapper sizing */
-#custom-form-widget .field {
-  display: inline-block;
-  padding: 4px;
 }
