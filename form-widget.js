@@ -12,11 +12,25 @@
   const redirectUrl = container.dataset.redirect || "/thank-you";
 
   // --- Sounds ---
-  const unlockSound = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
-  const typeSound = new Audio("https://cdn-form.netlify.app/typeSound.wav");
-  unlockSound.volume = 0.7;
-  typeSound.volume = 0.4;
+  const sounds = {
+    typing: new Audio("https://cdn-form.netlify.app/Typing-Sound.mp3"),
+    backspace: new Audio("https://cdn-form.netlify.app/BackSpace.mp3"),
+    selection: new Audio("https://cdn-form.netlify.app/Selection-Confirmation.mp3"),
+    formFull: new Audio("https://cdn-form.netlify.app/Form-Fully-Filled.mp3"),
+  };
+
+  for (let key in sounds) {
+    sounds[key].volume = 0.6;
+  }
+
   let soundEnabled = true;
+  function safePlay(audio) {
+    if (!soundEnabled) return;
+    try {
+      audio.currentTime = 0;
+      audio.play();
+    } catch {}
+  }
 
   // --- HTML ---
   container.innerHTML = `
@@ -84,10 +98,11 @@
     </div>
   `;
 
-  // --- Helpers ---
-  function safePlay(audio) {
-    if (!soundEnabled) return;
-    try { audio.currentTime = 0; audio.play(); } catch {}
+  // --- Helper functions ---
+  function allPerksUnlocked() {
+    return ["name", "suburb", "mobile", "email"].every(k =>
+      container.querySelector(`#perk-${k}`).classList.contains("unlocked")
+    );
   }
 
   const form = container.querySelector("#customForm");
@@ -105,6 +120,15 @@
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
 
+  // --- Typing and backspace sounds ---
+  const inputs = container.querySelectorAll("input, textarea");
+  inputs.forEach(input => {
+    input.addEventListener("input", e => {
+      if (e.inputType === "deleteContentBackward") safePlay(sounds.backspace);
+      else safePlay(sounds.typing);
+    });
+  });
+
   // --- Name unlock ---
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) {
@@ -118,10 +142,6 @@
     }
   });
 
-  const inputs = container.querySelectorAll("input, textarea");
-  inputs.forEach((input) => {
-    input.addEventListener("input", () => safePlay(typeSound));
-  });
   // --- Suburb autocomplete ---
   suburbInput.addEventListener("input", async () => {
     const query = suburbInput.value.trim();
@@ -172,7 +192,6 @@
   });
 
   mobileInput.addEventListener("input", () => {
-    safePlay(typeSound);
     mobileInput.value = mobileInput.value.replace(/\D/g, "");
   });
 
@@ -226,7 +245,6 @@
   });
 
   messageInput.addEventListener("input", () => {
-    safePlay(typeSound);
     if (messageInput.value.trim().length > 0) {
       btnMsg.style.display = "none";
       btnClaim.classList.add("btn-merged");
@@ -239,13 +257,17 @@
   // --- Perk unlock functions ---
   function unlockPerk(key) {
     const perk = container.querySelector(`#perk-${key}`);
-    if (perk && !perk.classList.contains("unlocked")) {
+    const wasLocked = !perk.classList.contains("unlocked");
+    if (perk && wasLocked) {
       perk.classList.add("unlocked");
       const icon = perk.querySelector(".icon");
       if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/unlock.png">`;
       const badge = perk.querySelector(".badge");
       if (badge) badge.style.display = "inline-block";
-      safePlay(unlockSound);
+      safePlay(sounds.selection);
+
+      // play "form fully filled" sound once all perks unlocked
+      if (allPerksUnlocked()) safePlay(sounds.formFull);
     }
   }
 
