@@ -354,3 +354,96 @@ p.paragperk {
     min-width: 90%;
   }
 }
+
+
+  /* Base styles for inputs and selects */
+#custom-form-widget .field input,
+#custom-form-widget .field select {
+  position: relative;
+  display: inline-block;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #222;
+  transition: color 0.25s;
+  z-index: 1;
+}
+
+/* Wrapper to hold the pseudo borders */
+#custom-form-widget .field {
+  position: relative;
+  display: inline-block;
+}
+
+/* Common pseudo-element setup */
+#custom-form-widget .field::before,
+#custom-form-widget .field::after {
+  content: "";
+  position: absolute;
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Top + right */
+#custom-form-widget .field::before {
+  top: 0;
+  left: 0;
+}
+
+/* Bottom + left */
+#custom-form-widget .field::after {
+  bottom: 0;
+  right: 0;
+}
+
+/* Focused input color */
+#custom-form-widget .field input:focus,
+#custom-form-widget .field select:focus {
+  color: #00ffff; /* cyan accent */
+}
+
+/* Animate borders when input/select is focused */
+#custom-form-widget .field:focus-within::before,
+#custom-form-widget .field:focus-within::after {
+  width: 100%;
+  height: 100%;
+}
+
+/* Top-right draw */
+#custom-form-widget .field:focus-within::before {
+  border-top-color: #00ffff;
+  border-right-color: #00ffff;
+  transition:
+    width 0.25s ease-out,
+    height 0.25s ease-out 0.25s;
+}
+
+/* Bottom-left draw */
+#custom-form-widget .field:focus-within::after {
+  border-bottom-color: #00ffff;
+  border-left-color: #00ffff;
+  transition:
+    border-color 0s ease-out 0.5s,
+    width 0.25s ease-out 0.5s,
+    height 0.25s ease-out 0.75s;
+}
+
+/* Optional: tidy up select appearance */
+#custom-form-widget .field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Optional: wrapper sizing */
+#custom-form-widget .field {
+  display: inline-block;
+  padding: 4px;
+}
