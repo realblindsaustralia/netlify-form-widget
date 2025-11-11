@@ -665,6 +665,7 @@ ease;
     position: absolute;
     top: 18px;
     right: 12px;
+    padding: 6px 5px;
   }
   .perk.unlocked span.uns {
       width: 70%;
