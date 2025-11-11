@@ -55,11 +55,14 @@
             <div id="suburb-suggestions" class="suburb-suggestions" style="display:none;"></div>
           </div>
 
-          <div class="field">
+          <div class="field mobile-field" style="position:relative;">
             <svg class="iconphone" xmlns="http://www.w3.org/2000/svg" width="19" height="27" viewBox="0 0 19 27" fill="none">
               <path d="M16.25 0.25C17.5703 0.25 18.6875 1.36719 18.6875 2.6875V23.8125C18.6875 25.1836 17.5703 26.25 16.25 26.25H3.25C1.87891 26.25 0.8125 25.1836 0.8125 23.8125V2.6875C0.8125 1.36719 1.87891 0.25 3.25 0.25H16.25ZM12.1875 23C12.1875 22.5938 11.7812 22.1875 11.375 22.1875H8.125C7.66797 22.1875 7.3125 22.5938 7.3125 23C7.3125 23.457 7.66797 23.8125 8.07422 23.8125H11.375C11.7812 23.8125 12.1875 23.457 12.1875 23Z" fill="#D4D4D4"/>
             </svg>
-            <input class="input" id="cdn_mobile" name="cdn_mobile" placeholder="Mobile" inputmode="numeric" maxlength="10" />
+            <div class="mobile-boxes-wrap">
+              <input class="input mobile-input" id="cdn_mobile" name="cdn_mobile" placeholder="Mobile" inputmode="numeric" maxlength="10" />
+              <!-- digit boxes are injected by JS on focus -->
+            </div>
           </div>
 
           <div class="field email-group">
@@ -110,6 +113,7 @@
   const suburbInput = container.querySelector("#suburb");
   const suburbSuggestions = container.querySelector("#suburb-suggestions");
   const mobileInput = container.querySelector("#cdn_mobile");
+  const mobileWrap = container.querySelector(".mobile-boxes-wrap");
   const emailInput = container.querySelector("#cdn_email");
   const emailDomain = container.querySelector("#emailDomain");
   const messageInput = container.querySelector("#cdn_message");
@@ -120,12 +124,36 @@
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
 
+  // add focus/filled class on parent .field for border animation
+  function setFieldFocused(input, focused) {
+    const fld = input.closest(".field");
+    if (!fld) return;
+    if (focused) fld.classList.add("focused");
+    else fld.classList.remove("focused");
+  }
+  function setFieldFilled(input, filled) {
+    const fld = input.closest(".field");
+    if (!fld) return;
+    if (filled) fld.classList.add("filled");
+    else fld.classList.remove("filled");
+  }
+
   // --- Typing and backspace sounds ---
-  const inputs = container.querySelectorAll("input, textarea");
+  const inputs = container.querySelectorAll("input, textarea, select");
   inputs.forEach(input => {
     input.addEventListener("input", e => {
       if (e.inputType === "deleteContentBackward") safePlay(sounds.backspace);
       else safePlay(sounds.typing);
+
+      // keep field filled class up to date
+      setFieldFilled(input, !!input.value && input.value.trim() !== "");
+    });
+    input.addEventListener("focus", () => {
+      setFieldFocused(input, true);
+    });
+    input.addEventListener("blur", () => {
+      setFieldFocused(input, false);
+      setFieldFilled(input, !!input.value && input.value.trim() !== "");
     });
   });
 
@@ -184,29 +212,101 @@
     }
   });
 
-  // --- Mobile input logic ---
+  // --- Mobile Input: Boxed Display ---
+  // We'll keep the main input, but when focused we display a boxes row that mirrors its digits.
+  function createDigitBoxesContainer() {
+    let boxes = mobileWrap.querySelector(".digit-boxes");
+    if (!boxes) {
+      boxes = document.createElement("div");
+      boxes.className = "digit-boxes";
+      mobileWrap.appendChild(boxes);
+    }
+    return boxes;
+  }
+
+  function updateDigitBoxesFromValue(value) {
+    const boxes = createDigitBoxesContainer();
+    boxes.innerHTML = "";
+    const digits = (value || "").split("");
+    for (let i = 0; i < 10; i++) {
+      const d = document.createElement("div");
+      d.className = "digit-box";
+      d.textContent = digits[i] || "";
+      // clicking a box focuses the hidden input
+      d.addEventListener("click", () => {
+        mobileInput.focus();
+      });
+      boxes.appendChild(d);
+    }
+  }
+
+  function removeDigitBoxes() {
+    const boxes = mobileWrap.querySelector(".digit-boxes");
+    if (boxes) boxes.remove();
+  }
+
+  // When focusing mobile:
   mobileInput.addEventListener("focus", () => {
+    // if not already starting with 04, prefill 04
     if (!mobileInput.value.startsWith("04")) {
       mobileInput.value = "04";
     }
+    updateDigitBoxesFromValue(mobileInput.value);
+    mobileWrap.classList.add("mobile-active");
+    setFieldFocused(mobileInput, true);
+    setFieldFilled(mobileInput, true);
   });
 
-  mobileInput.addEventListener("input", () => {
+  // Mirror typed value to digit boxes
+  mobileInput.addEventListener("input", (e) => {
+    // keep only digits
     mobileInput.value = mobileInput.value.replace(/\D/g, "");
+    // limit to 10 (04 + 8 more => 10 digits)
+    if (mobileInput.value.length > 10) mobileInput.value = mobileInput.value.slice(0, 10);
+    updateDigitBoxesFromValue(mobileInput.value);
+
+    // If deletion/backspace
+    if (e.inputType === "deleteContentBackward") safePlay(sounds.backspace);
+    else safePlay(sounds.typing);
   });
 
+  // On blur: if still just 04 or too short, clear; otherwise keep value and show normal input (remove boxes).
   mobileInput.addEventListener("blur", () => {
-    if (mobileInput.value.trim() === "04" || mobileInput.value.trim().length < 10) {
+    mobileWrap.classList.remove("mobile-active");
+    setFieldFocused(mobileInput, false);
+
+    // valid mobile condition: length 10 and doesn't equal just '04'
+    const val = mobileInput.value.trim();
+    if (val === "04" || val.length < 10) {
       mobileInput.value = "";
+      removeDigitBoxes();
+      setFieldFilled(mobileInput, false);
       lockPerk("mobile");
       mobileInput.classList.remove("unlocked-input");
       iconphone.classList.remove("iconcolored");
     } else {
+      // valid: keep value in input, remove boxes and show normal input display
+      removeDigitBoxes();
+      setFieldFilled(mobileInput, true);
       unlockPerk("mobile");
       mobileInput.classList.add("unlocked-input");
       iconphone.classList.add("iconcolored");
     }
   });
+
+  // If the page is clicked anywhere inside mobileWrap we focus input (for ease)
+  mobileWrap.addEventListener("click", (e) => {
+    if (e.target.classList.contains("digit-boxes") || e.target.classList.contains("digit-box")) {
+      mobileInput.focus();
+    }
+  });
+
+  // Keep boxes synced if script sets mobileInput.value programmatically
+  function setMobileValueProgrammatically(v) {
+    mobileInput.value = (v || "").replace(/\D/g, "").slice(0, 10);
+    updateDigitBoxesFromValue(mobileInput.value);
+    setFieldFilled(mobileInput, !!mobileInput.value);
+  }
 
   // --- Email unlock ---
   emailDomain.addEventListener("change", () => {
@@ -218,11 +318,13 @@
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
       emailDomain.classList.add("unlocked-input");
+      setFieldFilled(emailInput, true);
     } else if (!emailInput.value.includes("@")) {
       lockPerk("email");
       iconemail.classList.remove("iconcolored");
       emailInput.classList.remove("unlocked-input");
       emailDomain.classList.remove("unlocked-input");
+      setFieldFilled(emailInput, false);
     }
   });
 
@@ -231,10 +333,12 @@
       unlockPerk("email");
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
+      setFieldFilled(emailInput, true);
     } else {
       lockPerk("email");
       iconemail.classList.remove("iconcolored");
       emailInput.classList.remove("unlocked-input");
+      setFieldFilled(emailInput, false);
     }
   });
 
@@ -267,7 +371,11 @@
       safePlay(sounds.selection);
 
       // play "form fully filled" sound once all perks unlocked
-      if (allPerksUnlocked()) safePlay(sounds.formFull);
+      if (allPerksUnlocked()) {
+        safePlay(sounds.formFull);
+        // animate claim button
+        btnClaim.classList.add("all-unlocked");
+      }
     }
   }
 
@@ -279,6 +387,8 @@
       if (icon) icon.innerHTML = `<img src="https://cdn-form.netlify.app/lock.png">`;
       const badge = perk.querySelector(".badge");
       if (badge) badge.style.display = "none";
+      // remove claim unlocked style if not all unlocked
+      if (!allPerksUnlocked()) btnClaim.classList.remove("all-unlocked");
     }
   }
 
@@ -317,4 +427,5 @@
       alert("⚠️ Network error");
     }
   });
+
 })();
