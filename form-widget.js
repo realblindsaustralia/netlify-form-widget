@@ -37,7 +37,7 @@
     <div class="form-widget">
     <div class="main-border"></div>
       <div class="form-left">
-        <div class="title">Extra Warranty Perks</div>
+        <div class="title">Extra Warranty Perks <span>Curtains & Blinds</span></div>
         <div class="subtitle">Curtains & Blinds — Fill in your details to reveal exclusive bonuses for your project</div>
 
         <form id="customForm" autocomplete="off">

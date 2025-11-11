@@ -395,24 +395,7 @@ p.paragperk {
   color: #05967d;
 }
 
-/* Responsive */
-@media (max-width: 1000px) {
-  .form-widget {
-    flex-direction: column;
-    padding: 18px;
-    max-width: 100%;
-  }
-  .perks {
-    width: fit-content;
-    order: 2;
-    max-width: 100%;
-    border-radius: 65px 65px 0 0;
-    background-size: 115% 100%;
-  }
-  .form-left {
-    min-width: 90%;
-  }
-}
+
 
 
 .mobile-boxes-wrap {
@@ -628,4 +611,39 @@ ease;
     width: 206px;
     left: unset;
     right: 0;
+}
+
+.form-left .title span {
+    color: #05967D;
+}
+/* Responsive */
+@media (max-width: 1000px) {
+  .form-widget {
+      flex-direction: column;
+      padding: 0px;
+      max-width: 100%;
+      border: 0px !important;
+      display: block;
+      width: 100%;
+
+  }
+  .perks {
+    width: auto;
+    order: 2;
+    max-width: 100%;
+    border-radius: 65px 65px 0 0;
+    background-size: 115% 100%;
+  }
+  .form-left {
+    min-width: 90%;
+  }
+  .main-border { 
+      display: none !important;
+  }
+  div#custom-form-widget {
+      display: flex;
+  }
+  .field .border.border-right {
+      width: 75%;
+  }
 }
