@@ -82,6 +82,7 @@ select#emailDomain {
     background-repeat: no-repeat;
     background-position: right 8px center;
     background-size: 25px;
+    color: #a8a8a8;
 }
 #custom-form-widget .textarea {
   min-height: 110px;
