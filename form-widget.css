@@ -647,10 +647,15 @@ ease;
       width: 200px;
   }
   .field .border.border-left {
-      width: 100px;
+      width: 112px;
   }
   #custom-form-widget .input, #custom-form-widget .textarea{
     width: 99%;
     margin-left: 2px;
+  }
+  .email-input {
+      flex: 1;
+      width: 200px !important;
+      max-width: 200px !important;
   }
 }
