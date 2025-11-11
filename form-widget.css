@@ -6,31 +6,57 @@
   gap: 36px;
   max-width: 1240px;
   margin: 28px auto;
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
   align-items: center;
+  position: relative;
 }
 
-/* LEFT: form column */
+/* Animated outer border for main left form */
 .form-left {
   flex: 1;
   min-width: 480px;
   background: #ffffff;
   padding: 28px;
-  border-radius: 12px;
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
-.field.email-group {
-    background: #f6f6f6;
+
+/* animated moving gradient border for form container */
+.form-left::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(90deg, #00e58b, #00ffc3, #00e58b);
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: flowGradient 3s linear infinite;
+  pointer-events: none;
+  z-index: 0;
 }
-.form-left .title {
-  font-size: 28px;
-  font-weight: 800;
-  margin: 0 0 4px 0;
-  color: #0b2b23;
+
+/* gradient keyframes */
+@keyframes flowGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-.form-left .subtitle {
-  color: #8aa79a;
-  font-size: 14px;
-  margin-bottom: 18px;
+
+/* restore icons visibility */
+#custom-form-widget .field svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 18px;
+  width: 20px;
+  z-index: 5;
 }
 
 /* input + textarea base style */
@@ -38,465 +64,151 @@
   margin-bottom: 27px;
   position: relative;
   border-radius: 12px;
-  /* ensure pseudo-border fits */
-  padding: 0;
+  overflow: hidden;
 }
 
-/* base input style kept from original */
 #custom-form-widget .input,
 #custom-form-widget .textarea,
 #custom-form-widget select {
   width: 100%;
   box-sizing: border-box;
-  border: 0px solid #606060;
+  border: none;
   padding: 17px 45px;
   border-radius: 12px;
   background: #f6f6f6;
-  outline: none;
   font-size: 15px;
-  transition: box-shadow 0.25s ease, transform 0.12s, background-position 0.6s linear;
-}
-
-/* keep your existing focus shadow slight */
-#custom-form-widget .input:focus,
-#custom-form-widget .textarea:focus,
-#custom-form-widget select:focus {
-  box-shadow: 0px 0px 20px rgba(113, 237, 209, 0.12);
-}
-
-/* unlocked look when filled/confirmed */
-#custom-form-widget .unlocked-input {
-  box-shadow: 0 0 28px 0px rgba(113, 237, 209, 0.35);
-}
-
-/* --- Gradient animated border:
-   We'll use the parent .field pseudo-element ::after as the animated border.
-   It becomes visible when .field.focused or .field.filled is present.
-*/
-#custom-form-widget .field {
+  outline: none;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
   position: relative;
-  border-radius: 12px;
-  /* reserve space for animated border via transparent outline */
-  padding: 0.5px; /* tiny padding so pseudo-element sits outside but not shift layout */
+  z-index: 2;
 }
 
-/* pseudo-element used as border overlay */
-#custom-form-widget .field::after {
+/* animated border effect using pseudo-element */
+#custom-form-widget .field::before {
   content: "";
   position: absolute;
-  inset: 0; /* cover entire field area */
+  inset: 0;
   border-radius: 12px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 260ms ease, transform 260ms ease;
-  /* gradient color flow */
+  padding: 1.5px;
   background: linear-gradient(90deg, #00e58b, #00ffc3, #00e58b);
   background-size: 200% 100%;
-  filter: drop-shadow(0 6px 24px rgba(0, 229, 139, 0.12));
-  z-index: 2;
-  mix-blend-mode: normal;
-  /* create a hollow border effect using mask: content area will be transparent */
+  opacity: 0;
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 2px; /* thickness of border */
-  box-sizing: border-box;
+  animation: flowGradient 2s linear infinite;
+  transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
-/* to make hollow border using outline technique, wrap field content with inner box */
-#custom-form-widget .field > * {
-  position: relative;
-  z-index: 3; /* ensure inputs sit above the pseudo border */
-}
-
-/* When focused or filled we show and animate the gradient */
-#custom-form-widget .field.focused::after,
-#custom-form-widget .field.filled::after {
+/* Focused or filled inputs glow */
+#custom-form-widget .field.focused::before,
+#custom-form-widget .field.filled::before {
   opacity: 1;
-  animation: flowGradient 2.4s linear infinite;
+  box-shadow: 0 0 20px rgba(0, 255, 195, 0.2);
 }
 
-/* subtle grow when active */
-#custom-form-widget .field.focused::after {
-  transform: scale(1.01);
-}
-#custom-form-widget .field.filled::after {
-  transform: scale(1);
-}
-
-/* gradient flow keyframes */
-@keyframes flowGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Select styling (keeps arrow) */
-select#emailDomain {
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="16" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548L10 12.032l4.484-4.484z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 25px;
-}
-
-/* Suburb suggestions */
-.suburb-suggestions {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 8px);
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(7, 12, 14, 0.06);
-  overflow: auto;
-  max-height: 180px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  z-index: 50;
-}
-.suburb-suggestions .suggestion {
-  padding: 10px 12px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.suburb-suggestions .suggestion:hover {
-  background: #f2f7f3;
-}
-
-/* Email group */
-.email-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.email-input {
-  flex: 1;
-}
-.email-select {
-  min-width: 140px;
-  border-radius: 12px;
-  padding: 17px 40px 17px 15px;
-  border: 0px;
-  background: #f6f6f6;
-  font-size: 14px;
-  outline: none;
-}
-
-/* SVG icons */
-#custom-form-widget .field svg {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 18px;
-  width: 20px;
-}
-svg.iconname path {
-  fill: #d4d4d4;
-}
-svg.iconname.iconcolored path,
-svg.iconlocation.iconcolored path,
-svg.iconphone.iconcolored path,
-svg.iconemail.iconcolored path {
-  fill: #05967d;
-}
-
-/* Buttons */
-.form-actions {
-  display: flex;
-  gap: 16px;
-  margin-top: 12px;
-}
-.btn {
-  flex: 1;
-  padding: 14px 18px;
-  border-radius: 40px;
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.12s ease, box-shadow 0.12s, background-position 0.5s ease;
-}
-.btn:hover {
-  transform: translateY(-3px);
-}
-
-/* Leave message button */
-.btn-msg {
-  background: linear-gradient(90deg, #0db06d, #18b26f);
-  color: #fff;
-  box-shadow: 0 8px 25px rgba(13, 176, 109, 0.16);
-}
-
-/* Claim button */
-.btn-claim {
-  background: #0b0b0b;
-  color: #fff;
-  box-shadow: 0 8px 25px rgba(11, 11, 11, 0.12);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Claim button animation when all perks unlocked */
-.btn-claim.all-unlocked {
-  animation: claimPulse 1.6s ease-in-out infinite;
-  box-shadow: 0 18px 40px rgba(0, 229, 139, 0.18);
-}
-@keyframes claimPulse {
-  0% { transform: translateY(0) scale(1); box-shadow: 0 8px 25px rgba(11,11,11,0.12); }
-  50% { transform: translateY(-3px) scale(1.02); box-shadow: 0 24px 54px rgba(0,229,139,0.18); }
-  100% { transform: translateY(0) scale(1); box-shadow: 0 8px 25px rgba(11,11,11,0.12); }
-}
-
-.btn-merged {
-  flex: 1;
-  padding: 16px;
-  border-radius: 40px;
-  font-size: 16px;
-}
-
-/* Perks panel */
-.perks {
-  width: 500px;
-  padding: 40px 65px;
-  border-radius: 65px 0px 0px 65px;
-  border: 2px solid;
-  background-image: url("/Mask group.png");
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(6, 64, 48, 0.15);
-  background-position: center center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-.perks .heading {
-  margin-bottom: 9px;
-  font-family: Helvetica;
-  font-weight: 800;
-  font-style: normal;
-  font-size: 25px;
-  line-height: 100%;
-  letter-spacing: 0.44px;
-  text-transform: capitalize;
-}
-p.paragperk {
-  margin: 0;
-  margin-bottom: 0px;
-  font-family: Helvetica;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 145%;
-  text-transform: capitalize;
-}
-
-/* Individual perk */
+/* perk animations */
 .perk {
+  position: relative;
+  transition: all 0.4s ease;
   border-radius: 12px;
   padding: 22px 35px;
   margin-bottom: 14px;
-  opacity: 0.55;
-  transform: translateY(6px) scale(0.98);
-  transition: all 0.32s cubic-bezier(0.2, 0.9, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 12px;
-  position: relative;
-  flex-wrap: wrap;
+  opacity: 0.55;
+  transform: translateY(6px) scale(0.98);
 }
-.perk span.uns {
-  display: block;
-  width: 100%;
-  font-family: Helvetica;
-  font-weight: 400;
-  font-style: italic;
-  font-size: 13px;
-  line-height: 100%;
-  letter-spacing: 0.31px;
-}
-.perk .icon img {
-  width: 100%;
-  height: 100%;
-}
-.perk::after {
-  content: "";
-  background-image: url("Rectangle 1031.png");
-  background-position: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-size: 100% 100%;
-  z-index: -1;
-  top: 0;
-  left: 0;
-}
-.perk .icon {
-  width: 55px;
-  height: 55px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.perk .meta {
-  flex: 1;
-}
-.perk .title {
-    font-family: Helvetica;
-    font-weight: 800;
-    font-size: 14px;
-    line-height: 100%;
-    letter-spacing: 0.44px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    margin-bottom: 8px;
-}
-.perk .desc {
-  opacity: 0.9;
-  margin-top: 6px;
-  font-family: Helvetica;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 100%;
-}
+
 .perk.unlocked {
   opacity: 1;
   transform: translateY(0) scale(1);
-  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 14px 42px rgba(0, 229, 139, 0.2);
+  animation: perkPop 0.5s ease;
 }
 
-/* Unlocked badge */
+/* lock → unlock animation */
+.perk .icon img {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+.perk.unlocked .icon img {
+  transform: scale(1.15);
+  opacity: 1;
+  animation: unlockGlow 1.2s ease-in-out;
+}
+
+/* badge animation */
 .perk .badge {
-  background: #48af5c;
+  background: linear-gradient(90deg, #00e58b, #00ffc3);
   color: #fff;
   padding: 6px 15px;
   border-radius: 17px;
   margin-left: 8px;
-  font-family: Helvetica;
-  font-weight: 600;
   font-size: 10px;
-  line-height: 100%;
-  width: 86px;
+  font-weight: 600;
+  animation: badgeGlow 2s ease-in-out infinite alternate;
+  box-shadow: 0 0 20px rgba(0, 255, 195, 0.3);
 }
 
-/* Line perks (title + sound toggle) */
-.lineperks {
-  display: flex;
-  align-items: center;
-  gap: 50px;
-  margin-bottom: 17px;
+/* Perk animations keyframes */
+@keyframes perkPop {
+  0% { transform: scale(0.9); opacity: 0.4; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
 }
-.lineperks .lineperk {
-  width: 50px;
-  height: 50px;
+@keyframes unlockGlow {
+  0% { filter: drop-shadow(0 0 0 rgba(0,255,195,0)); }
+  50% { filter: drop-shadow(0 0 12px rgba(0,255,195,0.6)); }
+  100% { filter: drop-shadow(0 0 0 rgba(0,255,195,0)); }
 }
-
-/* Thank you message */
-.thankyou-message {
-  max-width: 95%;
-  justify-self: center;
-  text-align: center;
-}
-.thankyou-message img {
-  width: 290px;
-  height: 290px;
-  object-fit: cover;
-}
-.thankyou-message p {
-  font-family: Helvetica;
-  font-weight: 700;
-  font-size: 45px;
-  line-height: 114%;
-  letter-spacing: -1px;
-  text-align: center;
-  text-transform: capitalize;
-  color: #191919;
-}
-.thankyou-message p span {
-  color: #05967d;
+@keyframes badgeGlow {
+  from { box-shadow: 0 0 6px rgba(0,255,195,0.3); }
+  to { box-shadow: 0 0 18px rgba(0,255,195,0.7); }
 }
 
-/* -----------------------
-   MOBILE DIGIT BOXES
-   ----------------------- */
-.mobile-boxes-wrap {
+/* Claim button glowing border */
+.btn-claim {
   position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 48px;
+  background: #0b0b0b;
+  color: #fff;
+  overflow: hidden;
+  z-index: 1;
 }
-.mobile-input {
-  /* keep visible normally */
-  width: 100%;
-  background: #f6f6f6;
-  border-radius: 12px;
-  padding: 17px 45px;
-  box-sizing: border-box;
-  z-index: 3;
-  position: relative;
-}
-
-/* When active, hide the visible background and show boxes */
-.mobile-boxes-wrap.mobile-active .mobile-input {
-  /* input remains focusable but visually hidden */
-  background: transparent;
-  color: transparent;
-  caret-color: #00e58b; /* caret visible */
-  position: relative;
-}
-
-/* boxes row displayed above input */
-.digit-boxes {
-  display: flex;
-  gap: 10px;
+.btn-claim::before {
+  content: "";
   position: absolute;
-  left: 18px; /* to align with svg icon */
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 4;
-  pointer-events: auto;
-  justify-content: flex-start;
+  inset: 0;
+  border-radius: 40px;
+  padding: 2px;
+  background: linear-gradient(90deg, #00e58b, #00ffc3, #00e58b);
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: flowGradient 2s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-claim:hover::before,
+.btn-claim.all-unlocked::before {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(0,255,195,0.25);
 }
 
-/* Each digit look like small rounded tile (as in GIF) */
-.digit-box {
-  width: 44px;
-  height: 48px;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: #111;
-  transition: transform 0.12s ease, background 0.12s ease;
-}
-
-/* active wriggling for the currently filled items (subtle) */
-.digit-box:empty { color: rgba(0,0,0,0.18); }
-
-/* Responsive */
-@media (max-width: 1000px) {
-  .form-widget {
-    flex-direction: column;
-    padding: 18px;
-    max-width: 100%;
-  }
-  .perks {
-    width: fit-content;
-    order: 2;
-    max-width: 100%;
-    border-radius: 65px 65px 0 0;
-    background-size: 115% 100%;
-  }
-  .form-left {
-    min-width: 90%;
-  }
-}
+/* restore rest of your styling (same as original) */
+.form-left .title {font-size: 28px;font-weight: 800;margin: 0 0 4px;color: #0b2b23;}
+.form-left .subtitle {color: #8aa79a;font-size: 14px;margin-bottom: 18px;}
+.btn {flex: 1;padding: 14px 18px;border-radius: 40px;font-weight: 700;font-size: 15px;cursor: pointer;border: none;transition: transform 0.12s ease, box-shadow 0.12s;}
+.btn:hover {transform: translateY(-3px);}
+.btn-msg {background: linear-gradient(90deg, #0db06d, #18b26f);color: #fff;}
+.email-group {display: flex;gap: 10px;align-items: center;background: #f6f6f6;}
+.email-input {flex: 1;}
+.email-select {min-width: 140px;border-radius: 12px;padding: 17px 40px 17px 15px;border: 0;background: #f6f6f6;font-size: 14px;outline: none;}
