@@ -644,7 +644,10 @@ ease;
       display: flex;
   }
   .field .border.border-right {
-      width: 75%;
+      width: 200px;
+  }
+  .field .border.border-left {
+      width: 100px;
   }
   #custom-form-widget .input, #custom-form-widget .textarea{
     width: 99%;
