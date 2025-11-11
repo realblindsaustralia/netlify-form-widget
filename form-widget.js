@@ -35,6 +35,7 @@
   // --- HTML ---
   container.innerHTML = `
     <div class="form-widget">
+    <div class="main-border"></div>
       <div class="form-left">
         <div class="title">Extra Warranty Perks</div>
         <div class="subtitle">Curtains & Blinds — Fill in your details to reveal exclusive bonuses for your project</div>
@@ -44,14 +45,16 @@
             <svg class="iconname" xmlns="http://www.w3.org/2000/svg" width="26" height="27" viewBox="0 0 26 27" fill="none">
               <path d="M13 0.25C20.1602 0.25 26 6.08984 26 13.25C26 20.4609 20.1602 26.25 13 26.25C5.78906 26.25 0 20.4609 0 13.25C0 6.08984 5.78906 0.25 13 0.25ZM13 6.75C10.9688 6.75 9.34375 8.42578 9.34375 10.4062C9.34375 12.4375 10.9688 14.0625 13 14.0625C14.9805 14.0625 16.6562 12.4375 16.6562 10.4062C16.6562 8.42578 14.9805 6.75 13 6.75ZM13 23C15.6406 23 18.0781 21.9336 19.8555 20.1562C19.043 18.0234 17.0117 16.5 14.625 16.5H11.375C8.9375 16.5 6.90625 18.0234 6.09375 20.1562C7.87109 21.9336 10.3086 23 13 23Z" fill="#05967D"/>
             </svg>
-            <input class="input" id="cdn_name" name="cdn_name" placeholder="Your Name" />
+            <input class="input" id="cdn_name" name="cdn_name" placeholder="Your Name" required/>
+            <span class="border"></span>
           </div>
 
           <div class="field" style="position:relative;">
             <svg class="iconlocation" xmlns="http://www.w3.org/2000/svg" width="20" height="27" viewBox="0 0 20 27" fill="none">
               <path d="M8.53125 25.6406C5.89062 22.3398 0 14.4688 0 10C0 4.61719 4.31641 0.25 9.75 0.25C15.1328 0.25 19.5 4.61719 19.5 10C19.5 14.4688 13.5586 22.3398 10.918 25.6406C10.3086 26.4023 9.14062 26.4023 8.53125 25.6406ZM9.75 13.25C11.5273 13.25 13 11.8281 13 10C13 8.22266 11.5273 6.75 9.75 6.75C7.92188 6.75 6.5 8.22266 6.5 10C6.5 11.8281 7.92188 13.25 9.75 13.25Z" fill="#D4D4D4"/>
             </svg>
-            <input class="input" id="suburb" name="suburb" placeholder="Suburb or Postcode" />
+            <input class="input" id="suburb" name="suburb" placeholder="Suburb or Postcode" required/>
+            <span class="border"></span>
             <div id="suburb-suggestions" class="suburb-suggestions" style="display:none;"></div>
           </div>
 
@@ -60,7 +63,8 @@
               <path d="M16.25 0.25C17.5703 0.25 18.6875 1.36719 18.6875 2.6875V23.8125C18.6875 25.1836 17.5703 26.25 16.25 26.25H3.25C1.87891 26.25 0.8125 25.1836 0.8125 23.8125V2.6875C0.8125 1.36719 1.87891 0.25 3.25 0.25H16.25ZM12.1875 23C12.1875 22.5938 11.7812 22.1875 11.375 22.1875H8.125C7.66797 22.1875 7.3125 22.5938 7.3125 23C7.3125 23.457 7.66797 23.8125 8.07422 23.8125H11.375C11.7812 23.8125 12.1875 23.457 12.1875 23Z" fill="#D4D4D4"/>
             </svg>
             <div class="mobile-boxes-wrap">
-              <input class="input mobile-input" id="cdn_mobile" name="cdn_mobile" placeholder="Mobile" inputmode="numeric" maxlength="10" />
+              <input class="input mobile-input" id="cdn_mobile" name="cdn_mobile" placeholder="Mobile" inputmode="numeric" maxlength="10" required/>
+              <span class="border"></span>
               <!-- digit boxes are injected by JS on focus -->
             </div>
           </div>
@@ -69,7 +73,8 @@
             <svg class="iconemail" xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 26 20" fill="none">
               <path d="M23.5625 0.5C24.8828 0.5 26 1.61719 26 2.9375C26 3.75 25.5938 4.46094 24.9844 4.91797L13.9648 13.1953C13.3555 13.6523 12.5938 13.6523 11.9844 13.1953L0.964844 4.91797C0.355469 4.46094 0 3.75 0 2.9375C0 1.61719 1.06641 0.5 2.4375 0.5H23.5625ZM11.0195 14.5156C12.1875 15.3789 13.7617 15.3789 14.9297 14.5156L26 6.1875V16.75C26 18.5781 24.5273 20 22.75 20H3.25C1.42188 20 0 18.5781 0 16.75V6.1875L11.0195 14.5156Z" fill="#D4D4D4"/>
             </svg>
-            <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email" />
+            <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email" required />
+            <span class="border border-right"></span>
             <select class="email-select" id="emailDomain">
               <option value="">Select domain (optional)</option>
               <option value="@gmail.com">@gmail.com</option>
@@ -77,6 +82,7 @@
               <option value="@yahoo.com">@yahoo.com</option>
               <option value="@outlook.com">@outlook.com</option>
             </select>
+            <span class="border border-left"></span>
           </div>
 
           <div class="field">
@@ -85,7 +91,9 @@
 
           <div class="form-actions">
             <button type="button" class="btn btn-msg" id="btnMsg">Leave A Message 💬</button>
-            <button type="submit" class="btn btn-claim" id="btnClaim">Claim Bonus 🚀</button>
+            <button type="submit" class="btn btn-claim" id="btnClaim">Claim Bonus <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+<path d="M26 1.92969L22.75 23.0039C22.6992 23.5117 22.3945 23.9688 21.9375 24.2227C21.6836 24.3242 21.4297 24.4258 21.125 24.4258C20.9219 24.4258 20.7188 24.375 20.5156 24.2734L14.3203 21.6836L11.7305 25.543C11.5273 25.8984 11.1719 26.0508 10.8164 26.0508C10.2578 26.0508 9.80078 25.5938 9.80078 25.0352V20.1602C9.80078 19.7539 9.90234 19.3984 10.1055 19.1445L21.1758 4.92578L6.24609 18.3828L1.01562 16.1992C0.457031 15.9453 0.0507812 15.4375 0.0507812 14.7773C0 14.0664 0.304688 13.5586 0.863281 13.2539L23.6133 0.304688C24.1211 0 24.832 0 25.3398 0.355469C25.8477 0.710938 26.1016 1.32031 26 1.92969Z" fill="white"/>
+</svg></button>
           </div>
         </form>
       </div>
@@ -123,7 +131,9 @@
   const iconemail = container.querySelector(".iconemail");
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
-
+  window.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.form-widget').classList.add('loaded');
+  });
   // add focus/filled class on parent .field for border animation
   function setFieldFocused(input, focused) {
     const fld = input.closest(".field");
@@ -256,7 +266,6 @@
     setFieldFocused(mobileInput, true);
     setFieldFilled(mobileInput, true);
   });
-
   // Mirror typed value to digit boxes
   mobileInput.addEventListener("input", (e) => {
     // keep only digits
@@ -333,11 +342,13 @@
       unlockPerk("email");
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
+      emailDomain.classList.add("unlocked-input");
       setFieldFilled(emailInput, true);
     } else {
       lockPerk("email");
       iconemail.classList.remove("iconcolored");
       emailInput.classList.remove("unlocked-input");
+      emailDomain.classList.remove("unlocked-input");
       setFieldFilled(emailInput, false);
     }
   });
@@ -352,9 +363,25 @@
     if (messageInput.value.trim().length > 0) {
       btnMsg.style.display = "none";
       btnClaim.classList.add("btn-merged");
+      
+      // Add inner HTML when merged class is added
+      btnClaim.innerHTML = `
+        Send Message & Claim Bonus
+        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+          <path d="M26 1.92969L22.75 23.0039C22.6992 23.5117 22.3945 23.9688 21.9375 24.2227C21.6836 24.3242 21.4297 24.4258 21.125 24.4258C20.9219 24.4258 20.7188 24.375 20.5156 24.2734L14.3203 21.6836L11.7305 25.543C11.5273 25.8984 11.1719 26.0508 10.8164 26.0508C10.2578 26.0508 9.80078 25.5938 9.80078 25.0352V20.1602C9.80078 19.7539 9.90234 19.3984 10.1055 19.1445L21.1758 4.92578L6.24609 18.3828L1.01562 16.1992C0.457031 15.9453 0.0507812 15.4375 0.0507812 14.7773C0 14.0664 0.304688 13.5586 0.863281 13.2539L23.6133 0.304688C24.1211 0 24.832 0 25.3398 0.355469C25.8477 0.710938 26.1016 1.32031 26 1.92969Z" fill="white"/>
+        </svg>
+      `;
     } else {
       btnMsg.style.display = "";
       btnClaim.classList.remove("btn-merged");
+      
+      // Revert to default inner text when class removed
+      btnClaim.innerHTML = `
+        Claim Bonus
+        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+          <path d="M26 1.92969L22.75 23.0039C22.6992 23.5117 22.3945 23.9688 21.9375 24.2227C21.6836 24.3242 21.4297 24.4258 21.125 24.4258C20.9219 24.4258 20.7188 24.375 20.5156 24.2734L14.3203 21.6836L11.7305 25.543C11.5273 25.8984 11.1719 26.0508 10.8164 26.0508C10.2578 26.0508 9.80078 25.5938 9.80078 25.0352V20.1602C9.80078 19.7539 9.90234 19.3984 10.1055 19.1445L21.1758 4.92578L6.24609 18.3828L1.01562 16.1992C0.457031 15.9453 0.0507812 15.4375 0.0507812 14.7773C0 14.0664 0.304688 13.5586 0.863281 13.2539L23.6133 0.304688C24.1211 0 24.832 0 25.3398 0.355469C25.8477 0.710938 26.1016 1.32031 26 1.92969Z" fill="white"/>
+        </svg>
+      `;
     }
   });
 
