@@ -658,4 +658,19 @@ ease;
       width: 200px !important;
       max-width: 200px !important;
   }
+  .form-actions {
+      flex-direction: column;
+  }
+  .perk .badge{
+    position: absolute;
+    top: 18px;
+    right: 12px;
+  }
+  .perk.unlocked span.uns {
+      width: 70%;
+  }
+  p.paragperk{
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
 }
