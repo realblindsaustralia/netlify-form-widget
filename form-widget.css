@@ -635,7 +635,7 @@ ease;
     background-size: 115% 100%;
   }
   .form-left {
-    min-width: 90%;
+    min-width: 100%;
   }
   .main-border { 
       display: none !important;
