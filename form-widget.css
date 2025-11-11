@@ -61,6 +61,11 @@
   background: #fff !important;
 
 }
+
+#custom-form-widget .textarea:focus {
+  border: 1px solid rgba(13, 176, 109, 0.9) !important;
+
+}
 #custom-form-widget .unlocked-input {
   /* border: 1px solid rgba(13, 176, 109, 0.9) !important; */
   box-shadow: 0px 0px 28px 0px #71EDD1B0;
