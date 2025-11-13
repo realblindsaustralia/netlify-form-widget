@@ -605,11 +605,11 @@ ease;
 
 
 .field .border.border-right {
-    width: 236px;
+    width: 362px;
 }
 
 .field .border.border-left {
-    width: 206px;
+    width: 208px;
     left: unset;
     right: 0;
 }
