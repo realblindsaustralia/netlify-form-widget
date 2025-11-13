@@ -176,6 +176,7 @@ ease, box-shadow 0.12s;
 }
 .btn:hover {
   transform: translateY(-3px);
+  background: #191919;
 }
 .btn-msg {
   color: #fff;
@@ -612,7 +613,7 @@ ease;
     width: 208px;
     left: unset;
     right: 0;
-    
+
 }
 
 .form-left .title span {
