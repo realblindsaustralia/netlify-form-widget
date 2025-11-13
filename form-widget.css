@@ -176,7 +176,7 @@ ease, box-shadow 0.12s;
 }
 .btn:hover {
   transform: translateY(-3px);
-  background: #191919;
+ 
 }
 .btn-msg {
   color: #fff;
@@ -187,6 +187,12 @@ ease, box-shadow 0.12s;
     background: #191919;
     color: #fff;
     border: 2px solid #6DF38B;
+}
+.btn-claim:hover {
+     background: #191919;
+}
+.btn-msg:hover {
+    background: linear-gradient(90deg, #047a68 0%, #067a36 100%);
 }
 .btn-merged {
   flex: 1;
