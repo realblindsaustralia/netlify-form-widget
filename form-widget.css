@@ -649,6 +649,7 @@ ease;
   }
   .form-left {
     min-width: 100%;
+    padding: 0px;
   }
   .main-border { 
       display: none !important;
@@ -686,5 +687,16 @@ ease;
   p.paragperk{
     margin-bottom: 10px;
     font-size: 12px;
+  }
+  .form-left .title {
+      padding: 0px 20px;
+  }
+
+  .form-left .subtitle {
+      padding: 0px 20px;
+  }
+
+  form#customForm {
+      padding: 0px 20px;
   }
 }
