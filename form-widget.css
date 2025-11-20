@@ -646,6 +646,7 @@ ease;
     max-width: 100%;
     border-radius: 65px 65px 0 0;
     background-size: 115% 100%;
+    padding: 30px 30px;
   }
   .form-left {
     min-width: 100%;
