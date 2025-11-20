@@ -679,6 +679,9 @@ ease;
   .form-actions {
       flex-direction: column;
   }
+  .field.email-group {
+      max-width: 370px;
+  }
   .perk .badge{
     position: absolute;
     top: 18px;
