@@ -662,10 +662,10 @@ ease;
       display: flex;
   }
   .field .border.border-right {
-      width: 200px;
+      width: 180px;
   }
   .field .border.border-left {
-      width: 112px;
+      width: 185px;
   }
   #custom-form-widget .input, #custom-form-widget .textarea{
     width: 99%;
