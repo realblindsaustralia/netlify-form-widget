@@ -3,7 +3,6 @@
    <div id="custom-form-widget" data-admin="test1@gmail.com" data-redirect="/thank-you"></div>
    <script src="https://your-cdn/path/form-widget.js"></script>
 */
-
 (function () {
   const container = document.getElementById("custom-form-widget");
   if (!container) return;
@@ -32,7 +31,7 @@
     } catch {}
   }
 
-  // --- HTML ---
+  // --- HTML (unchanged structure besides select options text) ---
   container.innerHTML = `
     <div class="form-widget">
     <div class="main-border"></div>
@@ -76,11 +75,15 @@
             <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email" required />
             <span class="border border-right"></span>
             <select class="email-select" id="emailDomain">
-              <option value="">Select domain (optional)</option>
+               <option value="">Select domain (optional)</option>
               <option value="@gmail.com">@gmail.com</option>
               <option value="@hotmail.com">@hotmail.com</option>
               <option value="@yahoo.com">@yahoo.com</option>
               <option value="@outlook.com">@outlook.com</option>
+              <option value="@bigpond.com">@bigpond.com</option>
+              <option value="@live.com">@live.com</option>
+              <option value="@icloud.com">@icloud.com</option>
+              <option value="@yahoo.com.au">@yahoo.com.au</option>
             </select>
             <span class="border border-left"></span>
           </div>
@@ -131,10 +134,12 @@
   const iconemail = container.querySelector(".iconemail");
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
+
   window.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.form-widget').classList.add('loaded');
   });
-  // add focus/filled class on parent .field for border animation
+
+  // add focus/filled class on parent .field for unified border animation
   function setFieldFocused(input, focused) {
     const fld = input.closest(".field");
     if (!fld) return;
@@ -204,6 +209,10 @@
         suburbSuggestions.innerHTML = "";
         suburbSuggestions.style.display = "none";
         unlockPerk("suburb");
+        // 5) after selecting suburb auto-focus mobile
+        setTimeout(() => {
+          mobileInput.focus();
+        }, 40);
       };
       suburbSuggestions.appendChild(div);
     });
@@ -222,8 +231,7 @@
     }
   });
 
-  // --- Mobile Input: Boxed Display ---
-  // We'll keep the main input, but when focused we display a boxes row that mirrors its digits.
+  // --- Mobile Input: Boxed Display + grouping + caret hiding + auto-advance ---
   function createDigitBoxesContainer() {
     let boxes = mobileWrap.querySelector(".digit-boxes");
     if (!boxes) {
@@ -237,24 +245,57 @@
   function updateDigitBoxesFromValue(value) {
     const boxes = createDigitBoxesContainer();
     boxes.innerHTML = "";
+
     const digits = (value || "").split("");
+
     for (let i = 0; i < 10; i++) {
       const d = document.createElement("div");
       d.className = "digit-box";
-      d.textContent = digits[i] || "";
-      // clicking a box focuses the hidden input
-      d.addEventListener("click", () => {
-        mobileInput.focus();
-      });
+
+      // Prefill "0" and "4"
+      if (i === 0) {
+        d.textContent = digits[0] || "0";
+      } else if (i === 1) {
+        d.textContent = digits[1] || "4";
+      } else {
+        d.textContent = digits[i] || "";
+      }
+
+      // Filled boxes
+      if (digits[i]) d.classList.add("filled");
+
+      // Active next box
+      if (i === digits.length) d.classList.add("active-box");
+
+      // Click to focus
+      d.addEventListener("click", () => mobileInput.focus());
+
       boxes.appendChild(d);
+
+      // GROUPING FOR 04 33-222-222
+      // break after: 2nd digit, 4th digit, 7th digit
+      if ( i === 3 || i === 6) {
+        const dash = document.createElement("div");
+        dash.className = "digit-dash";
+        dash.textContent = "-";
+        boxes.appendChild(dash);
+      }
+    }
+
+    // Hide caret when only "04"
+    if (value === "04" || value.length <= 2) {
+      mobileInput.style.caretColor = "transparent";
+    } else {
+      mobileInput.style.caretColor = "";
     }
   }
+
 
   function removeDigitBoxes() {
     const boxes = mobileWrap.querySelector(".digit-boxes");
     if (boxes) boxes.remove();
+    mobileInput.style.caretColor = ""; // reset
   }
-
   // When focusing mobile:
   mobileInput.addEventListener("focus", () => {
     // if not already starting with 04, prefill 04
@@ -266,17 +307,32 @@
     setFieldFocused(mobileInput, true);
     setFieldFilled(mobileInput, true);
   });
-  // Mirror typed value to digit boxes
+
+  // Mirror typed value to digit boxes + sounds + auto-advance
   mobileInput.addEventListener("input", (e) => {
     // keep only digits
     mobileInput.value = mobileInput.value.replace(/\D/g, "");
-    // limit to 10 (04 + 8 more => 10 digits)
+    // limit to 10
     if (mobileInput.value.length > 10) mobileInput.value = mobileInput.value.slice(0, 10);
     updateDigitBoxesFromValue(mobileInput.value);
 
     // If deletion/backspace
     if (e.inputType === "deleteContentBackward") safePlay(sounds.backspace);
     else safePlay(sounds.typing);
+
+    // 4) once 10th digit typed auto-focus email
+    if (mobileInput.value.length === 10) {
+      // small delay so DOM updates show final digit
+      setTimeout(() => {
+        removeDigitBoxes();
+        setFieldFilled(mobileInput, true);
+        unlockPerk("mobile");
+        mobileInput.classList.add("unlocked-input");
+        iconphone.classList.add("iconcolored");
+        // focus email
+        emailInput.focus();
+      }, 120);
+    }
   });
 
   // On blur: if still just 04 or too short, clear; otherwise keep value and show normal input (remove boxes).
@@ -284,7 +340,6 @@
     mobileWrap.classList.remove("mobile-active");
     setFieldFocused(mobileInput, false);
 
-    // valid mobile condition: length 10 and doesn't equal just '04'
     const val = mobileInput.value.trim();
     if (val === "04" || val.length < 10) {
       mobileInput.value = "";
@@ -303,7 +358,7 @@
     }
   });
 
-  // If the page is clicked anywhere inside mobileWrap we focus input (for ease)
+  // If the page is clicked anywhere inside mobileWrap we focus input (ease)
   mobileWrap.addEventListener("click", (e) => {
     if (e.target.classList.contains("digit-boxes") || e.target.classList.contains("digit-box")) {
       mobileInput.focus();
@@ -317,7 +372,7 @@
     setFieldFilled(mobileInput, !!mobileInput.value);
   }
 
-  // --- Email unlock ---
+  // --- Email unlock & unified animation behavior (8 & 6) ---
   emailDomain.addEventListener("change", () => {
     const domain = emailDomain.value;
     const local = (emailInput.value.split("@")[0] || "").trim();
@@ -353,6 +408,11 @@
     }
   });
 
+  // ensure focus on either input or select counts as focusing the parent .field:
+  emailInput.addEventListener("focus", () => setFieldFocused(emailInput, true));
+  emailDomain.addEventListener("focus", () => setFieldFocused(emailDomain, true));
+  emailDomain.addEventListener("blur", () => setFieldFocused(emailDomain, false));
+
   // --- Message toggle ---
   btnMsg.addEventListener("click", () => {
     messageInput.style.display = messageInput.style.display === "none" ? "block" : "none";
@@ -363,7 +423,7 @@
     if (messageInput.value.trim().length > 0) {
       btnMsg.style.display = "none";
       btnClaim.classList.add("btn-merged");
-      
+
       // Add inner HTML when merged class is added
       btnClaim.innerHTML = `
         Send Message & Claim Bonus
@@ -374,7 +434,7 @@
     } else {
       btnMsg.style.display = "";
       btnClaim.classList.remove("btn-merged");
-      
+
       // Revert to default inner text when class removed
       btnClaim.innerHTML = `
         Claim Bonus

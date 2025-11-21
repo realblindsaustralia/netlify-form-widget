@@ -616,18 +616,43 @@ ease;
 
 
 .field .border.border-right {
-    width: 362px;
+    width: 64%;
 }
 
 .field .border.border-left {
-    width: 208px;
+    width: 34.5%;
     left: unset;
     right: 0;
 
 }
-
+input#cdn_email {
+    width: 64.5% !important;
+}
+select#emailDomain {
+    width: 34.5%;
+}
 .form-left .title span {
     color: #05967D;
+}
+
+/* Dark active box (next digit to type) */
+.digit-box.active-box {
+  background: #b3b3b3;
+  color: #000;
+  border: 1px solid #8c8c8c;
+}
+
+/* Spacing groups: 04 | XX --- XXX --- XXX */
+.digit-box.group-gap {
+  margin-right: 22px !important;
+}
+.digit-dash {
+  font-weight: 600;
+  padding: 0 6px;
+  color: #888;   /* adjust if needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* Responsive */
 @media (max-width: 1000px) {
