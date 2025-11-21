@@ -75,7 +75,7 @@
             <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email" required />
             <span class="border border-right"></span>
             <select class="email-select" id="emailDomain">
-               <option value="">Select domain (optional)</option>
+               <option value="">@ (optional)</option>
               <option value="@gmail.com">@gmail.com</option>
               <option value="@hotmail.com">@hotmail.com</option>
               <option value="@yahoo.com">@yahoo.com</option>
