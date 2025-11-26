@@ -90,6 +90,20 @@
 
           <div class="field">
             <textarea style="display:none" class="textarea" id="cdn_message" name="cdn_message" placeholder="Leave a message"></textarea>
+            <div id="msg-limit-notice" style="
+              opacity: 0;
+              color: #b71c1c; 
+              background: #ffebee; 
+              padding: 6px 10px; 
+              margin-top: 5px; 
+              border-radius: 4px; 
+              font-size: 13px;
+              transition: opacity 0.5s ease;
+              pointer-events: none;
+              display: none;
+            ">
+              Max message size reached (600 characters)
+            </div>
           </div>
 
           <div class="form-actions">
@@ -134,6 +148,7 @@
   const iconemail = container.querySelector(".iconemail");
   const iconphone = container.querySelector(".iconphone");
   const iconlocation = container.querySelector(".iconlocation");
+  const msgNotice = container.querySelector("#msg-limit-notice");
 
   window.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.form-widget').classList.add('loaded');
@@ -417,14 +432,22 @@
   btnMsg.addEventListener("click", () => {
     messageInput.style.display = messageInput.style.display === "none" ? "block" : "none";
     if (messageInput.style.display === "block") messageInput.focus();
+    msgNotice.style.display = msgNotice.style.display === "none" ? "block" : "none";
   });
 
   messageInput.addEventListener("input", () => {
+    if (messageInput.value.length >= 600) {
+      messageInput.value = messageInput.value.slice(0, 600);
+      msgNotice.style.opacity = 1; // fade in
+    } else {
+      msgNotice.style.opacity = 0; // fade out
+    }
+
+    // hide/show claim/message buttons as before
     if (messageInput.value.trim().length > 0) {
       btnMsg.style.display = "none";
+      messageInput.classList.add("unlocked-input-textarea");
       btnClaim.classList.add("btn-merged");
-
-      // Add inner HTML when merged class is added
       btnClaim.innerHTML = `
         Send Message & Claim Bonus
         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -432,10 +455,9 @@
         </svg>
       `;
     } else {
+      messageInput.classList.remove("unlocked-input-textarea");
       btnMsg.style.display = "";
       btnClaim.classList.remove("btn-merged");
-
-      // Revert to default inner text when class removed
       btnClaim.innerHTML = `
         Claim Bonus
         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -444,6 +466,7 @@
       `;
     }
   });
+
 
   // --- Perk unlock functions ---
   function unlockPerk(key) {

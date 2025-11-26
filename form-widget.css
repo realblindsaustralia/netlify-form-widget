@@ -625,6 +625,11 @@ ease;
     right: 0;
 
 }
+.unlocked-input-textarea {
+    border: 1px solid rgba(13, 176, 109, 0.9) !important;
+    box-shadow: 0px 0px 28px 0px #71EDD1B0;
+    background: #fff !important;
+}
 input#cdn_email {
     width: 64.5% !important;
 }
