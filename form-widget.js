@@ -494,6 +494,7 @@
         safePlay(sounds.formFull);
         // animate claim button
         btnClaim.classList.add("all-unlocked");
+        btnClaim.classList.add("btn-claim-pulse");
       }
     }
   }

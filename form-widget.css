@@ -663,6 +663,21 @@ span.limittext {
     display: block;
     margin-top: 5px;
 }
+.btn-claim-pulse{
+  animation: pulseScale 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseScale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 /* Responsive */
 @media (max-width: 1000px) {
   .form-widget {
