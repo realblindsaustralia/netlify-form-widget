@@ -439,7 +439,7 @@
 
     // Play sound ONLY when opening
     if (isOpening) {
-      safePlay(sounds.selection);
+      safePlay(sounds.msgbtn);
       messageInput.focus();
     }
   });
