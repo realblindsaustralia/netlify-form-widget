@@ -659,6 +659,10 @@ select#emailDomain {
   align-items: center;
   justify-content: center;
 }
+span.limittext {
+    display: block;
+    margin-top: 5px;
+}
 /* Responsive */
 @media (max-width: 1000px) {
   .form-widget {

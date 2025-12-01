@@ -16,6 +16,7 @@
     backspace: new Audio("https://cdn-form.netlify.app/BackSpace.mp3"),
     selection: new Audio("https://cdn-form.netlify.app/Selection-Confirmation.mp3"),
     formFull: new Audio("https://cdn-form.netlify.app/Form-Fully-Filled.mp3"),
+    msgbtn : new Audio("https://cdn-form.netlify.app/message-btn.mp3"),
   };
 
   for (let key in sounds) {
@@ -430,9 +431,17 @@
 
   // --- Message toggle ---
   btnMsg.addEventListener("click", () => {
-    messageInput.style.display = messageInput.style.display === "none" ? "block" : "none";
-    if (messageInput.style.display === "block") messageInput.focus();
-    msgNotice.style.display = msgNotice.style.display === "none" ? "block" : "none";
+    const isOpening = messageInput.style.display === "none";
+
+    // Toggle visibility
+    messageInput.style.display = isOpening ? "block" : "none";
+    msgNotice.style.display = isOpening ? "block" : "none";
+
+    // Play sound ONLY when opening
+    if (isOpening) {
+      safePlay(sounds.selection);
+      messageInput.focus();
+    }
   });
 
   messageInput.addEventListener("input", () => {
