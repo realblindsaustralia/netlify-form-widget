@@ -36,8 +36,8 @@
     <div class="form-widget">
     <div class="main-border"></div>
       <div class="form-left">
-        <div class="title">Extra Warranty Perks <span>Curtains & Blinds</span></div>
-        <div class="subtitle">Curtains & Blinds — Fill in your details to reveal exclusive bonuses for your project</div>
+        <div class="title">Extra Warranty Perks <span>Curtains, Blinds & Shutters</span></div>
+        <div class="subtitle">Fill in your details to reveal exclusive bonuses for your project</div>
 
         <form id="customForm" autocomplete="off">
           <div class="field">
@@ -120,8 +120,8 @@
         <p class="paragperk">Each perk unlocks when you complete its matching field on the left</p>
         <div id="perk-name" class="perk"><span class="uns">Unlock by completing Name</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Installation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">We'll install your blinds with no charge</div></div></div>
         <div id="perk-suburb" class="perk"><span class="uns">Unlock by completing Suburb</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">10% Off Coupon <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Applies to your first order with us</div></div></div>
-        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains and blinds</div></div></div>
-        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation</div></div></div>
+        <div id="perk-mobile" class="perk"><span class="uns">Unlock by completing Mobile</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Extended Warranty (2x) <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Twice the warranty period for curtains, blinds and shutters</div></div></div>
+        <div id="perk-email" class="perk"><span class="uns">Unlock by completing Email</span><div class="icon"><img src="https://cdn-form.netlify.app/lock.png"></div><div class="meta"><div class="title">Free Measure • Quote • Consultation <span class="badge" style="display:none">Now unlocked</span></div><div class="desc">Book a visit with zero obligation <span class="limittext">Limited Time Only | Valid For 12 Months</span></div></div></div>
       </div>
     </div>
   `;

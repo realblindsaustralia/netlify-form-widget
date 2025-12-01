@@ -15,7 +15,7 @@ exports.handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const { name, email, message, admin } = data;
+    const { name, suburb, mobile, email, message, admin } = data;
 
     if (!admin) {
       return { statusCode: 400, body: "Missing admin email" };
@@ -33,7 +33,17 @@ exports.handler = async (event, context) => {
       from: `"Form Bot" <${process.env.SMTP_USER}>`,
       to: admin,
       subject: "New Form Submission",
-      text: `New message from ${name} (${email}):\n\n${message}`
+      text: `
+    New Lead Received:
+
+    Name: ${name}
+    Suburb: ${suburb}
+    Mobile: ${mobile}
+    Email: ${email}
+
+    Message:
+    ${message || "(No message provided)"}
+      `.trim()
     });
 
     return {
