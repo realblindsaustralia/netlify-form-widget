@@ -525,7 +525,7 @@
   let activeNotifTimeout = null;
 
   function showMobilePerkNotification(text) {
-    // if (window.innerWidth > 768) return; // mobile only
+    if (window.innerWidth > 768) return; // mobile only
 
     const container = document.getElementById("perk-notification-container");
     if (!container) return;
