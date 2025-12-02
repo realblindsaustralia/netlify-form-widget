@@ -785,7 +785,7 @@ span.limittext {
       flex-direction: column;
   }
   .field.email-group {
-      max-width: 370px;
+      /* max-width: 370px; */
   }
   .perk .badge{
     position: absolute;
