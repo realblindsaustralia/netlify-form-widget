@@ -444,7 +444,7 @@
 
     // Toggle visibility
     messageInput.style.display = isOpening ? "block" : "none";
-    msgNotice.style.display = isOpening ? "block" : "none";
+    // msgNotice.style.display = isOpening ? "block" : "none";
 
     // Play sound ONLY when opening
     if (isOpening) {

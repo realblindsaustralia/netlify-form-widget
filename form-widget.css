@@ -794,7 +794,7 @@ span.limittext {
     padding: 6px 5px;
   }
   .perk.unlocked span.uns {
-      width: 70%;
+      /* width: 70%; */
   }
   p.paragperk{
     margin-bottom: 10px;
