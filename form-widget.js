@@ -543,6 +543,7 @@
 
     container.innerHTML = "";
     container.appendChild(n);
+    container.style.display = "block";
 
     // Auto-remove after full animation
     activeNotifTimeout = setTimeout(() => {
