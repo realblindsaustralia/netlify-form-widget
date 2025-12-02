@@ -36,6 +36,7 @@
   container.innerHTML = `
     <div class="form-widget">
     <div class="main-border"></div>
+    <div id="perk-notification-container"></div>
       <div class="form-left">
         <div class="title">Extra Warranty Perks <span>Curtains, Blinds & Shutters</span></div>
         <div class="subtitle">Fill in your details to reveal exclusive bonuses for your project</div>
@@ -193,6 +194,7 @@
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) {
       unlockPerk("name");
+      showMobilePerkNotification("Free Installation Unlocked 🎉");
       nameInput.classList.add("unlocked-input");
       iconname.classList.add("iconcolored");
     } else {
@@ -226,6 +228,7 @@
         suburbSuggestions.innerHTML = "";
         suburbSuggestions.style.display = "none";
         unlockPerk("suburb");
+        showMobilePerkNotification("10% Off Coupon Unlocked 🎉");
         // 5) after selecting suburb auto-focus mobile
         setTimeout(() => {
           mobileInput.focus();
@@ -239,6 +242,7 @@
   suburbInput.addEventListener("blur", () => {
     if (suburbInput.value.trim()) {
       unlockPerk("suburb");
+      showMobilePerkNotification("10% Off Coupon Unlocked 🎉");
       suburbInput.classList.add("unlocked-input");
       iconlocation.classList.add("iconcolored");
     } else {
@@ -344,6 +348,7 @@
         removeDigitBoxes();
         setFieldFilled(mobileInput, true);
         unlockPerk("mobile");
+        showMobilePerkNotification("Extended Warranty (2x) Unlocked 🎉");
         mobileInput.classList.add("unlocked-input");
         iconphone.classList.add("iconcolored");
         // focus email
@@ -370,6 +375,7 @@
       removeDigitBoxes();
       setFieldFilled(mobileInput, true);
       unlockPerk("mobile");
+      showMobilePerkNotification("Extended Warranty (2x) Unlocked 🎉");
       mobileInput.classList.add("unlocked-input");
       iconphone.classList.add("iconcolored");
     }
@@ -396,6 +402,7 @@
     if (domain) {
       emailInput.value = local ? `${local}${domain}` : `you${domain}`;
       unlockPerk("email");
+      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉");
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
       emailDomain.classList.add("unlocked-input");
@@ -412,6 +419,7 @@
   emailInput.addEventListener("blur", () => {
     if (emailInput.value.includes("@")) {
       unlockPerk("email");
+      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉");
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
       emailDomain.classList.add("unlocked-input");
@@ -511,6 +519,36 @@
       // remove claim unlocked style if not all unlocked
       if (!allPerksUnlocked()) btnClaim.classList.remove("all-unlocked");
     }
+  }
+
+  // --- MOBILE NOTIFICATION SYSTEM ---
+  let activeNotifTimeout = null;
+
+  function showMobilePerkNotification(text) {
+    if (window.innerWidth > 768) return; // mobile only
+
+    const container = document.getElementById("perk-notification-container");
+    if (!container) return;
+
+    // If another notification exists, clear it immediately
+    if (activeNotifTimeout) {
+      clearTimeout(activeNotifTimeout);
+      container.innerHTML = "";
+    }
+
+    // Create notification
+    const n = document.createElement("div");
+    n.className = "perk-notification";
+    n.textContent = text;
+
+    container.innerHTML = "";
+    container.appendChild(n);
+
+    // Auto-remove after full animation
+    activeNotifTimeout = setTimeout(() => {
+      n.style.opacity = "0";
+      setTimeout(() => (container.innerHTML = ""), 600);
+    }, 4000);
   }
 
   // --- Submit ---

@@ -672,6 +672,56 @@ span.limittext {
 .btn-claim-pulse{
   animation: pulseScale 1.6s ease-in-out infinite;
 }
+/* MOBILE PERK NOTIFICATION */
+#perk-notification-container {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 380px;
+  z-index: 999999;
+  pointer-events: none;
+}
+
+.perk-notification {
+  background: rgba(0, 180, 110, 0.80);
+  color: #fff;
+  padding: 14px 18px;
+  margin-top: 10px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: notifSlideIn 0.15s ease-out forwards,
+             notifFadeOut 0.5s ease-out forwards 3.5s;
+}
+
+@keyframes notifSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes notifFadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Only visible on mobile */
+@media (min-width: 769px) {
+  #perk-notification-container {
+    display: none;
+  }
+}
 
 @keyframes pulseScale {
     0% {
