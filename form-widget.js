@@ -547,7 +547,7 @@
     note.textContent = text;
 
     // Position ABOVE the field
-    const offsetTop = fieldRect.top ;
+    const offsetTop = fieldRect.top - widgetRect.top;
 
     container.style.top = offsetTop + "px";
     container.appendChild(note);
