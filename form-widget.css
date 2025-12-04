@@ -675,11 +675,12 @@ span.limittext {
 /* NOTIFICATION POPPING ABOVE THE ACTIVE FIELD */
 #perk-notification-container {
   position: absolute;
-  width: 100%;
-  left: 0;
+  width: 92%;
+  left: 50%;
   top: 0;
   z-index: 999999;
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .perk-notification {
@@ -689,8 +690,7 @@ span.limittext {
   border-radius: 10px;
   font-size: 14px;
   font-weight: 700;
-  width: fit-content;
-  max-width: 90%;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
   opacity: 0;
