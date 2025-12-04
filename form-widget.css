@@ -672,45 +672,45 @@ span.limittext {
 .btn-claim-pulse{
   animation: pulseScale 1.6s ease-in-out infinite;
 }
-/* MOBILE PERK NOTIFICATION */
+/* NOTIFICATION POPPING ABOVE THE ACTIVE FIELD */
 #perk-notification-container {
-  position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 92%;
-  max-width: 380px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
   z-index: 999999;
   pointer-events: none;
 }
 
 .perk-notification {
-  background: rgba(0, 180, 110, 0.80);
+  background: rgba(0, 180, 110, 0.88);
   color: #fff;
-  padding: 14px 18px;
-  margin-top: 10px;
-  border-radius: 14px;
-  font-size: 15px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
   font-weight: 700;
+  width: fit-content;
+  max-width: 90%;
+  margin: 0 auto;
   text-align: center;
   opacity: 0;
-  transform: translateY(-15px);
-  animation: notifSlideIn 0.15s ease-out forwards,
-             notifFadeOut 0.5s ease-out forwards 3.5s;
+  transform: translateY(-10px);
+  animation: notifFieldSlideIn 0.18s ease-out forwards,
+             notifFieldFadeOut 0.4s ease-out forwards 3s;
 }
 
-@keyframes notifSlideIn {
+@keyframes notifFieldSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-15px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0px);
   }
 }
 
-@keyframes notifFadeOut {
+@keyframes notifFieldFadeOut {
   to {
     opacity: 0;
   }

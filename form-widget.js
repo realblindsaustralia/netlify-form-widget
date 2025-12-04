@@ -194,7 +194,7 @@
   nameInput.addEventListener("blur", () => {
     if (nameInput.value.trim().length > 1) {
       unlockPerk("name");
-      showMobilePerkNotification("Free Installation Unlocked 🎉");
+      showMobilePerkNotification("Free Installation Unlocked 🎉", nameInput);
       nameInput.classList.add("unlocked-input");
       iconname.classList.add("iconcolored");
     } else {
@@ -228,7 +228,7 @@
         suburbSuggestions.innerHTML = "";
         suburbSuggestions.style.display = "none";
         unlockPerk("suburb");
-        showMobilePerkNotification("10% Off Coupon Unlocked 🎉");
+        showMobilePerkNotification("10% Off Coupon Unlocked 🎉", suburbInput);
         // 5) after selecting suburb auto-focus mobile
         setTimeout(() => {
           mobileInput.focus();
@@ -242,7 +242,7 @@
   suburbInput.addEventListener("blur", () => {
     if (suburbInput.value.trim()) {
       unlockPerk("suburb");
-      showMobilePerkNotification("10% Off Coupon Unlocked 🎉");
+      showMobilePerkNotification("10% Off Coupon Unlocked 🎉", suburbInput);
       suburbInput.classList.add("unlocked-input");
       iconlocation.classList.add("iconcolored");
     } else {
@@ -348,7 +348,7 @@
         removeDigitBoxes();
         setFieldFilled(mobileInput, true);
         unlockPerk("mobile");
-        showMobilePerkNotification("Extended Warranty (2x) Unlocked 🎉");
+        showMobilePerkNotification("Extended Warranty (2x) Unlocked 🎉", mobileInput);
         mobileInput.classList.add("unlocked-input");
         iconphone.classList.add("iconcolored");
         // focus email
@@ -375,7 +375,7 @@
       removeDigitBoxes();
       setFieldFilled(mobileInput, true);
       unlockPerk("mobile");
-      showMobilePerkNotification("Extended Warranty (2x) Unlocked 🎉");
+      showMobilePerkNotification("Extended Warranty (2x) Unlocked 🎉", mobileInput);
       mobileInput.classList.add("unlocked-input");
       iconphone.classList.add("iconcolored");
     }
@@ -402,7 +402,7 @@
     if (domain) {
       emailInput.value = local ? `${local}${domain}` : `you${domain}`;
       unlockPerk("email");
-      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉");
+      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉", emailInput);
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
       emailDomain.classList.add("unlocked-input");
@@ -419,7 +419,7 @@
   emailInput.addEventListener("blur", () => {
     if (emailInput.value.includes("@")) {
       unlockPerk("email");
-      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉");
+      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉", emailInput);
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
       emailDomain.classList.add("unlocked-input");
@@ -524,33 +524,41 @@
   // --- MOBILE NOTIFICATION SYSTEM ---
   let activeNotifTimeout = null;
 
-  function showMobilePerkNotification(text) {
+  function showMobilePerkNotification(text, targetInput) {
     if (window.innerWidth > 768) return; // mobile only
 
     const container = document.getElementById("perk-notification-container");
     if (!container) return;
 
-    // If another notification exists, clear it immediately
-    if (activeNotifTimeout) {
-      clearTimeout(activeNotifTimeout);
-      container.innerHTML = "";
-    }
+    // Clear previous notification
+    container.innerHTML = "";
+    if (activeNotifTimeout) clearTimeout(activeNotifTimeout);
+
+    // Find field position
+    const field = targetInput.closest(".field");
+    if (!field) return;
+
+    const fieldRect = field.getBoundingClientRect();
+    const widgetRect = document.querySelector(".form-widget").getBoundingClientRect();
 
     // Create notification
-    const n = document.createElement("div");
-    n.className = "perk-notification";
-    n.textContent = text;
+    const note = document.createElement("div");
+    note.className = "perk-notification";
+    note.textContent = text;
 
-    container.innerHTML = "";
-    container.appendChild(n);
-    container.style.display = "block";
+    // Position ABOVE the field
+    const offsetTop = fieldRect.top - widgetRect.top - 45;
 
-    // Auto-remove after full animation
+    container.style.top = offsetTop + "px";
+    container.appendChild(note);
+
+    // Auto remove
     activeNotifTimeout = setTimeout(() => {
-      n.style.opacity = "0";
+      note.style.opacity = "0";
       setTimeout(() => (container.innerHTML = ""), 600);
-    }, 4000);
+    }, 3500);
   }
+
 
   // --- Submit ---
   form.addEventListener("submit", async (e) => {
