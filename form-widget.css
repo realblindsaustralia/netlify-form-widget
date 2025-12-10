@@ -616,7 +616,7 @@ ease;
 
 
 .field .border.border-right {
-    width: 64%;
+    width: 100%;
 }
 
 .field .border.border-left {
@@ -631,7 +631,7 @@ ease;
     background: #fff !important;
 }
 input#cdn_email {
-    width: 64.5% !important;
+    width: 100% !important;
 }
 select#emailDomain {
     width: 34.5%;
@@ -768,7 +768,7 @@ span.limittext {
       display: flex;
   }
   .field .border.border-right {
-      width: 47.5%;
+      width: 100%;
   }
   .field .border.border-left {
       width: 47.5%;
