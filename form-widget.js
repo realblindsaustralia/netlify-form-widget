@@ -76,18 +76,18 @@
             </svg>
             <input class="input email-input" id="cdn_email" name="cdn_email" placeholder="Email" required />
             <span class="border border-right"></span>
-            <select class="email-select" id="emailDomain">
-               <option value="">@ (optional)</option>
-              <option value="@gmail.com">@gmail.com</option>
-              <option value="@hotmail.com">@hotmail.com</option>
-              <option value="@yahoo.com">@yahoo.com</option>
-              <option value="@outlook.com">@outlook.com</option>
-              <option value="@bigpond.com">@bigpond.com</option>
-              <option value="@live.com">@live.com</option>
-              <option value="@icloud.com">@icloud.com</option>
-              <option value="@yahoo.com.au">@yahoo.com.au</option>
-            </select>
-            <span class="border border-left"></span>
+            // <select class="email-select" id="emailDomain">
+            //    <option value="">@ (optional)</option>
+            //   <option value="@gmail.com">@gmail.com</option>
+            //   <option value="@hotmail.com">@hotmail.com</option>
+            //   <option value="@yahoo.com">@yahoo.com</option>
+            //   <option value="@outlook.com">@outlook.com</option>
+            //   <option value="@bigpond.com">@bigpond.com</option>
+            //   <option value="@live.com">@live.com</option>
+            //   <option value="@icloud.com">@icloud.com</option>
+            //   <option value="@yahoo.com.au">@yahoo.com.au</option>
+            // </select>
+            // <span class="border border-left"></span>
           </div>
 
           <div class="field">
