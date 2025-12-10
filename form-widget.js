@@ -39,7 +39,7 @@
     <div id="perk-notification-container"></div>
       <div class="form-left">
         <div class="title">Extra Warranty Perks <span>Curtains, Blinds & Shutters</span></div>
-        <div class="subtitle">Fill in your details to reveal exclusive bonuses for your project</div>
+        <div class="subtitle">The more details you fill in, the more bonuses you unlock</div>
 
         <form id="customForm" autocomplete="off">
           <div class="field">
