@@ -779,8 +779,8 @@ span.limittext {
   }
   .email-input {
       flex: 1;
-      width: 47.5% !important;
-      max-width: 47.5% !important;
+      width: 100% !important;
+      max-width: 100% !important;
   }
   .form-actions {
       flex-direction: column;
