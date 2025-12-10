@@ -132,7 +132,7 @@
   const mobileInput = container.querySelector("#cdn_mobile");
   const mobileWrap = container.querySelector(".mobile-boxes-wrap");
   const emailInput = container.querySelector("#cdn_email");
-  const emailDomain = container.querySelector("#emailDomain");
+  // const emailDomain = container.querySelector("#emailDomain");
   const messageInput = container.querySelector("#cdn_message");
   const btnMsg = container.querySelector("#btnMsg");
   const btnClaim = container.querySelector("#btnClaim");
@@ -385,25 +385,25 @@
   }
 
   // --- Email unlock & unified animation behavior (8 & 6) ---
-  emailDomain.addEventListener("change", () => {
-    const domain = emailDomain.value;
-    const local = (emailInput.value.split("@")[0] || "").trim();
-    if (domain) {
-      emailInput.value = local ? `${local}${domain}` : `you${domain}`;
-      unlockPerk("email");
-      showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉", emailInput);
-      iconemail.classList.add("iconcolored");
-      emailInput.classList.add("unlocked-input");
-      emailDomain.classList.add("unlocked-input");
-      setFieldFilled(emailInput, true);
-    } else if (!emailInput.value.includes("@")) {
-      lockPerk("email");
-      iconemail.classList.remove("iconcolored");
-      emailInput.classList.remove("unlocked-input");
-      emailDomain.classList.remove("unlocked-input");
-      setFieldFilled(emailInput, false);
-    }
-  });
+  // emailDomain.addEventListener("change", () => {
+  //   const domain = emailDomain.value;
+  //   const local = (emailInput.value.split("@")[0] || "").trim();
+  //   if (domain) {
+  //     emailInput.value = local ? `${local}${domain}` : `you${domain}`;
+  //     unlockPerk("email");
+  //     showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉", emailInput);
+  //     iconemail.classList.add("iconcolored");
+  //     emailInput.classList.add("unlocked-input");
+  //     emailDomain.classList.add("unlocked-input");
+  //     setFieldFilled(emailInput, true);
+  //   } else if (!emailInput.value.includes("@")) {
+  //     lockPerk("email");
+  //     iconemail.classList.remove("iconcolored");
+  //     emailInput.classList.remove("unlocked-input");
+  //     emailDomain.classList.remove("unlocked-input");
+  //     setFieldFilled(emailInput, false);
+  //   }
+  // });
 
   emailInput.addEventListener("blur", () => {
     if (emailInput.value.includes("@")) {
@@ -411,21 +411,21 @@
       showMobilePerkNotification("Free Measure • Quote • Consultation Unlocked 🎉", emailInput);
       iconemail.classList.add("iconcolored");
       emailInput.classList.add("unlocked-input");
-      emailDomain.classList.add("unlocked-input");
+      // emailDomain.classList.add("unlocked-input");
       setFieldFilled(emailInput, true);
     } else {
       lockPerk("email");
       iconemail.classList.remove("iconcolored");
       emailInput.classList.remove("unlocked-input");
-      emailDomain.classList.remove("unlocked-input");
+      // emailDomain.classList.remove("unlocked-input");
       setFieldFilled(emailInput, false);
     }
   });
 
   // ensure focus on either input or select counts as focusing the parent .field:
   emailInput.addEventListener("focus", () => setFieldFocused(emailInput, true));
-  emailDomain.addEventListener("focus", () => setFieldFocused(emailDomain, true));
-  emailDomain.addEventListener("blur", () => setFieldFocused(emailDomain, false));
+  // emailDomain.addEventListener("focus", () => setFieldFocused(emailDomain, true));
+  // emailDomain.addEventListener("blur", () => setFieldFocused(emailDomain, false));
 
   // --- Message toggle ---
   btnMsg.addEventListener("click", () => {
